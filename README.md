@@ -11,7 +11,7 @@
    1. My usual toolbox of shortcuts
 ### Utils:
    1. A couple extension methods used by EditorTooling
----
+
 
 ## New Modules
 ### TickServer
@@ -55,4 +55,3 @@
   5. Else both wander, blues still flock though 
   6. Once within X tiles they attack one another 
   7. Teammate balls can occupy same cell, opponents cannot
----
