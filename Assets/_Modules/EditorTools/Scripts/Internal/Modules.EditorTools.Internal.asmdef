@@ -1,0 +1,20 @@
+{
+    "name": "EditorTools.Internal",
+    "rootNamespace": "Modules",
+    "references": [
+        "GUID:23f3c6063e13e4fd9addce3606ff4e42",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:9c19b3d930a4d7c4d832faed1b53de59",
+        "GUID:6cd706090119d6344a7bec1191fb75f6",
+        "GUID:b1ca1f4e291bbef4e884160111f7bea8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
