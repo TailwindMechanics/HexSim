@@ -1,6 +1,11 @@
 # HexSim - Tech Test for Illuvium
 - Created by Seamus Dunne
 
+## Dependencies:
+   1. UniRx
+   2. Zenject
+   3. Odin Inspector
+
 ## Imported Modules
 ### EditorTooling:
    1. My usual toolbox of shortcuts
