@@ -35,10 +35,12 @@ namespace Modules.EditorTools.Internal.Editor
 				return;
 			}
 
+			var modulesCount = Object.FindObjectOfType<ModulesContext>().SetInstallers();
+
 			SaveScene();
 			SaveProject();
 
-			Debug.Log($"<color={logColor}><b>~~~Scene and project saved.</b></color>");
+			Debug.Log($"<color={logColor}><b>Scene and project saved. {modulesCount} modules set.</b></color>");
 		}
 
 		static void SaveScene ()	=> EditorSceneManager.SaveOpenScenes();
