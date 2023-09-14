@@ -16,12 +16,12 @@ MonoBehaviour:
     gridRadius: 5
     teams:
     - teamName: Blue
-      teamOwner: Gordon Freeman
+      ownerUsername: Gordon Freeman
       actorPrefab: {fileID: 0}
       actorCoords:
       - {x: 3, y: 2}
     - teamName: Red
-      teamOwner: Ash Williams
+      ownerUsername: Ash Williams
       actorPrefab: {fileID: 0}
       actorCoords:
       - {x: -4, y: -1}

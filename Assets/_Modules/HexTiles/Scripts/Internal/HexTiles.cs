@@ -36,9 +36,10 @@ namespace Modules.HexTiles.Internal
 
         void SpawnTiles ()
         {
-            grid.FlatCells.ForEach(cell =>
+            grid.Cells.ForEach(cell =>
             {
                 var spawnedTile = spawnService.Spawn(tilePrefab, transform, cell.ToVector3());
+                spawnedTile.name = $"Tile_{cell}";
                 spawnedTiles.Add(spawnedTile);
             });
         }
