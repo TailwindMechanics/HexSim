@@ -6,6 +6,8 @@ namespace Modules.MouseInput.External
 {
 	public interface IMouseInput
 	{
-		IObservable<Vector3> MouseDown { get; }
+		IObservable<(MouseState, Vector3)> LmbState { get; }
+		IObservable<(MouseState, Vector3)> RmbState { get; }
+		IObservable<float> WheelState { get; }
 	}
 }
