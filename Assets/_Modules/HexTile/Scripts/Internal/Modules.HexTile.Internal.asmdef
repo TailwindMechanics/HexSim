@@ -1,7 +1,9 @@
 {
-    "name": "Modules.TickServer.External",
+    "name": "Modules.HexTile.Internal",
     "rootNamespace": "Modules",
-    "references": ["GUID:560b04d1a97f54a4e82edc0cbbb69285","GUID:02a7975c7b4987249a19f5a9668811f9"],
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

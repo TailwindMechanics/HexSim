@@ -24,8 +24,11 @@
 1. Simple service for spawning
 2. Bonus: Pool spawnable actors
 
+### Gameplay
+   1. Mainly just data types for describing a game
+
 ### TickServer
-   1. Defines start/end criteria2
+   1. Defines start/end criteria
    2. Provides API for server 
    3. Observable for receiving ticks 
    4. Subject for notifying state change 
