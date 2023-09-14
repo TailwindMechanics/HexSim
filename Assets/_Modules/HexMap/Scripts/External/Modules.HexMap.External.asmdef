@@ -1,5 +1,5 @@
 {
-    "name": "Modules.HexGrid.External",
+    "name": "Modules.HexMap.External",
     "rootNamespace": "Modules",
     "references": [],
     "includePlatforms": [],

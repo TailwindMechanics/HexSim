@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
+using System.Threading.Tasks;
 using UniRx;
 
 using Modules.Gameplay.External.DataObjects;
@@ -13,11 +14,11 @@ namespace Modules.TickServer.Internal
 {
 	public class TickServer : MonoInstaller, ITickServer
 	{
-		public IObservable<(GameState, double)> TickUpdate => tickUpdate;
-		public IObservable<GameState> TickStart => tickStart;
+		public IObservable<(GameState state, GameSettingsVo settings)> TickStart => tickStart;
+		public IObservable<(GameState state, double delta)> TickUpdate => tickUpdate;
 
+		readonly Subject<(GameState, GameSettingsVo)> tickStart = new();
 		readonly Subject<(GameState, double)> tickUpdate = new();
-		readonly Subject<GameState> tickStart = new();
 		const float maxTickRateMs = 10000f;
 		const float minTickRateMs = 10f;
 		GameState gameState;
@@ -33,11 +34,13 @@ namespace Modules.TickServer.Internal
 		public override void InstallBindings()
 			=> Container.Bind<ITickServer>().FromInstance(this).AsSingle();
 
-		public override void Start()
-			=> Begin();
+		public override void Start() => Begin();
 
-		public void Begin()
+		async void Begin()
 		{
+			await Task.Delay(TimeSpan.FromSeconds(.1));
+
+			Debug.Log("<color=cyan><b>>>> Begin</b></color>");
 			gameState = new GameState();
 			gameSettings.Vo.Teams.ForEach(team =>
 			{
@@ -46,7 +49,7 @@ namespace Modules.TickServer.Internal
 				gameState.AddUser(newUser);
 			});
 
-			tickStart.OnNext(gameState);
+			tickStart.OnNext((gameState, gameSettings.Vo));
 			LogState(gameState, "cyan");
 
 			Observable.Interval(TimeSpan.FromMilliseconds(tickRateMs))

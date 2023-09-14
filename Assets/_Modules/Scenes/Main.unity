@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd00252bc423af4bb62228b5f6fabab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logTicks: 0
+  logTicks: 1
   tickRateMs: 1000
   gameSettings: {fileID: 11400000, guid: 6eeef14104d49094f9367b372dc9717e, type: 2}
 --- !u!4 &205605381
@@ -444,7 +444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &355858767
 Transform:
   m_ObjectHideFlags: 0
@@ -454,7 +454,7 @@ Transform:
   m_GameObject: {fileID: 355858766}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -737,7 +737,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792513463}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1081,7 +1081,7 @@ GameObject:
   - component: {fileID: 1619469236}
   - component: {fileID: 1619469237}
   m_Layer: 0
-  m_Name: HexTile
+  m_Name: HexTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,6 +1114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf36b94a4a54829478b3307531e7c9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 834415652160930352, guid: 9e2d1f1585e72a5459b0e72838ed1e77,
+    type: 3}
 --- !u!1 &2051411902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1141,7 @@ Transform:
   m_GameObject: {fileID: 2051411902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1162,7 +1164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2055571907
 Transform:
   m_ObjectHideFlags: 0
