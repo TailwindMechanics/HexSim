@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
 
 using Modules.HexTiles.Internal.DataObjects;
-using Sirenix.OdinInspector;
 
 
 namespace Modules.HexTiles.Internal.Behaviour
@@ -25,18 +25,14 @@ namespace Modules.HexTiles.Internal.Behaviour
         MeshFilter meshFilter;
 
 
-        void OnChange ()
-        {
-            DrawMesh();
-        }
         void Awake()
         {
             meshRenderer = GetComponent<MeshRenderer>();
             meshFilter = GetComponent<MeshFilter>();
         }
 
-        void Start()
-            => DrawMesh();
+        void Start() => DrawMesh();
+        void OnChange () => DrawMesh();
 
         void DrawMesh()
         {
@@ -52,25 +48,25 @@ namespace Modules.HexTiles.Internal.Behaviour
             var result = new List<Face>();
             var halfHeight = newHeight / 2f;
 
-            // Top faces
+            var topFaces = DrawFaces(innerSize, outerSize, halfHeight, halfHeight);
+            var bottomFaces = DrawFaces(innerSize, outerSize, -halfHeight, -halfHeight, true);
+            var outerFaces = DrawFaces(outerSize, outerSize, halfHeight, -halfHeight, true);
+            var innerFaces = DrawFaces(innerSize, innerSize, halfHeight, -halfHeight);
+
+            result.AddRange(topFaces);
+            result.AddRange(bottomFaces);
+            result.AddRange(outerFaces);
+            result.AddRange(innerFaces);
+
+            return result;
+        }
+
+        IEnumerable<Face> DrawFaces (float innerSize, float outerSize, float heightA, float heightB, bool reverse = false)
+        {
+            var result = new List<Face>();
             for (var point = 0; point < 6; point++)
             {
-                result.Add(CreateFace(innerSize, outerSize, halfHeight, halfHeight, point));
-            }
-            // Bottom faces
-            for (var point = 0; point < 6; point++)
-            {
-                result.Add(CreateFace(innerSize, outerSize, -halfHeight, -halfHeight, point, true));
-            }
-            // Outer faces
-            for (var point = 0; point < 6; point++)
-            {
-                result.Add(CreateFace(outerSize, outerSize, halfHeight, -halfHeight, point, true));
-            }
-            // Inner faces
-            for (var point = 0; point < 6; point++)
-            {
-                result.Add(CreateFace(innerSize, innerSize, halfHeight, -halfHeight, point));
+                result.Add(CreateFace(innerSize, outerSize, heightA, heightB, point, reverse));
             }
 
             return result;
