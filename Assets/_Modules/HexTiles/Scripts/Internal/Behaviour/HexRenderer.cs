@@ -42,9 +42,10 @@ namespace Modules.HexTiles.Internal.Behaviour
     {
         [SerializeField]
         Material material;
-
-        [SerializeField] List<EdgeLoop> edgeLoops = new();
-
+        [SerializeField]
+        bool update;
+        [SerializeField]
+        List<EdgeLoop> edgeLoops = new();
 
         MeshRenderer meshRenderer;
         MeshFilter meshFilter;
@@ -56,7 +57,11 @@ namespace Modules.HexTiles.Internal.Behaviour
             meshFilter = GetComponent<MeshFilter>();
         }
 
-        [Button(ButtonSizes.Medium)]
+        void Update()
+        {
+            if (update) DrawMesh2();
+        }
+
         void DrawMesh2 ()
         {
             var loops = new List<Face>();

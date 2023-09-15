@@ -626,17 +626,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 4ea1d3168ecc9f0458c562e4ad96af8b, type: 2}
+  update: 0
   edgeLoops:
   - label: Top_inner
     innerRadius: 0
-    outerRadius: 1
-    innerHeight: 0.5
+    outerRadius: 0.5
+    innerHeight: 0.9
+    outerHeight: 0.9
+    reverse: 0
+  - label: Top_outer
+    innerRadius: 0.5
+    outerRadius: 0.9
+    innerHeight: 0.9
     outerHeight: 1
     reverse: 0
-  hexInnerSize: 0.9
-  hexOuterSize: 1
-  hexInnerHeight: 1
-  hexOuterHeight: 0.9
+  - label: Top_bevel
+    innerRadius: 0.9
+    outerRadius: 1
+    innerHeight: 1
+    outerHeight: 0.9
+    reverse: 0
+  - label: Wall
+    innerRadius: 1
+    outerRadius: 1
+    innerHeight: 0.9
+    outerHeight: 0.7
+    reverse: 0
+  - label: Bottom_bevel
+    innerRadius: 1
+    outerRadius: 0.9
+    innerHeight: 0.7
+    outerHeight: 0.6
+    reverse: 0
+  - label: Bottom_outer
+    innerRadius: 0.6
+    outerRadius: 0.9
+    innerHeight: 0.7
+    outerHeight: 0.6
+    reverse: 1
+  - label: Bottom_inner
+    innerRadius: 0
+    outerRadius: 0.6
+    innerHeight: 0.7
+    outerHeight: 0.7
+    reverse: 1
 --- !u!23 &504288871
 MeshRenderer:
   m_ObjectHideFlags: 0
