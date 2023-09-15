@@ -21,7 +21,7 @@ MonoBehaviour:
     outerHeight: 0.9
     reverse: 0
   - label: Top_outer
-    vertexColor: {r: 0.5254902, g: 0.69411767, b: 0.19607845, a: 1}
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
     innerRadius: 0.5
     outerRadius: 0.9
     innerHeight: 0.9

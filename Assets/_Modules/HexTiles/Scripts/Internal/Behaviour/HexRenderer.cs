@@ -11,6 +11,7 @@ namespace Modules.HexTiles.Internal.Behaviour
     public class HexRenderer : MonoBehaviour
     {
         [SerializeField] Material material;
+        [SerializeField] bool update;
         [SerializeField] TileMeshPresetSo preset;
 
         MeshRenderer meshRenderer;
@@ -24,7 +25,12 @@ namespace Modules.HexTiles.Internal.Behaviour
         }
 
         void Start()
-            =>DrawMesh2();
+            => DrawMesh2();
+
+        void Update()
+        {
+            if (update) DrawMesh2();
+        }
 
         void DrawMesh2 ()
         {
