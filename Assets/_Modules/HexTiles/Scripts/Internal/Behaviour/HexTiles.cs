@@ -12,7 +12,7 @@ using Modules.Utilities.External;
 using Modules.HexMap.External;
 
 
-namespace Modules.HexTiles.Internal
+namespace Modules.HexTiles.Internal.Behaviour
 {
     public class HexTiles : MonoBehaviour
     {

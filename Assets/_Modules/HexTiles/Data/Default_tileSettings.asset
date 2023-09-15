@@ -15,7 +15,7 @@ MonoBehaviour:
   settings:
     tiles:
     - label: Water
-      prefab: {fileID: 1517504405234411660, guid: 56d1ad3d721ae5741ac0b909f46c5393,
+      prefab: {fileID: 1738760639541420833, guid: 56d0750cf6753cd43934f7db85734c75,
         type: 3}
       heightRange01: {x: 0, y: 0.3}
     - label: Sand
