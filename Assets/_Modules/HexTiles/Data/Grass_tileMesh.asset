@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9655d31c314b74ad4b7b4ed5a6dba9, type: 3}
+  m_Name: Grass_tileMesh
+  m_EditorClassIdentifier: 
+  loops:
+  - label: Top_inner
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 0
+    outerRadius: 0.5
+    innerHeight: 0.9
+    outerHeight: 0.9
+    reverse: 0
+  - label: Top_outer
+    vertexColor: {r: 0.5254902, g: 0.69411767, b: 0.19607845, a: 1}
+    innerRadius: 0.5
+    outerRadius: 0.9
+    innerHeight: 0.9
+    outerHeight: 1
+    reverse: 0
+  - label: Top_bevel
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 0.9
+    outerRadius: 1
+    innerHeight: 1
+    outerHeight: 0.9
+    reverse: 0
+  - label: Wall
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 1
+    outerRadius: 1
+    innerHeight: 0.9
+    outerHeight: 0.7
+    reverse: 0
+  - label: Bottom_bevel
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 1
+    outerRadius: 0.9
+    innerHeight: 0.7
+    outerHeight: 0.6
+    reverse: 0
+  - label: Bottom_outer
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 0.6
+    outerRadius: 0.9
+    innerHeight: 0.7
+    outerHeight: 0.6
+    reverse: 1
+  - label: Bottom_inner
+    vertexColor: {r: 0.5294118, g: 0.69411767, b: 0.20000002, a: 1}
+    innerRadius: 0
+    outerRadius: 0.6
+    innerHeight: 0.7
+    outerHeight: 0.7
+    reverse: 1

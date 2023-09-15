@@ -1,51 +1,17 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
-using System;
-using JetBrains.Annotations;
+
 using Modules.HexTiles.Internal.DataObjects;
 
 
 namespace Modules.HexTiles.Internal.Behaviour
 {
-    [Serializable]
-    public class EdgeLoop
-    {
-        public float InnerRadius => innerRadius;
-        public float InnerHeight => innerHeight;
-        public float OuterRadius => outerRadius;
-        public float OuterHeight => outerHeight;
-        public bool Reverse => reverse;
-
-        [FoldoutGroup("$GroupName"), SerializeField]
-        string label = "Untitled";
-
-        [FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
-        float innerRadius = .9f;
-        [FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
-        float outerRadius = .9f;
-
-        [FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
-        float innerHeight = 1f;
-        [FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
-        float outerHeight = 1f;
-        [FoldoutGroup("$GroupName"), SerializeField]
-        bool reverse;
-
-        [UsedImplicitly]
-        string GroupName => string.IsNullOrEmpty(label) ? "Untitled" : label;
-    }
-
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HexRenderer : MonoBehaviour
     {
-        [SerializeField]
-        Material material;
-        [SerializeField]
-        bool update;
-        [SerializeField]
-        List<EdgeLoop> edgeLoops = new();
+        [SerializeField] Material material;
+        [SerializeField] TileMeshPresetSo preset;
 
         MeshRenderer meshRenderer;
         MeshFilter meshFilter;
@@ -57,15 +23,13 @@ namespace Modules.HexTiles.Internal.Behaviour
             meshFilter = GetComponent<MeshFilter>();
         }
 
-        void Update()
-        {
-            if (update) DrawMesh2();
-        }
+        void Start()
+            =>DrawMesh2();
 
         void DrawMesh2 ()
         {
             var loops = new List<Face>();
-            edgeLoops.ForEach(loop =>
+            preset.Preset.ForEach(loop =>
             {
                 var faces = CreateLoop(loop);
                 loops.AddRange(faces);
@@ -106,8 +70,9 @@ namespace Modules.HexTiles.Internal.Behaviour
             var triangles = new List<int> { 0, 1, 2, 2, 3, 0 };
             var uvs = new List<Vector2> { Vector2.zero, Vector2.right, Vector2.one, Vector2.up };
             if (edgeLoop.Reverse) vertices.Reverse();
+            var vertexColors = new List<Color> { edgeLoop.VertexColor, edgeLoop.VertexColor, edgeLoop.VertexColor, edgeLoop.VertexColor };
 
-            return new Face(vertices, triangles, uvs);
+            return new Face(vertices, triangles, uvs, vertexColors);
         }
 
         Vector3 GetPoint (float size, float newHeight, int index)
@@ -121,6 +86,7 @@ namespace Modules.HexTiles.Internal.Behaviour
         {
             var vertices = new List<Vector3>();
             var triangles = new List<int>();
+            var colors = new List<Color>();
             var uvs = new List<Vector2>();
 
             for (var i = 0; i < inputFaces.Count; i++)
@@ -128,6 +94,7 @@ namespace Modules.HexTiles.Internal.Behaviour
                 vertices.AddRange(inputFaces[i].Vertices);
                 uvs.AddRange(inputFaces[i].Uvs);
                 triangles.AddRange(inputFaces[i].Triangles.Select(triangle => triangle + 4 * i));
+                colors.AddRange(inputFaces[i].VertexColors);
             }
 
             var result = new Mesh
@@ -135,7 +102,8 @@ namespace Modules.HexTiles.Internal.Behaviour
                 name = "Hex",
                 vertices = vertices.ToArray(),
                 triangles = triangles.ToArray(),
-                uv = uvs.ToArray()
+                uv = uvs.ToArray(),
+                colors = colors.ToArray()
             };
 
             result.RecalculateNormals();
