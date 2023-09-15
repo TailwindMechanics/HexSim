@@ -13,6 +13,9 @@ namespace Modules.Gameplay.External.DataObjects
 		[JsonProperty("users")]
 		public List<User> Users { get; } = new();
 
+		[JsonProperty("seed")]
+		public string Seed { get; set; }
+
 		public GameState AddUser (User user)
 		{
 			Users.Add(user);

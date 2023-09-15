@@ -11,8 +11,10 @@ namespace Modules.Gameplay.External.DataObjects
 	{
 		public int GridRadius => gridRadius;
 		public List<TeamVo> Teams => teams;
+		public string Seed => seed;
 
-		[Range(1, 200), SerializeField] int gridRadius = 5;
+		[SerializeField] string seed = "seed";
+		[Range(0, 50), SerializeField] int gridRadius = 5;
 		[SerializeField] List<TeamVo> teams = new();
 	}
 }

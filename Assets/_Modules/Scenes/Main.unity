@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 145231363}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd00252bc423af4bb62228b5f6fabab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logTicks: 1
+  logTicks: 0
   tickRateMs: 1000
   gameSettings: {fileID: 11400000, guid: 6eeef14104d49094f9367b372dc9717e, type: 2}
 --- !u!4 &205605381
@@ -378,8 +378,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.99539626, z: -0.095845714, w: 0}
-  m_LocalPosition: {x: 0, y: 3.37, z: 8.41}
+  m_LocalRotation: {x: 0.0000000018044375, y: 0.9316649, z: -0.36331898, w: 0.000000004307367}
+  m_LocalPosition: {x: -0.00000018626451, y: 19.0461, z: 20.70643}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1114,8 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf36b94a4a54829478b3307531e7c9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 834415652160930352, guid: 9e2d1f1585e72a5459b0e72838ed1e77,
-    type: 3}
+  settings: {fileID: 11400000, guid: fbd6e58e61ebc9c4e8578748accb4653, type: 2}
 --- !u!1 &2051411902
 GameObject:
   m_ObjectHideFlags: 0

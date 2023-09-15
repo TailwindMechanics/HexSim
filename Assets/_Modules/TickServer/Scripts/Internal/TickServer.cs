@@ -1,9 +1,9 @@
 using Unity.Plastic.Newtonsoft.Json;
+using System.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
-using System.Threading.Tasks;
 using UniRx;
 
 using Modules.Gameplay.External.DataObjects;
@@ -28,7 +28,8 @@ namespace Modules.TickServer.Internal
 		[Range(minTickRateMs, maxTickRateMs), DisableInPlayMode, SerializeField]
 		double tickRateMs = 1000;
 
-		[SerializeField] GameSettingsSo gameSettings;
+		[InlineEditor, SerializeField]
+		GameSettingsSo gameSettings;
 
 
 		public override void InstallBindings()
@@ -42,6 +43,7 @@ namespace Modules.TickServer.Internal
 
 			Debug.Log("<color=cyan><b>>>> Begin</b></color>");
 			gameState = new GameState();
+			gameState.Seed = gameSettings.Vo.Seed;
 			gameSettings.Vo.Teams.ForEach(team =>
 			{
 				var newUser = new User(team.OwnerUsername, new Team(team));
