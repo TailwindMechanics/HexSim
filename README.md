@@ -18,11 +18,11 @@
    1. Capture mouse input
 
 ### CameraController:
-1. Use input to pan and zoom camera
+   1. Use input to pan and zoom camera
 
 ### Spawner:
-1. Simple service for spawning
-2. Bonus: Pool spawnable actors
+   1. Simple service for spawning
+   2. Bonus: Pool spawnable actors
 
 ### Gameplay
    1. Mainly just data types for describing a game
@@ -33,6 +33,13 @@
    3. Observable for receiving ticks 
    4. Subject for notifying state change 
    5. Provides spawn points for players red/blue
+   6. Init the noise map here 
+      - Perlin with seed is deterministic, no need to serialize heights
+      - Pathfinding and ai decided here
+      - Complete game loop ai vs ai first
+      - Server is source of truth for game state
+      - Everything else reads and does view stuff
+      - Later allow user to send click command to server
 
 ### HexGrid:
    1. Contains data Neese structure
