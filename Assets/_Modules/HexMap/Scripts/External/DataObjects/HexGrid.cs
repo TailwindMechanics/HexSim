@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace Modules.HexMap.External.DataObjects
 {
 	public class HexGrid
 	{
-		public List<Hex2> Cells { get; } = new();
 		public List<Hex2> OuterCells { get; } = new();
+		public List<Hex2> Cells { get; } = new();
 
 		public HexGrid(int gridRadius)
 		{
@@ -20,8 +21,6 @@ namespace Modules.HexMap.External.DataObjects
 					AddCell(ne, -se, gridRadius);
 				}
 			}
-
-			Debug.Log($"<color=yellow><b>>>> Cells.Count: {Cells.Count}</b></color>");
 		}
 
 		void AddCell(int ne, int se, int radius)

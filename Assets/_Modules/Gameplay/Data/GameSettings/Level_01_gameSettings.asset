@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Famous Seamus
-    gridRadius: 16
+    gridRadius: 5
     teams:
     - teamName: Blue
       ownerUsername: Gordon Freeman
-      actorPrefab: {fileID: 3008371350305820038, guid: 91927e0ed1457c74393738af58e2344e,
+      actorPrefab: {fileID: 8635906379899204224, guid: 91927e0ed1457c74393738af58e2344e,
         type: 3}
       actorCoords:
-      - {x: 3, y: 2}
+      - {x: 3, y: 3}
     - teamName: Red
       ownerUsername: Ash Williams
-      actorPrefab: {fileID: 251350391182255480, guid: 4ee144da893578f47b81fa93feae6e6a,
+      actorPrefab: {fileID: 8159999877424981742, guid: 4ee144da893578f47b81fa93feae6e6a,
         type: 3}
       actorCoords:
       - {x: -4, y: -1}

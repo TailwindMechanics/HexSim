@@ -14,6 +14,7 @@ namespace Modules.HexMap.External
 
 		public static Hex2 ToHex2(this Vector3 point, Vector3 worldOrigin = default)
 		{
+			point.y = 0;
 			var originToPoint = point - worldOrigin;
 			var neDot = originToPoint.NeDot();
 			var seDot = originToPoint.SeDot();
@@ -33,6 +34,13 @@ namespace Modules.HexMap.External
 				se = neIsCloser ? signedMagnitudeB : signedMagnitudeA
 			};
 		}
+
+		public static Hex2 Round(this Hex2 input)
+			=> new(Mathf.Round(input.ne), Mathf.Round(input.se));
+		public static Hex2 Floor(this Hex2 input)
+			=> new(Mathf.Floor(input.ne), Mathf.Floor(input.se));
+		public static Hex2 Ceil(this Hex2 input)
+			=> new(Mathf.Ceil(input.ne), Mathf.Ceil(input.se));
 
 		static Vector3 LineLineIntersection(Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
 		{

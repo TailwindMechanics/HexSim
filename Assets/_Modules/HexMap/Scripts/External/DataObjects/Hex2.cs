@@ -15,6 +15,12 @@ namespace Modules.HexMap.External.DataObjects
 		public float se { get; set; }
 		public float e => (ne + se) / 2;
 
+		public Hex2 (Vector2Int coords)
+		{
+			ne = coords.x;
+			se = coords.y;
+		}
+		
 		public Hex2 (float ne, float se)
 		{
 			this.ne = ne;

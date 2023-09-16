@@ -16,6 +16,9 @@ namespace Modules.Gameplay.External.DataObjects
 		[JsonProperty("seed")]
 		public string Seed { get; set; }
 
+		public User GetUserByTeamName (string teamName)
+			=> Users.FirstOrDefault(user => user.Team.TeamName == teamName);
+
 		public GameState AddUser (User user)
 		{
 			Users.Add(user);

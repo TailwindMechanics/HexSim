@@ -4,6 +4,7 @@ using UniRx;
 
 using Modules.CameraControl.External;
 using Modules.MouseInput.External;
+using Modules.Utilities.External;
 
 
 namespace Modules.CameraControl.Internal
@@ -19,7 +20,7 @@ namespace Modules.CameraControl.Internal
 		[Range(0.1f, 10f), SerializeField] float panSpeed = 1.1f;
 		[Range(0.1f, 10f), SerializeField] float orbitSpeed = .1f;
 
-		Plane xzPlane = new(Vector3.up, Vector3.zero);
+		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
 		Vector2Int cameraLimits = new(1, 20);
 		Vector3 mouseDownPannerPosition;
 		Transform camTransform;
@@ -56,8 +57,8 @@ namespace Modules.CameraControl.Internal
 		void OnLmb((MouseState state, Vector3 mousePos) tuple)
 		{
 			if (tuple.state == MouseState.Click) return;
-			var ray = cam.ScreenPointToRay(tuple.mousePos);
-			if (!xzPlane.Raycast(ray, out var enter)) return;
+			var planePoint = cam.ScreenToPlane(tuple.mousePos, xzPlane);
+			if (planePoint == null) return;
 
 			if (tuple.state == MouseState.Down)
 			{
@@ -66,8 +67,7 @@ namespace Modules.CameraControl.Internal
 				return;
 			}
 
-			var hitPoint = ray.GetPoint(enter);
-			var speed = Vector3.Distance(hitPoint, camTransform.position) * panSpeed;
+			var speed = Vector3.Distance(planePoint.Value, camTransform.position) * panSpeed;
 			var currentMousePos = cam.ScreenToViewportPoint(tuple.mousePos);
 			var delta = currentMousePos - lmbDownPos;
 			var worldDelta = camTransform.TransformDirection(new Vector3(delta.x, 0, delta.y));
