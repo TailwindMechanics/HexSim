@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 using System;
@@ -19,17 +17,10 @@ namespace Modules.HexTiles.Internal.Behaviour
     {
         [Inject] ITickServer tickServer;
 
-        [FoldoutGroup("Spawn a tile"), Button(ButtonSizes.Medium)]
-        void SpawnATile ()
-        {
-            transform.DestroyAllChildren();
-            SpawnTile(new Hex2(0, 0), .5f);
-        }
-
         [SerializeField] Vector2 minMaxHeight = new(0, 5);
         [SerializeField] Gradient heightGradient;
         [SerializeField] Material tilesMaterial;
-        [SerializeField] TileSettingsSo settings;
+        [SerializeField] TileMeshPresetSo preset;
 
         readonly ISubject<Unit> onComplete = new Subject<Unit>();
         readonly List<MeshFilter> spawnedMeshFilters = new();
@@ -62,8 +53,10 @@ namespace Modules.HexTiles.Internal.Behaviour
                 combine[i].transform = spawnedMeshFilters[i].transform.localToWorldMatrix;
             }
 
-            var combinedMesh = new Mesh();
-            combinedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            var combinedMesh = new Mesh
+            {
+                indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
+            };
             combinedMesh.CombineMeshes(combine);
             combinedMesh.Optimize();
 
@@ -125,19 +118,11 @@ namespace Modules.HexTiles.Internal.Behaviour
 
         void SpawnTile (Hex2 cell, float height)
         {
-            var preset = GetTilePreset(height);
-            if (preset == null) return;
-
             var tile = HexMeshGenerator.CreateTile(preset, tilesMaterial, heightGradient, height, transform, cell.ToVector3(), $"Tile_{cell}");
             var newScale = tile.transform.localScale;
             newScale.y = minMaxHeight.x + height * minMaxHeight.y;
             tile.transform.localScale = newScale;
             spawnedMeshFilters.Add(tile.GetComponent<MeshFilter>());
         }
-
-        TileMeshPresetSo GetTilePreset (float height)
-            => settings.Tiles.FirstOrDefault(tile => WithinHeightRange(height, tile));
-        bool WithinHeightRange (float height, TileMeshPresetSo preset)
-            => height >= preset.MinHeight && height <= preset.MaxHeight;
     }
 }

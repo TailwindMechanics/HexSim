@@ -1146,7 +1146,7 @@ MonoBehaviour:
     m_NumColorKeys: 6
     m_NumAlphaKeys: 2
   tilesMaterial: {fileID: 2100000, guid: 4ea1d3168ecc9f0458c562e4ad96af8b, type: 2}
-  settings: {fileID: 11400000, guid: fbd6e58e61ebc9c4e8578748accb4653, type: 2}
+  preset: {fileID: 11400000, guid: 11a463d2fb4ce04429e89aa3077641b2, type: 2}
 --- !u!1 &2051411902
 GameObject:
   m_ObjectHideFlags: 0
