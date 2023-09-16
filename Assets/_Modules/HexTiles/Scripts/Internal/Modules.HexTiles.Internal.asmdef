@@ -3,12 +3,11 @@
     "rootNamespace": "Modules",
     "references": [
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:fede5dbcede32d74186ebeb0d1d4057f",
         "GUID:0836366969a8dc1448f8e97bb8dcb9cf",
-        "GUID:02a7975c7b4987249a19f5a9668811f9",
-        "GUID:036f352318cc3174196217ebdf6927ed",
+        "GUID:884734126657ce7499d676cc078fe902",
+        "GUID:fede5dbcede32d74186ebeb0d1d4057f",
         "GUID:b1ca1f4e291bbef4e884160111f7bea8",
-        "GUID:884734126657ce7499d676cc078fe902"
+        "GUID:02a7975c7b4987249a19f5a9668811f9"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

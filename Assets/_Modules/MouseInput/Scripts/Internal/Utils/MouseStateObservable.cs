@@ -42,18 +42,8 @@ namespace Modules.MouseInput.Internal.Utils
 			{
 				timeMouseDown = Time.time;
 				initialMousePosition = mousePosition;
-				currentState = MouseState.ClickCooldown;
-				return;
-			}
-
-			if (currentState == MouseState.ClickCooldown)
-			{
-				if (BreachedAnyClickThreshold())
-				{
-					EmitMouseState(MouseState.Down);
-					currentState = MouseState.Held;
-				}
-
+				EmitMouseState(MouseState.Down);
+				currentState = MouseState.Held;
 				return;
 			}
 
@@ -74,8 +64,6 @@ namespace Modules.MouseInput.Internal.Utils
 			=> mouseStateSubject.OnNext((state, Input.mousePosition));
 		bool DidNotBreachClickThreshold()
 			=> !BreachedClickTimeThreshold() && !BreachedClickDistanceThreshold(Input.mousePosition);
-		bool BreachedAnyClickThreshold()
-			=> BreachedClickTimeThreshold() || BreachedClickDistanceThreshold(Input.mousePosition);
 		bool BreachedClickTimeThreshold()
 			=> Time.time - timeMouseDown >= clickTimeThreshold;
 		bool BreachedClickDistanceThreshold(Vector3 mousePosition)

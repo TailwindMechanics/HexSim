@@ -34,3 +34,5 @@ MonoBehaviour:
       prefab: {fileID: 885807890083938562, guid: de260315372cf08428f372fb6c0d1d11,
         type: 3}
       heightRange01: {x: 0.75, y: 1}
+  presets:
+  - {fileID: 11400000, guid: 11a463d2fb4ce04429e89aa3077641b2, type: 2}

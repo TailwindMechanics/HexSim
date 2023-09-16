@@ -7,7 +7,6 @@ namespace Modules.MouseInput.External
 	{
 		None,
 		Down,
-		ClickCooldown,
 		Held,
 		Up,
 		Click

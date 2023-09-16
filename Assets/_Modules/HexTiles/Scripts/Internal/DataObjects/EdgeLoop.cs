@@ -9,19 +9,16 @@ namespace Modules.HexTiles.Internal.DataObjects
 	[Serializable]
 	public class EdgeLoop
 	{
-		public Color VertexColor => vertexColor;
-		public float InnerRadius => innerRadius;
+		const float scaleFactor = 0.575f;
+		public float InnerRadius => innerRadius * scaleFactor;
 		public float InnerHeight => innerHeight;
-		public float OuterRadius => outerRadius;
+		public float OuterRadius => outerRadius * scaleFactor;
 		public float OuterHeight => outerHeight;
 		public bool Reverse => reverse;
 
 
 		[FoldoutGroup("$GroupName"), SerializeField]
 		string label = "Untitled";
-
-		[FoldoutGroup("$GroupName"), SerializeField]
-		Color vertexColor = Color.white;
 
 		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
 		float innerRadius = .9f;

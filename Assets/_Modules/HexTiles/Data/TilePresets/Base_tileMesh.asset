@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9655d31c314b74ad4b7b4ed5a6dba9, type: 3}
+  m_Name: Base_tileMesh
+  m_EditorClassIdentifier: 
+  minHeight: 0
+  maxHeight: 1
+  isFlatTop: 0
+  loops:
+  - label: Top_cap
+    innerRadius: 0
+    outerRadius: 0.7
+    innerHeight: 0.13
+    outerHeight: 0.13
+    reverse: 0
+  - label: Top_ring
+    innerRadius: 0.7
+    outerRadius: 0.98
+    innerHeight: 0.13
+    outerHeight: 0.115
+    reverse: 0
+  - label: Top_bevel
+    innerRadius: 0.98
+    outerRadius: 1
+    innerHeight: 0.115
+    outerHeight: 0.1075
+    reverse: 0
+  - label: Wall
+    innerRadius: 1
+    outerRadius: 1
+    innerHeight: 0.1075
+    outerHeight: 0
+    reverse: 0

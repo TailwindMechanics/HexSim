@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-namespace Modules.HexTiles.External.DataObjects
+namespace Modules.HexTiles.Internal.DataObjects
 {
 	[Serializable]
 	public class TilePrefabVo

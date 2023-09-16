@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 using System;
 using UniRx;
 
-using Modules.HexTiles.External.DataObjects;
+using Modules.HexTiles.Internal.DataObjects;
 using Modules.HexMap.External.DataObjects;
-using Modules.SpawnerService.External;
 using Modules.TickServer.External;
 using Modules.Utilities.External;
 using Modules.HexMap.External;
@@ -16,17 +17,28 @@ namespace Modules.HexTiles.Internal.Behaviour
 {
     public class HexTiles : MonoBehaviour
     {
-        [Inject] ISpawnerService spawnService;
         [Inject] ITickServer tickServer;
 
+        [FoldoutGroup("Spawn a tile"), Button(ButtonSizes.Medium)]
+        void SpawnATile ()
+        {
+            transform.DestroyAllChildren();
+            SpawnTile(new Hex2(0, 0), .5f);
+        }
+
+        [SerializeField] Vector2 minMaxHeight = new(0, 5);
+        [SerializeField] Gradient heightGradient;
+        [SerializeField] Material tilesMaterial;
         [SerializeField] TileSettingsSo settings;
 
-        readonly List<GameObject> spawnedTiles = new();
+        readonly ISubject<Unit> onComplete = new Subject<Unit>();
+        readonly List<MeshFilter> spawnedMeshFilters = new();
         HexGrid grid;
 
 
         void Start()
-            => tickServer.TickStart
+        {
+            tickServer.TickStart
                 .TakeUntilDestroy(this)
                 .Subscribe(tuple =>
                 {
@@ -34,6 +46,38 @@ namespace Modules.HexTiles.Internal.Behaviour
                     grid = new HexGrid(tuple.settings.GridRadius);
                     SpawnTiles(tuple.settings.Seed.ToSeed());
                 });
+
+            onComplete.Skip(1)
+                .TakeUntilDestroy(this)
+                .Subscribe(_ => CombineAndWeldMeshes());
+        }
+
+        void CombineAndWeldMeshes()
+        {
+            var combine = new CombineInstance[spawnedMeshFilters.Count];
+
+            for (var i = 0; i < spawnedMeshFilters.Count; i++)
+            {
+                combine[i].mesh = spawnedMeshFilters[i].sharedMesh;
+                combine[i].transform = spawnedMeshFilters[i].transform.localToWorldMatrix;
+            }
+
+            var combinedMesh = new Mesh();
+            combinedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            combinedMesh.CombineMeshes(combine);
+            combinedMesh.Optimize();
+
+            combinedMesh.name = "CombinedMap";
+
+            var combinedObj = new GameObject("CombinedMap");
+            var meshFilter = combinedObj.AddComponent<MeshFilter>();
+            meshFilter.mesh = combinedMesh;
+            var rend = combinedObj.AddComponent<MeshRenderer>();
+            rend.material = tilesMaterial;
+
+            transform.DestroyAllChildren();
+            spawnedMeshFilters.Clear();
+        }
 
         void SpawnTiles(float seed)
         {
@@ -47,6 +91,7 @@ namespace Modules.HexTiles.Internal.Behaviour
 
             cellBatches.ToObservable()
                 .Zip(interval, (cellBatch, _) => cellBatch)
+                .Finally(() => onComplete.OnNext(Unit.Default))
                 .Subscribe(cellBatch =>
                 {
                     foreach (var cell in cellBatch)
@@ -59,9 +104,12 @@ namespace Modules.HexTiles.Internal.Behaviour
 
             grid.OuterCells.ToObservable()
                 .Zip(interval, (cell, _) => cell)
+                .Finally(() => onComplete.OnNext(Unit.Default))
                 .Subscribe(cell =>
                 {
-                    SpawnTile(cell, 0);
+                    var height = Mathf.PerlinNoise(seed + offsetX + cell.ne * scale, seed + offsetY + cell.se * scale);
+                    height = Mathf.Clamp01(height);
+                    SpawnTile(cell, height);
                 });
         }
 
@@ -77,23 +125,19 @@ namespace Modules.HexTiles.Internal.Behaviour
 
         void SpawnTile (Hex2 cell, float height)
         {
-            var prefab = GetTilePrefab(height);
-            if (prefab == null) return;
+            var preset = GetTilePreset(height);
+            if (preset == null) return;
 
-            spawnedTiles.Add(spawnService.Spawn(prefab, transform, cell.ToVector3(), $"Tile_{cell}"));
+            var tile = HexMeshGenerator.CreateTile(preset, tilesMaterial, heightGradient, height, transform, cell.ToVector3(), $"Tile_{cell}");
+            var newScale = tile.transform.localScale;
+            newScale.y = minMaxHeight.x + height * minMaxHeight.y;
+            tile.transform.localScale = newScale;
+            spawnedMeshFilters.Add(tile.GetComponent<MeshFilter>());
         }
 
-        GameObject GetTilePrefab (float height)
-        {
-            foreach (var tile in settings.Vo.Tiles)
-            {
-                if (height >= tile.HeightRange.x && height <= tile.HeightRange.y)
-                {
-                    return tile.Prefab;
-                }
-            }
-
-            return null;
-        }
+        TileMeshPresetSo GetTilePreset (float height)
+            => settings.Tiles.FirstOrDefault(tile => WithinHeightRange(height, tile));
+        bool WithinHeightRange (float height, TileMeshPresetSo preset)
+            => height >= preset.MinHeight && height <= preset.MaxHeight;
     }
 }

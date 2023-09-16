@@ -3,13 +3,11 @@ using UnityEngine;
 using System;
 
 
-namespace Modules.HexTiles.External.DataObjects
+namespace Modules.HexTiles.Internal.DataObjects
 {
 	[Serializable]
 	public class TileSettingsVo
 	{
-		public List<TilePrefabVo> Tiles => tiles;
-
 		[SerializeField] List<TilePrefabVo> tiles = new();
 	}
 }
