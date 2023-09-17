@@ -1,0 +1,14 @@
+{
+    "name": "Modules.TickServer.External",
+    "rootNamespace": "Modules",
+    "references": ["GUID:560b04d1a97f54a4e82edc0cbbb69285","GUID:02a7975c7b4987249a19f5a9668811f9","GUID:3f14f2e39797dee4d950a98bd4fd7b24"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

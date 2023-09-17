@@ -1,0 +1,16 @@
+{
+    "name": "Modules.ServerApi.External",
+    "rootNamespace": "Modules",
+    "references": [
+        "GUID:3f14f2e39797dee4d950a98bd4fd7b24"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

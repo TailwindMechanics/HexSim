@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a02978d71dc40cc8efdba798e668b03, type: 3}
+  m_Name: Default_actorPrefabMapping
+  m_EditorClassIdentifier: 
+  actorPrefabPairs:
+  - {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+  - {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
