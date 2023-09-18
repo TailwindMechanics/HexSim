@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
@@ -20,7 +21,7 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
         [Inject] IServerApi server;
 
         [SerializeField] Material tilesMaterial;
-        [SerializeField] TileMeshPresetSo preset;
+        [InlineEditor, SerializeField] TileMeshPresetSo preset;
 
         readonly ISubject<Unit> onComplete = new Subject<Unit>();
         readonly List<MeshFilter> spawnedMeshFilters = new();

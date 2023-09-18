@@ -26,5 +26,11 @@ namespace Modules.Client.Utilities.External
 				}
 			}
 		}
+
+		public static void SmoothLookAt(this Transform transform, Vector3 targetPosition, float speed)
+		{
+			var targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+		}
 	}
 }

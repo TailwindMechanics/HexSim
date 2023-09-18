@@ -9,7 +9,7 @@ namespace Modules.Client.MouseInput.Internal.Utils
 {
 	public class MouseStateObservable
 	{
-		readonly ISubject<(MouseState,  Vector3)> mouseStateSubject = new Subject<(MouseState,  Vector3)>();
+		readonly ISubject<(MouseState, Vector3, Vector3)> mouseStateSubject = new Subject<(MouseState, Vector3, Vector3)>();
 		Vector3 initialMousePosition = Vector3.zero;
 		MouseState currentState = MouseState.None;
 		const float clickDistanceThreshold = 0.1f;
@@ -17,8 +17,11 @@ namespace Modules.Client.MouseInput.Internal.Utils
 		readonly int buttonIndex;
 		float timeMouseDown;
 
+		Camera Cam => camera ??= Camera.main;
+		Camera camera;
 
-		public static IObservable<(MouseState,  Vector3)> Create(int buttonIndex)
+
+		public static IObservable<(MouseState state, Vector3 delta, Vector3 pos)> Create(int buttonIndex)
 			=> new MouseStateObservable(buttonIndex).Get();
 
 		MouseStateObservable(int buttonIndex)
@@ -28,7 +31,7 @@ namespace Modules.Client.MouseInput.Internal.Utils
 				.Subscribe(_ => UpdateMouseState());
 		}
 
-		IObservable<(MouseState,  Vector3)> Get()
+		IObservable<(MouseState, Vector3, Vector3)> Get()
 			=> mouseStateSubject;
 
 		void UpdateMouseState()
@@ -38,30 +41,35 @@ namespace Modules.Client.MouseInput.Internal.Utils
 			else if (currentState == MouseState.None) return;
 
 			var mousePosition = Input.mousePosition;
+			var delta = Vector3.zero;
 			if (currentState == MouseState.Down)
 			{
 				timeMouseDown = Time.time;
 				initialMousePosition = mousePosition;
-				EmitMouseState(MouseState.Down);
+				EmitMouseState(MouseState.Down, delta);
 				currentState = MouseState.Held;
 				return;
 			}
+
+			var curr = Cam.ScreenToViewportPoint(mousePosition);
+			var initial = Cam.ScreenToViewportPoint(initialMousePosition);
+			delta = curr - initial;
 
 			if (currentState == MouseState.Up)
 			{
 				currentState = DidNotBreachClickThreshold()
 					? MouseState.Click
 					: MouseState.Up;
-				EmitMouseState(currentState);
+				EmitMouseState(currentState, delta);
 				currentState = MouseState.None;
 				return;
 			}
 
-			mouseStateSubject.OnNext((currentState, mousePosition));
+			EmitMouseState(currentState, delta);
 		}
 
-		void EmitMouseState(MouseState state)
-			=> mouseStateSubject.OnNext((state, Input.mousePosition));
+		void EmitMouseState(MouseState state, Vector3 delta)
+			=> mouseStateSubject.OnNext((state, delta, Cam.ScreenToViewportPoint(Input.mousePosition)));
 		bool DidNotBreachClickThreshold()
 			=> !BreachedClickTimeThreshold() && !BreachedClickDistanceThreshold(Input.mousePosition);
 		bool BreachedClickTimeThreshold()

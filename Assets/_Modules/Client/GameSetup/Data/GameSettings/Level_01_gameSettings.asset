@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Famous Seamus
-    minMaxHeight: {x: 0.1, y: 20}
-    gridRadius: 50
+    amplitude: 1.5
+    noiseScale: 0.05
+    noiseOffsetX: 1000
+    noiseOffsetY: 2000
+    gridRadius: 16
     heightColorMap: {fileID: 11400000, guid: 0d71d941eff2c5e43b68b6ea2798c46c, type: 2}
     teams:
     - teamName: Blue

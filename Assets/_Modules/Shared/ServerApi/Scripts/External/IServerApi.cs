@@ -8,7 +8,7 @@ namespace Modules.Shared.ServerApi.External
 {
 	public interface IServerApi
 	{
-		IObservable<(GameState state, double delta)> SeverUpdate { get; }
+		IObservable<(GameState state, double delta)> SeverTickUpdate { get; }
 		Task<bool> ServerStartGame (GameState initialState);
 		IObservable<GameState> ServerTickStart { get; }
 	}

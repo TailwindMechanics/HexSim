@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
@@ -25,8 +26,8 @@ namespace Modules.Client.Actors.Internal
 		[Range(0f, 1f), SerializeField] float clickPlaneHeight = 0.3f;
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
-		[SerializeField] ActorPrefabMappingSo prefabMap;
 		[SerializeField] Transform clickMarker;
+		[InlineEditor, SerializeField] ActorPrefabMappingSo prefabMap;
 
 		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
 		Camera cam;
@@ -52,8 +53,8 @@ namespace Modules.Client.Actors.Internal
 					var opponentTeam = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
 				});
 
-			mouseInput.LmbState
-				.WithLatestFrom(server.SeverUpdate, (tuple, serverTuple)
+			mouseInput.LmbViewportState
+				.WithLatestFrom(server.SeverTickUpdate, (tuple, serverTuple)
 					=> (mouseState: tuple.state, mousePos: tuple.pos, gameState: serverTuple.state))
 				.TakeUntilDestroy(this)
 				.Where(tuple => tuple.mouseState == MouseState.Click)

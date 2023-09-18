@@ -7,7 +7,7 @@ namespace Modules.Client.Utilities.External
 	{
 		public static Vector3? ScreenToPlane(this Camera camera, Vector3 screenPoint, Plane plane, float height = 0f)
 		{
-			var ray = camera.ScreenPointToRay(screenPoint);
+			var ray = camera.ViewportPointToRay(screenPoint);
 			plane.distance = -height;
 			if (plane.Raycast(ray, out var enter))
 			{

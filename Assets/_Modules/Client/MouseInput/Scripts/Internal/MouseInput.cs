@@ -11,16 +11,17 @@ namespace Modules.Client.MouseInput.Internal
 {
 	public class MouseInput : MonoInstaller, IMouseInput
 	{
-		IObservable<(MouseState, Vector3)> lmbInstance;
-		IObservable<(MouseState, Vector3)> rmbInstance;
-		IObservable<float> wheelInstance;
+		public IObservable<(MouseState state, Vector3 delta, Vector3 pos)> LmbViewportState
+			=> lmbViewportState ??= MouseStateObservable.Create(0);
+		public IObservable<(MouseState state, Vector3 delta, Vector3 pos)> RmbViewportState
+			=> rmbViewportState ??= MouseStateObservable.Create(1);
+		public IObservable<float> WheelDelta
+			=> wheelDelta ??= MouseWheelObservable.Create();
 
-		public IObservable<(MouseState, Vector3)> LmbState
-			=> lmbInstance ??= MouseStateObservable.Create(0);
-		public IObservable<(MouseState, Vector3)> RmbState
-			=> rmbInstance ??= MouseStateObservable.Create(1);
-		public IObservable<float> WheelState
-			=> wheelInstance ??= MouseWheelObservable.Create();
+		IObservable<(MouseState state, Vector3 delta, Vector3 pos)> lmbViewportState;
+		IObservable<(MouseState state, Vector3 delta, Vector3 pos)> rmbViewportState;
+		IObservable<float> wheelDelta;
+
 		public override void InstallBindings()
 			=> Container.Bind<IMouseInput>().FromInstance(this).AsSingle();
 	}

@@ -16,7 +16,7 @@ namespace Modules.Server.TickServer.Internal
 	public class TickServer : MonoInstaller, ITickServer, IServerApi
 	{
 		// IServerApi
-		public IObservable<(GameState state, double delta)> SeverUpdate
+		public IObservable<(GameState state, double delta)> SeverTickUpdate
 			=> TickUpdate;
 		public IObservable<GameState> ServerTickStart
 			=> TickStart;
