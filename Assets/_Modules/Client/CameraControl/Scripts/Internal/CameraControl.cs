@@ -7,6 +7,7 @@ using Modules.Client.CameraControl.Internal.Schema;
 using Modules.Client.MouseInput.External.Schema;
 using Modules.Client.MouseInput.External;
 using Modules.Client.Utilities.External;
+using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Shared.ServerApi.External;
 
 
@@ -30,15 +31,17 @@ namespace Modules.Client.CameraControl.Internal
 		Vector3 lmbDelta;
 		Vector3 rmbDelta;
 		float zoomDelta;
+		int gridRadius;
 
 
 		void Start()
 			=> server.ServerTickStart
 				.TakeUntilDestroy(this)
-				.Subscribe(_ => Init());
+				.Subscribe(Init);
 
-		void Init ()
+		void Init (GameState state)
 		{
+			gridRadius = state.Radius;
 			camTransform = cam.transform;
 
 			mouseInput.LmbViewportState
@@ -97,7 +100,7 @@ namespace Modules.Client.CameraControl.Internal
 				camTransform.localPosition,
 				new Vector3(
 					0,
-					settings.Vo.ZoomMin.y + delta * settings.Vo.ZoomOffset.y,
+					settings.Vo.ZoomMin.y + delta * (settings.Vo.ZoomOffset.y + gridRadius),
 					settings.Vo.ZoomMin.z + settings.Vo.ZoomOffset.z * curved
 				),
 				settings.Vo.BrakeSpeed * Time.deltaTime

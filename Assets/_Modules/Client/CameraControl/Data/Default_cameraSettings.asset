@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     zoomSpeed: 0.75
-    zoomOffset: {x: 0, y: 20, z: 2}
+    zoomOffset: {x: 0, y: 10, z: 2}
     zoomMin: {x: 0, y: 5, z: 10}
     zoomCurve:
       serializedVersion: 2

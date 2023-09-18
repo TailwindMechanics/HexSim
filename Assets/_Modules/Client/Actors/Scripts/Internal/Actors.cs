@@ -23,7 +23,6 @@ namespace Modules.Client.Actors.Internal
 		[Inject] IMouseInput mouseInput;
 		[Inject] IServerApi server;
 
-		[Range(0f, 1f), SerializeField] float clickPlaneHeight = 0.3f;
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
 		[SerializeField] Transform clickMarker;
@@ -59,20 +58,20 @@ namespace Modules.Client.Actors.Internal
 				.TakeUntilDestroy(this)
 				.Where(tuple => tuple.mouseState == MouseState.Click)
 				.Select(tuple => (tuple.mousePos, tuple.gameState))
-				.Subscribe(OnMouseClick);
+				.Subscribe(tuple => OnMouseClick(tuple.mousePos, tuple.gameState, tuple.gameState.Amplitude / 2f));
 		}
 
-		void OnMouseClick((Vector3 clickScreenPos, GameState gameState) tuple)
+		void OnMouseClick(Vector3 clickScreenPos, GameState gameState, float height)
 		{
-			var worldPos = cam.ScreenToPlane(tuple.clickScreenPos, xzPlane, clickPlaneHeight);
+			var worldPos = cam.ScreenToPlane(clickScreenPos, xzPlane, height);
 			if (worldPos == null) return;
 
-			var hexCoords = worldPos.Value.ToHex2().Round();
+			var hexCoords = worldPos.Value.ToHex2().BankersRound();
 			Debug.Log($"<color=yellow><b>>>> coords: {hexCoords}</b></color>");
 			var clickedCoords = hexCoords.ToVector3();
-			var seed = tuple.gameState.Seed.ToSeedFloat();
-			var offset = new Vector2Int(tuple.gameState.NoiseOffsetX, tuple.gameState.NoiseOffsetY);
-			clickedCoords.y = hexCoords.PerlinHeight(seed, tuple.gameState.NoiseScale, tuple.gameState.Amplitude, offset);
+			var seed = gameState.Seed.ToSeedFloat();
+			var offset = new Vector2Int(gameState.NoiseOffsetX, gameState.NoiseOffsetY);
+			clickedCoords.y = hexCoords.PerlinHeight(seed, gameState.NoiseScale, gameState.Amplitude, offset);
 
 			clickMarker.position = clickedCoords;
 		}

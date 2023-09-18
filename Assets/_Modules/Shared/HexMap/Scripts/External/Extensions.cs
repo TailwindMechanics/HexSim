@@ -51,8 +51,6 @@ namespace Modules.Shared.HexMap.External
 			return (pointA + pointB) * -1;
 		}
 
-		public static Hex2 Round(this Hex2 input)
-			=> RoundHalfUp(input);
 		public static Hex2 BankersRound(this Hex2 input)
 			=> new(Mathf.Round(input.ne), Mathf.Round(input.se));
 		public static Hex2 RoundHalfUp(this Hex2 input)
