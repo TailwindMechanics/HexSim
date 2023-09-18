@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using System;
 using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
@@ -48,34 +48,47 @@ namespace Modules.Client.Actors.Internal
 						return;
 					}
 
-					var playerTeam = SpawnTeamActors(state.Users[0].Team, clickPlaneHeight, prefabMap, playerActorsContainer);
-					var opponentTeam = SpawnTeamActors(state.Users[1].Team, clickPlaneHeight, prefabMap, opponentActorsContainer);
+					var playerTeam = SpawnTeamActors(state.Users[0].Team, state, prefabMap, playerActorsContainer);
+					var opponentTeam = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
 				});
 
 			mouseInput.LmbState
+				.WithLatestFrom(server.SeverUpdate, (tuple, serverTuple)
+					=> (mouseState: tuple.state, mousePos: tuple.pos, gameState: serverTuple.state))
 				.TakeUntilDestroy(this)
-				.Where(tuple => tuple.state == MouseState.Click)
-				.Select(tuple => tuple.pos)
+				.Where(tuple => tuple.mouseState == MouseState.Click)
+				.Select(tuple => (tuple.mousePos, tuple.gameState))
 				.Subscribe(OnMouseClick);
 		}
 
-		void OnMouseClick(Vector3 clickScreenPos)
+		void OnMouseClick((Vector3 clickScreenPos, GameState gameState) tuple)
 		{
-			var worldPos = cam.ScreenToPlane(clickScreenPos, xzPlane, clickPlaneHeight);
+			var worldPos = cam.ScreenToPlane(tuple.clickScreenPos, xzPlane, clickPlaneHeight);
 			if (worldPos == null) return;
 
-			var clickedCoords = worldPos.Value.ToHex2().Round().ToVector3();
-			clickedCoords.y = worldPos.Value.y;
+			var hexCoords = worldPos.Value.ToHex2().Round();
+			Debug.Log($"<color=yellow><b>>>> coords: {hexCoords}</b></color>");
+			var clickedCoords = hexCoords.ToVector3();
+			var seed = tuple.gameState.Seed.ToSeedFloat();
+			var offset = new Vector2Int(tuple.gameState.NoiseOffsetX, tuple.gameState.NoiseOffsetY);
+			clickedCoords.y = hexCoords.PerlinHeight(seed, tuple.gameState.NoiseScale, tuple.gameState.Amplitude, offset);
+
 			clickMarker.position = clickedCoords;
 		}
 
-		IEnumerable<GameObject> SpawnTeamActors (Team team, float spawnHeight, ActorPrefabMappingSo map, Transform parent)
+		IEnumerable<GameObject> SpawnTeamActors (Team team, GameState state, ActorPrefabMappingSo map, Transform parent)
 		{
+			var seed = state.Seed.ToSeedFloat();
+			var scale = state.NoiseScale;
+			var amp = state.Amplitude;
+			var offset = new Vector2Int(state.NoiseOffsetX, state.NoiseOffsetY);
+
 			var result = new List<GameObject>();
 			team.Actors.ForEach(actor =>
 			{
 				var spawnPos = actor.Coords.ToVector3();
-				spawnPos.y = spawnHeight;
+				var height = actor.Coords.PerlinHeight(seed, scale, amp, offset);
+				spawnPos.y = height;
 
 				var prefab = map.GetPrefabById(actor.PrefabId);
 				if (prefab == null)

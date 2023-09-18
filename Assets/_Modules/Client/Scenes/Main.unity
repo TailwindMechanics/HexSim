@@ -235,8 +235,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 330585546}
   - {fileID: 792513464}
+  - {fileID: 330585546}
   m_Father: {fileID: 1408467151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &205605379
@@ -403,7 +403,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0000000018044375, y: 0.9316649, z: -0.36331898, w: 0.000000004307367}
-  m_LocalPosition: {x: -0.00000018626451, y: 19.0461, z: 20.70643}
+  m_LocalPosition: {x: 0, y: 17.54, z: 7.6399994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1073,8 +1073,10 @@ MonoBehaviour:
   lookAt: {fileID: 792513464}
   panner: {fileID: 145231364}
   cam: {fileID: 330585545}
+  cameraHeightLimits: {x: 2, y: 120}
+  cameraForwardLimits: {x: 5, y: 13}
   zoomSpeed: 10
-  panSpeed: 1.1
+  panSpeed: 0.1
   orbitSpeed: 0.1
 --- !u!1 &1619469235
 GameObject:
@@ -1120,37 +1122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf36b94a4a54829478b3307531e7c9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMaxHeight: {x: 0.1, y: 4.5}
-  heightGradient:
-    serializedVersion: 2
-    key0: {r: 0, g: 0.19289704, b: 0.745283, a: 1}
-    key1: {r: 0, g: 0.25882354, b: 1, a: 1}
-    key2: {r: 0.8301887, g: 0.73311216, b: 0.28586686, a: 0}
-    key3: {r: 0.49056602, g: 0.23205785, b: 0.057849757, a: 0}
-    key4: {r: 0.1452594, g: 0.6132076, b: 0.031817377, a: 0}
-    key5: {r: 0.05549386, g: 0.2830189, b: 0, a: 0}
-    key6: {r: 0.1005642, g: 0.4245283, b: 0.022027414, a: 0}
-    key7: {r: 0.09364315, g: 0.4811321, b: 0, a: 0}
-    ctime0: 10023
-    ctime1: 20624
-    ctime2: 27563
-    ctime3: 29684
-    ctime4: 47802
-    ctime5: 65535
-    ctime6: 65535
-    ctime7: 50501
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 1
-    m_ColorSpace: 0
-    m_NumColorKeys: 6
-    m_NumAlphaKeys: 2
   tilesMaterial: {fileID: 2100000, guid: 4ea1d3168ecc9f0458c562e4ad96af8b, type: 2}
   preset: {fileID: 11400000, guid: 11a463d2fb4ce04429e89aa3077641b2, type: 2}
 --- !u!1 &2002559733

@@ -34,7 +34,16 @@ namespace Modules.Client.GameSetup.Internal
 			});
 
 			Debug.Log("<color=yellow><b>>>> GameSetup::Start</b></color>");
-			var gameState = new GameState(gameSettings.Vo.GridRadius, gameSettings.Vo.Seed, users);
+			var settings = gameSettings.Vo;
+			var gameState = new GameState(
+				settings.GridRadius,
+				settings.Seed,
+				settings.HeightColorMap,
+				settings.Amplitude,
+				settings.NoiseScale,
+				settings.NoiseOffset,
+				users
+			);
 			var started = await serverApi.ServerStartGame(gameState);
 
 			if (started)OnStarted();

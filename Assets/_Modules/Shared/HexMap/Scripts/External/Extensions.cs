@@ -7,6 +7,12 @@ namespace Modules.Shared.HexMap.External
 {
 	public static class Extensions
 	{
+		public static float PerlinHeight (this Hex2 coords, float seed, float scale, float amp, Vector2Int offset)
+			=> Mathf.PerlinNoise(
+				seed + offset.x + coords.ne * scale,
+				seed + offset.y + coords.se * scale
+			) * amp;
+
 		public static Hex2 ToHex2(this Vector3 point, Vector3 worldOrigin = default)
 		{
 			point.y = 0;
@@ -46,7 +52,32 @@ namespace Modules.Shared.HexMap.External
 		}
 
 		public static Hex2 Round(this Hex2 input)
+			=> RoundHalfUp(input);
+		public static Hex2 BankersRound(this Hex2 input)
 			=> new(Mathf.Round(input.ne), Mathf.Round(input.se));
+		public static Hex2 RoundHalfUp(this Hex2 input)
+			=> new(
+				input.ne >= 0 ? Mathf.Floor(input.ne + 0.5f) : Mathf.Ceil(input.ne - 0.5f),
+				input.se >= 0 ? Mathf.Floor(input.se + 0.5f) : Mathf.Ceil(input.se - 0.5f)
+			);
+		public static Hex2 RoundHalfDown(this Hex2 input)
+			=> new(
+				input.ne >= 0 ? Mathf.Ceil(input.ne - 0.5f) : Mathf.Floor(input.ne + 0.5f),
+				input.se >= 0 ? Mathf.Ceil(input.se - 0.5f) : Mathf.Floor(input.se + 0.5f)
+			);
+		public static Hex2 RoundHalfToEven(this Hex2 input)
+			=> new(Mathf.Round(input.ne), Mathf.Round(input.se));
+		public static Hex2 RoundHalfAwayFromZero(this Hex2 input)
+			=> new(
+				input.ne >= 0 ? Mathf.Floor(input.ne + 0.5f) : Mathf.Ceil(input.ne - 0.5f),
+				input.se >= 0 ? Mathf.Floor(input.se + 0.5f) : Mathf.Ceil(input.se - 0.5f)
+			);
+		public static Hex2 RoundUp(this Hex2 input)
+			=> new(Mathf.Ceil(input.ne), Mathf.Ceil(input.se));
+		public static Hex2 RoundDown(this Hex2 input)
+			=> new(Mathf.Floor(input.ne), Mathf.Floor(input.se));
+
+
 
 		static Vector3 LineLineIntersection(Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
 		{

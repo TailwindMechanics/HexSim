@@ -4,6 +4,8 @@ using Zenject;
 using System;
 using UniRx;
 
+using Modules.Shared.GameStateRepo.External.Schema;
+using Modules.Client.HexTiles.External.Schema;
 using Modules.Client.HexTiles.Internal.Schema;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Shared.ServerApi.External;
@@ -17,8 +19,6 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
     {
         [Inject] IServerApi server;
 
-        [SerializeField] Vector2 minMaxHeight = new(0, 5);
-        [SerializeField] Gradient heightGradient;
         [SerializeField] Material tilesMaterial;
         [SerializeField] TileMeshPresetSo preset;
 
@@ -31,11 +31,11 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
         {
             server.ServerTickStart
                 .TakeUntilDestroy(this)
-                .Subscribe(tuple =>
+                .Subscribe(state =>
                 {
                     transform.DestroyAllChildren();
-                    grid = new HexGrid(tuple.Radius);
-                    SpawnTiles(tuple.Seed.ToSeedFloat());
+                    grid = new HexGrid(state.Radius);
+                    SpawnTiles(state);
                 });
 
             onComplete.Skip(1)
@@ -46,7 +46,6 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
         void CombineAndWeldMeshes()
         {
             var combine = new CombineInstance[spawnedMeshFilters.Count];
-
             for (var i = 0; i < spawnedMeshFilters.Count; i++)
             {
                 combine[i].mesh = spawnedMeshFilters[i].sharedMesh;
@@ -57,15 +56,15 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
             {
                 indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
             };
+
             combinedMesh.CombineMeshes(combine);
             combinedMesh.Optimize();
-
             combinedMesh.name = "CombinedMap";
 
             var combinedObj = new GameObject("CombinedMap");
             var meshFilter = combinedObj.AddComponent<MeshFilter>();
-            meshFilter.mesh = combinedMesh;
             var rend = combinedObj.AddComponent<MeshRenderer>();
+            meshFilter.mesh = combinedMesh;
             rend.material = tilesMaterial;
 
             transform.DestroyAllChildren();
@@ -74,14 +73,14 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
             combinedObj.transform.SetParent(transform);
         }
 
-        void SpawnTiles(float seed)
+        void SpawnTiles(GameState state)
         {
-            const float scale = 0.2f;
-            const int offsetX = 1000;
-            const int offsetY = 2000;
-            const int batchSize = 10;
-
-            var interval = Observable.Interval(TimeSpan.FromMilliseconds(10));
+            var offset = new Vector2Int(state.NoiseOffsetX, state.NoiseOffsetY);
+            var interval = Observable.Interval(TimeSpan.FromMilliseconds(1));
+            var seed = state.Seed.ToSeedFloat();
+            var scale = state.NoiseScale;
+            var amp = state.Amplitude;
+            var batchSize = state.Radius / 2;
             var cellBatches = Batch(grid.Cells, batchSize);
 
             cellBatches.ToObservable()
@@ -89,12 +88,7 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
                 .Finally(() => onComplete.OnNext(Unit.Default))
                 .Subscribe(cellBatch =>
                 {
-                    foreach (var cell in cellBatch)
-                    {
-                        var height = Mathf.PerlinNoise(seed + offsetX + cell.ne * scale, seed + offsetY + cell.se * scale);
-                        height = Mathf.Clamp01(height);
-                        SpawnTile(cell, height);
-                    }
+                    cellBatch.ForEach(call => SpawnTile(call, seed, scale, amp, offset, state.HeightColorMap));
                 });
 
             grid.OuterCells.ToObservable()
@@ -102,9 +96,7 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
                 .Finally(() => onComplete.OnNext(Unit.Default))
                 .Subscribe(cell =>
                 {
-                    var height = Mathf.PerlinNoise(seed + offsetX + cell.ne * scale, seed + offsetY + cell.se * scale);
-                    height = Mathf.Clamp01(height);
-                    SpawnTile(cell, height);
+                    SpawnTile(cell, seed, scale, amp, offset, state.HeightColorMap);
                 });
         }
 
@@ -118,11 +110,18 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
             return batches;
         }
 
-        void SpawnTile (Hex2 cell, float height)
+        void SpawnTile (Hex2 cell, float seed, float scale, float amp, Vector2Int offset, HeightColorMapVo heightColorMap)
         {
-            var tile = HexMeshGenerator.CreateTile(preset, tilesMaterial, heightGradient, height, transform, cell.ToVector3(), $"Tile_{cell}");
+            var height = cell.PerlinHeight(seed, scale, amp, offset);
+            var color = heightColorMap.GetColorForHeight(height)
+                        ?? (height > 0f ? heightColorMap.GetHighest()
+                            : heightColorMap.GetLowest());
+
+            var spawnPos = cell.ToVector3();
+            spawnPos.y = height;
+            var tile = HexMeshGenerator.CreateTile(preset, tilesMaterial, color, transform, spawnPos, $"Tile_{cell}");
             var newScale = tile.transform.localScale;
-            newScale.y = minMaxHeight.x + height * minMaxHeight.y;
+            newScale.y = height;
             tile.transform.localScale = newScale;
             spawnedMeshFilters.Add(tile.GetComponent<MeshFilter>());
         }

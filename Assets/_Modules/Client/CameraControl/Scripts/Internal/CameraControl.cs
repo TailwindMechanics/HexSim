@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 using UniRx;
@@ -16,16 +17,26 @@ namespace Modules.Client.CameraControl.Internal
 		[SerializeField] Transform lookAt;
 		[SerializeField] Transform panner;
 		[SerializeField] Camera cam;
+		[SerializeField] Vector2 cameraHeightLimits = new(2, 120);
+		[SerializeField] Vector2 cameraForwardLimits = new(-10, -.1f);
 		[Range(0.1f, 10f), SerializeField] float zoomSpeed = 5f;
 		[Range(0.1f, 10f), SerializeField] float panSpeed = 1.1f;
 		[Range(0.1f, 10f), SerializeField] float orbitSpeed = .1f;
 
 		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
-		Vector2Int cameraLimits = new(1, 20);
 		Vector3 mouseDownPannerPosition;
 		Transform camTransform;
-		Vector3 lmbDownPos;
+
+		MouseState rmbState;
+		Vector3 rmbPosition;
 		Vector3 rmbDownPos;
+
+		MouseState lmbState;
+		Vector3 lmbPosition;
+		Vector3 lmbDownPos;
+
+		float wheelDelta;
+		float rmbDelta;
 
 
 		void Start()
@@ -34,69 +45,73 @@ namespace Modules.Client.CameraControl.Internal
 
 			mouseInput.LmbState
 				.TakeUntilDestroy(this)
-				.Subscribe(OnLmb);
+				.Where(tuple => tuple.state is MouseState.Down or MouseState.Held)
+				.Subscribe(tuple =>
+				{
+					lmbState = tuple.state;
+					if (lmbState == MouseState.Down) lmbDownPos = tuple.pos;
+					else lmbPosition = tuple.pos;
+				});
 
 			mouseInput.RmbState
 				.TakeUntilDestroy(this)
-				.Subscribe(OnRmb);
+				.Where(tuple => tuple.state is MouseState.Down or MouseState.Held)
+				.Subscribe(tuple =>
+				{
+					rmbState = tuple.state;
+					if (rmbState == MouseState.Down)
+					{
+						rmbDownPos = tuple.pos;
+					}
+					else
+					{
+						rmbDelta = tuple.pos.x - rmbDownPos.x;
+					}
+				});
 
 			mouseInput.WheelState
 				.TakeUntilDestroy(this)
-				.Where(CameraDidNotBreachedLimit)
-				.Subscribe(OnMouseWheel);
-
-			Observable.EveryLateUpdate()
-				.TakeUntilDestroy(this)
-				.Subscribe(_ => camTransform.LookAt(lookAt));
+				.Subscribe(delta =>
+				{
+					wheelDelta = delta;
+				});
 		}
 
-		void OnMouseWheel(float delta)
-			=> camTransform.Translate(
-				delta * zoomSpeed * (Vector3.forward - Vector3.up / 3), Space.Self);
-
-		void OnLmb((MouseState state, Vector3 mousePos) tuple)
+		void LateUpdate()
 		{
-			if (tuple.state == MouseState.Click) return;
-			var planePoint = cam.ScreenToPlane(tuple.mousePos, xzPlane);
+			rmbDelta = UpdateOrbit(rmbDelta);
+			camTransform.LookAt(lookAt);
+		}
+
+		void UpdatePan(Vector3 downMousePos, Vector3 mousePos)
+		{
+			var planePoint = cam.ScreenToPlane(mousePos, xzPlane);
 			if (planePoint == null) return;
 
-			if (tuple.state == MouseState.Down)
-			{
-				lmbDownPos = cam.ScreenToViewportPoint(tuple.mousePos);
-				mouseDownPannerPosition = panner.position;
-				return;
-			}
-
-			var speed = Vector3.Distance(planePoint.Value, camTransform.position) * panSpeed;
-			var currentMousePos = cam.ScreenToViewportPoint(tuple.mousePos);
-			var delta = currentMousePos - lmbDownPos;
+			var speed = Vector3.Distance(planePoint.Value, camTransform.position) * panSpeed * Time.deltaTime;
+			var currentMousePos = cam.ScreenToViewportPoint(mousePos);
+			var delta = currentMousePos - downMousePos;
 			var worldDelta = camTransform.TransformDirection(new Vector3(delta.x, 0, delta.y));
 			var newPos = mouseDownPannerPosition - worldDelta * speed;
 			newPos.y = panner.position.y;
-
 			panner.position = newPos;
 		}
 
-		void OnRmb((MouseState state, Vector3 mousePos) tuple)
+		float UpdateOrbit(float delta)
 		{
-			if (tuple.state == MouseState.Down)
-			{
-				rmbDownPos = tuple.mousePos;
-			}
-			else if (tuple.state == MouseState.Held)
-			{
-				var delta = tuple.mousePos.x - rmbDownPos.x;
-				var rotationDelta = delta * orbitSpeed;
-				panner.RotateAround(lookAt.position, Vector3.up, rotationDelta);
-				rmbDownPos = tuple.mousePos;
-			}
+			var rotationDelta = delta * orbitSpeed;
+			panner.RotateAround(lookAt.position, Vector3.up, rotationDelta);
+			return 0f;
 		}
 
-		bool CameraDidNotBreachedLimit (float delta)
+		float UpdateZoom(float delta)
 		{
-			var lowerLimitBreached = delta >= 0 && camTransform.position.y < cameraLimits.x;
-			var upperLimitBreached = delta < 0 && camTransform.position.y > cameraLimits.y;
-			return !lowerLimitBreached && !upperLimitBreached;
+			camTransform.Translate(delta * zoomSpeed * (Vector3.forward - Vector3.up), Space.Self);
+			return 0f;
+			// var clampedPos = camTransform.localPosition;
+			// clampedPos.y = Mathf.Clamp(clampedPos.y, cameraHeightLimits.x, cameraHeightLimits.y);
+			// clampedPos.z = Mathf.Clamp(clampedPos.z, cameraForwardLimits.x, cameraForwardLimits.y);
+			// camTransform.localPosition = clampedPos;
 		}
 	}
 }

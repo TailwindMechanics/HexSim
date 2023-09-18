@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e38e4581adc81f4aa3a34b7c1f3a72d, type: 3}
+  m_Name: Default_heightColorMap
+  m_EditorClassIdentifier: 
+  heightColorMap:
+    heightColorRanges:
+    - label: Deep Blue
+      color: {r: 0, g: 0.19215688, b: 0.74509805, a: 1}
+      minHeight: 0
+      maxHeight: 0.15
+    - label: Blue
+      color: {r: 0.12800002, g: 0.35369444, b: 1, a: 1}
+      minHeight: 0.15
+      maxHeight: 0.3
+    - label: Sand
+      color: {r: 0.8313726, g: 0.73333335, b: 0.28627452, a: 1}
+      minHeight: 0.3
+      maxHeight: 0.4
+    - label: Brown
+      color: {r: 0.4901961, g: 0.23137257, b: 0.058823533, a: 1}
+      minHeight: 0.4
+      maxHeight: 0.45
+    - label: Light Green
+      color: {r: 0.14509805, g: 0.6117647, b: 0.03137255, a: 1}
+      minHeight: 0.45
+      maxHeight: 0.7
+    - label: Green
+      color: {r: 0.054901965, g: 0.28235295, b: 0, a: 1}
+      minHeight: 0.7
+      maxHeight: 1

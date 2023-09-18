@@ -10,13 +10,12 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
 {
 	public static class HexMeshGenerator
 	{
-		public static GameObject CreateTile(TileMeshPresetSo preset, Material material, Gradient heightGradient,
-			float height, Transform parent, Vector3 position, string name)
+		public static GameObject CreateTile(TileMeshPresetSo preset, Material material, Color color, Transform parent, Vector3 position, string name)
 		{
 			var loops = new List<Face>(preset.EdgeLoops.Count * 6);
 			foreach (var loop in preset.EdgeLoops)
 			{
-				loops.AddRange(CreateLoop(loop, heightGradient, height, preset.IsFlatTop));
+				loops.AddRange(CreateLoop(loop, color, preset.IsFlatTop));
 			}
 
 			var newTile = MakeTile(parent, name, position);
@@ -25,12 +24,11 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
 			return newTile.rend.gameObject;
 		}
 
-		static IEnumerable<Face> CreateLoop(EdgeLoop edgeLoop, Gradient heightGradient, float height, bool isFlatTop)
-			=> CreateFaces(edgeLoop, heightGradient, height, isFlatTop).ToList();
+		static IEnumerable<Face> CreateLoop(EdgeLoop edgeLoop, Color color, bool isFlatTop)
+			=> CreateFaces(edgeLoop, color, isFlatTop).ToList();
 
-		static IEnumerable<Face> CreateFaces(EdgeLoop edgeLoop, Gradient heightGradient, float height, bool isFlatTop)
+		static IEnumerable<Face> CreateFaces(EdgeLoop edgeLoop, Color color, bool isFlatTop)
 		{
-			var color = heightGradient.Evaluate(height);
 			for (var point = 0; point < 6; point++)
 			{
 				yield return CreateLoop(edgeLoop, color, point, isFlatTop);
@@ -96,8 +94,13 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
 
 		static (MeshRenderer rend, MeshFilter filter) MakeTile(Transform parent, string name, Vector3 position)
 		{
-			var newTile = new GameObject(name);
-			newTile.transform.position = position;
+			var newTile = new GameObject(name)
+			{
+				transform =
+				{
+					position = position
+				}
+			};
 			newTile.transform.SetParent(parent);
 			var meshRenderer = newTile.AddComponent<MeshRenderer>();
 			var meshFilter = newTile.AddComponent<MeshFilter>();

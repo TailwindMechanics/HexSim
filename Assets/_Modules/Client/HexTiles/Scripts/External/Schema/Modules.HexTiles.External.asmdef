@@ -1,7 +1,7 @@
 {
-    "name": "Modules.GameStateRepo.External",
+    "name": "Modules.HexTiles.External",
     "rootNamespace": "Modules",
-    "references": ["GUID:fede5dbcede32d74186ebeb0d1d4057f","GUID:9e54c95e2a80dc44993b6546f6f485dd"],
+    "references": ["GUID:b1ca1f4e291bbef4e884160111f7bea8"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
