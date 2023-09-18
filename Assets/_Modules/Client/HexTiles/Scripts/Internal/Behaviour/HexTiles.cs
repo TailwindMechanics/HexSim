@@ -11,7 +11,6 @@ using Modules.Client.HexTiles.Internal.Schema;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Shared.ServerApi.External;
 using Modules.Client.Utilities.External;
-using Modules.Shared.HexMap.External;
 
 
 namespace Modules.Client.HexTiles.Internal.Behaviour

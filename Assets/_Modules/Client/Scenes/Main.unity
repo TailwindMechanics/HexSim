@@ -990,7 +990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d36931b46d799c41b7b38119c96afea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickPlaneHeight: 0.2
   opponentActorsContainer: {fileID: 1287033669}
   playerActorsContainer: {fileID: 325298410}
   clickMarker: {fileID: 2002559734}
@@ -1043,32 +1042,6 @@ MonoBehaviour:
   lookAt: {fileID: 792513464}
   panner: {fileID: 145231364}
   cam: {fileID: 330585545}
-  zoomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  zoomTop: {x: 0, y: 20, z: 20}
-  zoomBtm: {x: 0, y: 2, z: 5}
   settings: {fileID: 11400000, guid: 8efb826b441436e43a87a9303f17fa9a, type: 2}
 --- !u!1 &1619469235
 GameObject:

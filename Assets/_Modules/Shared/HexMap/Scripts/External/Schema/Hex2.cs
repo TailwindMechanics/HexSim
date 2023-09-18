@@ -1,5 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
+
 
 namespace Modules.Shared.HexMap.External.Schema
 {
