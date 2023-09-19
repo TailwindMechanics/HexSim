@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Famous Seamus
+    gridRadius: 16
+    minWalkHeight: 0.8
     amplitude: 1.5
     noiseScale: 0.05
     noiseOffsetX: 1000
     noiseOffsetY: 2000
-    gridRadius: 16
     heightColorMap: {fileID: 11400000, guid: 0d71d941eff2c5e43b68b6ea2798c46c, type: 2}
     teams:
     - teamName: Blue
@@ -26,8 +27,24 @@ MonoBehaviour:
       actors:
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
         hex2Coords:
-          ne: 5
+          ne: 4
           se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hex2Coords:
+          ne: 3
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hex2Coords:
+          ne: 2
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hex2Coords:
+          ne: 1
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hex2Coords:
+          ne: -1
+          se: 4
     - teamName: Red
       ownerUsername: Ash Williams
       actors:

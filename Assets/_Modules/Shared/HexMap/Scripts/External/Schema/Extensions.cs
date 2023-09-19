@@ -5,10 +5,10 @@ namespace Modules.Shared.HexMap.External.Schema
 {
 	public static class Extensions
 	{
-		public static float PerlinHeight (this Hex2 coords, float seed, float scale, float amp, Vector2Int offset)
+		public static float PerlinHeight (this Hex2 coords, float seed, float scale, float amp, int offsetX, int offsetY)
 			=> Mathf.PerlinNoise(
-				seed + offset.x + coords.ne * scale,
-				seed + offset.y + coords.se * scale
+				seed + offsetX + coords.ne * scale,
+				seed + offsetY + coords.se * scale
 			) * amp;
 
 		public static Hex2 ToHex2(this Vector3 point, Vector3 worldOrigin = default)
@@ -49,6 +49,8 @@ namespace Modules.Shared.HexMap.External.Schema
 			return (pointA + pointB) * -1;
 		}
 
+		public static Hex2 Round(this Hex2 input)
+			=> BankersRound(input);
 		public static Hex2 BankersRound(this Hex2 input)
 			=> new(Mathf.Round(input.ne), Mathf.Round(input.se));
 		public static Hex2 RoundHalfToEven(this Hex2 input)

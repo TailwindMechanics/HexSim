@@ -1,10 +1,9 @@
 ﻿using Unity.Plastic.Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using System;
 
-using Modules.Client.HexTiles.External.Schema;
+using Modules.Shared.HexMap.External.Schema;
 
 
 namespace Modules.Shared.GameStateRepo.External.Schema
@@ -21,11 +20,11 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		[JsonProperty("seed")]
 		public string Seed { get; set; }
 
+		[JsonProperty("min_walk_height")]
+		public float MinWalkHeight { get; set; }
+
 		[JsonProperty("amplitude")]
 		public float Amplitude { get; set; }
-
-		[JsonProperty("height_color")]
-		public HeightColorMapVo HeightColorMap { get; set; }
 
 		[JsonProperty("noise_scale")]
 		public float NoiseScale { get; set; }
@@ -36,18 +35,26 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		[JsonProperty("noise_offset_y")]
 		public int NoiseOffsetY { get; set; }
 
-		public GameState (int radius, string seed, HeightColorMapVo heightColorMap, float amplitude, float noiseScale, Vector2Int noiseOffset, List<User> users)
+		[JsonIgnore]
+		public HexGrid Grid { get; private set; }
+
+		public GameState (HexGrid grid, int radius, string seed, float minWalkHeight, float amplitude, float noiseScale, int noiseOffsetX, int noiseOffsetY, List<User> users)
 		{
 			Radius = radius;
 			Seed = seed;
+			MinWalkHeight = minWalkHeight;
 			Amplitude = amplitude;
 			NoiseScale = noiseScale;
-			NoiseOffsetX = noiseOffset.x;
-			NoiseOffsetY = noiseOffset.y;
-			HeightColorMap = heightColorMap;
+			NoiseOffsetX = noiseOffsetX;
+			NoiseOffsetY = noiseOffsetY;
 			Users = users;
+			Grid = grid;
 		}
 
+		public Team GetTeamById (Guid teamId)
+			=> Users.FirstOrDefault(user => user.Team.TeamId == teamId)?.Team;
+		public float SeedAsFloat
+			=> SeedToFloat(Seed);
 		public User GetUserByTeamName (string teamName)
 			=> Users.FirstOrDefault(user => user.Team.TeamName == teamName);
 		public bool UserIsInAnyTeam (User query)
@@ -55,5 +62,12 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		public Actor GetActor (User query, Guid actorId)
 			=> Users.FirstOrDefault(user => user.Team.IsOwnedByUser(query))
 				?.Team.GetActor(query, actorId);
+
+		float SeedToFloat(string str)
+		{
+			var seed = str.Aggregate<char, long>(0, (current, c) => (current << 5) - current + c);
+			const int prime = 1000000007;
+			return (float)(seed % prime) / prime;
+		}
 	}
 }

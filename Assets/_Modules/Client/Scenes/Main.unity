@@ -248,6 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 205605381}
+  - component: {fileID: 205605382}
   - component: {fileID: 205605380}
   m_Layer: 0
   m_Name: Server
@@ -285,6 +286,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1269448918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205605382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205605379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01141420bfbbca34c9ce0c95853f60ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &325298409
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 205605382}
   - {fileID: 205605380}
   - {fileID: 974352090}
   - {fileID: 548982857}
@@ -911,7 +925,7 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
-  modulesCount: 3
+  modulesCount: 4
 --- !u!1 &1287033668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,6 +1103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesMaterial: {fileID: 2100000, guid: 4ea1d3168ecc9f0458c562e4ad96af8b, type: 2}
   preset: {fileID: 11400000, guid: 11a463d2fb4ce04429e89aa3077641b2, type: 2}
+  heightColorMap: {fileID: 11400000, guid: 0d71d941eff2c5e43b68b6ea2798c46c, type: 2}
 --- !u!1 &2002559733
 GameObject:
   m_ObjectHideFlags: 0

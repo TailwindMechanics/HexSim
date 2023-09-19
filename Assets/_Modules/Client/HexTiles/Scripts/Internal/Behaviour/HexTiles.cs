@@ -20,11 +20,11 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
         [Inject] IServerApi server;
 
         [SerializeField] Material tilesMaterial;
-        [InlineEditor, SerializeField] TileMeshPresetSo preset;
+        [SerializeField] TileMeshPresetSo preset;
+        [InlineEditor, SerializeField] HeightColorMapSo heightColorMap;
 
         readonly ISubject<Unit> onComplete = new Subject<Unit>();
         readonly List<MeshFilter> spawnedMeshFilters = new();
-        HexGrid grid;
 
 
         void Start()
@@ -34,7 +34,6 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
                 .Subscribe(state =>
                 {
                     transform.DestroyAllChildren();
-                    grid = new HexGrid(state.Radius);
                     SpawnTiles(state);
                 });
 
@@ -77,26 +76,18 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
         {
             var offset = new Vector2Int(state.NoiseOffsetX, state.NoiseOffsetY);
             var interval = Observable.Interval(TimeSpan.FromMilliseconds(1));
-            var seed = state.Seed.ToSeedFloat();
+            var seed = state.SeedAsFloat;
             var scale = state.NoiseScale;
             var amp = state.Amplitude;
             var batchSize = state.Radius / 2;
-            var cellBatches = Batch(grid.Cells, batchSize);
+            var cellBatches = Batch(state.Grid.Cells, batchSize);
 
             cellBatches.ToObservable()
                 .Zip(interval, (cellBatch, _) => cellBatch)
                 .Finally(() => onComplete.OnNext(Unit.Default))
                 .Subscribe(cellBatch =>
                 {
-                    cellBatch.ForEach(call => SpawnTile(call, seed, scale, amp, offset, state.HeightColorMap));
-                });
-
-            grid.OuterCells.ToObservable()
-                .Zip(interval, (cell, _) => cell)
-                .Finally(() => onComplete.OnNext(Unit.Default))
-                .Subscribe(cell =>
-                {
-                    SpawnTile(cell, seed, scale, amp, offset, state.HeightColorMap);
+                    cellBatch.ForEach(call => SpawnTile(call, seed, scale, amp, offset));
                 });
         }
 
@@ -110,12 +101,12 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
             return batches;
         }
 
-        void SpawnTile (Hex2 cell, float seed, float scale, float amp, Vector2Int offset, HeightColorMapVo heightColorMap)
+        void SpawnTile (Hex2 cell, float seed, float scale, float amp, Vector2Int offset)
         {
-            var height = cell.PerlinHeight(seed, scale, amp, offset);
-            var color = heightColorMap.GetColorForHeight(height)
-                        ?? (height > 0f ? heightColorMap.GetHighest()
-                            : heightColorMap.GetLowest());
+            var height = cell.PerlinHeight(seed, scale, amp, offset.x, offset.y);
+            var color = heightColorMap.Vo.GetColorForHeight(height)
+                        ?? (height > 0f ? heightColorMap.Vo.GetHighest()
+                            : heightColorMap.Vo.GetLowest());
 
             var spawnPos = cell.ToVector3();
             spawnPos.y = height;
