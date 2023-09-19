@@ -9,23 +9,25 @@ using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.GameSetup.External.Schema;
-using Modules.Server.TickServer.External;
+using Modules.Shared.HexMap.External.Schema;
 using Modules.Shared.ServerApi.External;
 using Modules.Server.GameLogic.External;
 
 
 namespace Modules.Server.TickServer.Internal
 {
-	public class TickServer : MonoInstaller, ITickServer, IServerApi
+	public class TickServer : MonoInstaller, IServerApi
 	{
 		// IServerApi
-		public ISubject<(User owner, Actor actor, Vector2Int newCoords)> MoveActor { get; }
-			= new Subject<(User owner, Actor actor, Vector2Int newCoords)>();
-
-		public IObservable<(GameState state, double delta)> SeverTickUpdate
-			=> TickUpdate;
+		readonly ISubject<Hex2> playerPos = new Subject<Hex2>();
+		public void SetPlayerPos(Hex2 newPos)
+			=> playerPos.OnNext(newPos);
 		public IObservable<GameState> ServerTickStart
-			=> TickStart;
+			=> tickStart;
+		public IObservable<(GameState state, double delta)> SeverTickUpdate
+			=> tickUpdate;
+		public IObservable<Team> ServerTickEnd
+			=> tickEnd;
 		public Task<bool> ServerStartGame(GameSettingsVo settings)
 			=> Starting(settings);
 		// IServerApi
@@ -33,11 +35,10 @@ namespace Modules.Server.TickServer.Internal
 
 		[Inject] IGameLogic gameLogic;
 
-		public IObservable<GameState> TickStart => tickStart;
-		public IObservable<(GameState state, double delta)> TickUpdate => tickUpdate;
 
 		readonly Subject<(GameState, double)> tickUpdate = new();
 		readonly Subject<GameState> tickStart = new();
+		readonly Subject<Team> tickEnd = new();
 		const float maxTickRateMs = 10000f;
 		const float minTickRateMs = 10f;
 
@@ -48,10 +49,7 @@ namespace Modules.Server.TickServer.Internal
 
 
 		public override void InstallBindings()
-		{
-			Container.Bind<ITickServer>().FromInstance(this).AsSingle();
-			Container.Bind<IServerApi>().FromInstance(this).AsSingle();
-		}
+			=> Container.Bind<IServerApi>().FromInstance(this).AsSingle();
 
 		async Task<bool> Starting(GameSettingsVo settings)
 		{
@@ -61,7 +59,7 @@ namespace Modules.Server.TickServer.Internal
 				var actors = new List<Actor>();
 				team.Actors.ForEach(actor =>
 				{
-					actors.Add(new Actor(actor.ActorPrefab.PrefabId, actor.Hex2Coords));
+					actors.Add(new Actor(actor.ActorPrefab.PrefabId, actor.Hex2Coords, actor.HitPoints));
 				});
 				var newUser = new User(team.OwnerUsername, new Team(team.TeamName, actors));
 				newUser.Team.SetOwner(newUser);
@@ -86,34 +84,32 @@ namespace Modules.Server.TickServer.Internal
 
 			Observable.Interval(TimeSpan.FromMilliseconds(tickRateMs))
 				.Where(_ => tickRateMs is >= minTickRateMs and <= maxTickRateMs)
-				.TakeUntilDestroy(this)
 				.Timestamp()
 				.Pairwise()
 				.Select(pair => pair.Current.Timestamp
 					.Subtract(pair.Previous.Timestamp)
 					.TotalMilliseconds)
 				.Select(delta => (state, delta))
+				.TakeUntil(tickEnd)
+				.TakeUntilDestroy(this)
 				.Subscribe(tuple =>
 				{
 					LogState(tuple.state);
 					var newState = gameLogic.Next(tuple.state);
-					tickUpdate.OnNext((newState, tuple.delta));
+					if (newState.GetWinner() == null)
+					{
+						tickUpdate.OnNext((newState, tuple.delta));
+					}
+					else tickEnd.OnNext(newState.GetWinner().Team);
 				});
 
-			MoveActor
-				.Where(tuple => state.UserIsInAnyTeam(tuple.owner))
-				.Where(tuple => tuple.actor.IsOwnedByUser(tuple.owner))
-				.Select(tuple => (tuple.owner, localActor: state.GetActor(tuple.owner, tuple.actor.Id), tuple.newCoords))
-				.Where(tuple => tuple.localActor is not null && !tuple.localActor.IsDead)
+			playerPos
+				.DistinctUntilChanged()
+				.Where(pos => !Hex2.OutOfBounds(pos, state.Radius))
 				.TakeUntilDestroy(this)
-				.Subscribe(OnMoveActor);
+				.Subscribe(gameLogic.SetPlayerPos);
 
 			return true;
-		}
-
-		void OnMoveActor((User owner, Actor actor, Vector2Int newCoords) tuple)
-		{
-
 		}
 
 		void LogState(GameState state, string color = "yellow")

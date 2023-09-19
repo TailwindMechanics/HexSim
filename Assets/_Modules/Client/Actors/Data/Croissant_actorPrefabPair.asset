@@ -16,3 +16,4 @@ MonoBehaviour:
     prefabId: lovely_croissant
     prefab: {fileID: 8635906379899204224, guid: 91927e0ed1457c74393738af58e2344e,
       type: 3}
+    material: {fileID: 2100000, guid: 45c18cbab8387b74c9c616d6d25915aa, type: 2}

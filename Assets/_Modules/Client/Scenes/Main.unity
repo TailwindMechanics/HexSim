@@ -1007,6 +1007,8 @@ MonoBehaviour:
   opponentActorsContainer: {fileID: 1287033669}
   playerActorsContainer: {fileID: 325298410}
   clickMarker: {fileID: 2002559734}
+  hitMat: {fileID: 2100000, guid: 4a23334c57aa0e349bd87a167a05ed2b, type: 2}
+  lerpSmoothing: 6
   prefabMap: {fileID: 11400000, guid: b7bc1cfe132c68b4da06b751aee8eef4, type: 2}
 --- !u!1 &1408467150
 GameObject:

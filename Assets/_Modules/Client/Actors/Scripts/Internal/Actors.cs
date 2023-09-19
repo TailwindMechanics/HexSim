@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 using System;
@@ -26,6 +27,7 @@ namespace Modules.Client.Actors.Internal
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
 		[SerializeField] Transform clickMarker;
+		[SerializeField] float lerpSmoothing = 0.1f;
 		[InlineEditor, SerializeField] ActorPrefabMappingSo prefabMap;
 
 		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
@@ -55,19 +57,31 @@ namespace Modules.Client.Actors.Internal
 					foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
 				});
 
-			server.SeverTickUpdate
+			var serverTickUpdateStream = server.SeverTickUpdate
 				.TakeUntilDestroy(this)
-				.Subscribe(tuple =>
+				.Share();
+
+			Observable.EveryLateUpdate()
+				.WithLatestFrom(serverTickUpdateStream, (_, serverTuple) => serverTuple)
+				.SelectMany(tuple => tuple.state.Users.Select(user => (user, tuple.state)))
+				.SelectMany(tuple => tuple.user.Team.Actors.Select(actor => (actor, tuple.state)))
+				.TakeUntilDestroy(this)
+				.Subscribe(data =>
 				{
-					tuple.state.Users.ForEach(user =>
+					var (actor, state) = data;
+
+					var newPos = actor.Coords.ToVector3();
+					newPos.y = actor.Coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
+
+					if (actor.IsDead)
 					{
-						user.Team.Actors.ForEach(actor =>
-						{
-							var newPos = actor.Coords.ToVector3();
-							newPos.y = actor.Coords.PerlinHeight(tuple.state.SeedAsFloat, tuple.state.NoiseScale, tuple.state.Amplitude, tuple.state.NoiseOffsetX, tuple.state.NoiseOffsetY);
-							spawnedActors[actor.Id].transform.position = newPos;
-						});
-					});
+						spawnedActors[actor.Id].transform.localEulerAngles = new Vector3(0, 0, 90);
+					}
+					else
+					{
+						var currentPos = spawnedActors[actor.Id].transform.position;
+						spawnedActors[actor.Id].transform.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
+					}
 				});
 
 			mouseInput.LmbViewportState
@@ -84,14 +98,20 @@ namespace Modules.Client.Actors.Internal
 			var worldPos = cam.ScreenToPlane(clickScreenPos, xzPlane, height);
 			if (worldPos == null) return;
 
-			var hexCoords = worldPos.Value.ToHex2().BankersRound();
-			Debug.Log($"<color=yellow><b>>>> coords: {hexCoords}</b></color>");
+			var targetPos = SetMarkerPosition(worldPos.Value.ToHex2(), gameState);
+			server.SetPlayerPos(targetPos.ToHex2());
+			clickMarker.position = targetPos;
+		}
+
+		Vector3 SetMarkerPosition (Hex2 coords, GameState gameState)
+		{
+			var hexCoords = coords.BankersRound();
 			var clickedCoords = hexCoords.ToVector3();
 			var seed = gameState.SeedAsFloat;
 			var offset = new Vector2Int(gameState.NoiseOffsetX, gameState.NoiseOffsetY);
 			clickedCoords.y = hexCoords.PerlinHeight(seed, gameState.NoiseScale, gameState.Amplitude, offset.x, offset.y);
 
-			clickMarker.position = clickedCoords;
+			return clickedCoords;
 		}
 
 		Dictionary<Guid, GameObject> SpawnTeamActors (Team team, GameState state, ActorPrefabMappingSo map, Transform parent)

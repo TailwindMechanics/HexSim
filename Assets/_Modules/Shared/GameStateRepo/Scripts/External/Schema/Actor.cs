@@ -9,7 +9,7 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 	public class Actor
 	{
 		[JsonProperty("owned_by_user_id")]
-		public Guid OwnedByUserId { get; set; }
+		public Guid OwnedByUserId { get; private set; }
 
 		[JsonProperty("owner_by_team_id")]
 		public Guid OwnedByTeamId { get; private set; }
@@ -18,10 +18,13 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		public Guid Id { get; }
 
 		[JsonProperty("actor_prefab_id")]
-		public string PrefabId { get; set; }
+		public string PrefabId { get; }
 
 		[JsonProperty("health")]
-		public int Health { get; }
+		public int Health { get; private set; }
+
+		[JsonProperty("hit_points")]
+		public int HitPoints { get; private set; }
 
 		[JsonProperty("ne_coord")]
 		public double Ne { get; set; }
@@ -29,16 +32,15 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		[JsonProperty("se_coord")]
 		public double Se { get; set; }
 
-		public Actor (string prefabId, Hex2 coords)
+		public Actor (string prefabId, Hex2 coords, int hitPoints)
 		{
 			PrefabId = prefabId;
 			Id = Guid.NewGuid();
 			Health = 100;
 			Ne = (float)Math.Round(coords.ne, 3);
 			Se = (float)Math.Round(coords.se, 3);
+			HitPoints = hitPoints;
 		}
-
-		public Hex2 Coords => new Hex2(Ne, Se);
 
 		public void SetOwnedByUser (User user)
 		{
@@ -46,14 +48,19 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 			OwnedByTeamId = user.Team.TeamId;
 		}
 
-		[JsonIgnore] public bool IsAlive => Health > 0;
-		[JsonIgnore] public bool IsDead => !IsAlive;
-
-		public bool IsOwnedByUser (User user) => OwnedByUserId == user.Id;
 		public void SetCoords (Hex2 coords)
 		{
 			Ne = (float)Math.Round(coords.ne, 3);
 			Se = (float)Math.Round(coords.se, 3);
 		}
+
+		public bool IsDead
+			=> Health < 1;
+		public Hex2 Coords
+			=> new(Ne, Se);
+		public void DecrementHealth (int decrement)
+			=> Health -= decrement;
+		public bool IsOwnedByUser (Guid id)
+			=> OwnedByUserId == id;
 	}
 }

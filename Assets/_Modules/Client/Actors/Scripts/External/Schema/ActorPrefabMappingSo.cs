@@ -10,7 +10,6 @@ namespace Modules.Client.Actors.External.Schema
 	{
 		public GameObject GetPrefabById(string id)
 			=> actorPrefabPairs.FirstOrDefault(pair => pair.Vo.PrefabId == id)?.Vo.Prefab;
-
 		[SerializeField] List<ActorPrefabPairSo> actorPrefabPairs;
 	}
 }

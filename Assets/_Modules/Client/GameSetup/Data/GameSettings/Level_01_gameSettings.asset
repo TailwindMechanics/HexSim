@@ -15,7 +15,7 @@ MonoBehaviour:
   settings:
     seed: Famous Seamus
     gridRadius: 16
-    minWalkHeight: 0.8
+    minWalkHeight: 0.3
     amplitude: 1.5
     noiseScale: 0.05
     noiseOffsetX: 1000
@@ -26,29 +26,65 @@ MonoBehaviour:
       ownerUsername: Gordon Freeman
       actors:
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: 4
           se: 5
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: 3
           se: 5
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: 2
           se: 5
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: 1
           se: 5
       - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: -1
           se: 4
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -2
+          se: 4
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -3
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -4
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -5
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -6
+          se: 3
     - teamName: Red
       ownerUsername: Ash Williams
       actors:
       - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 10
         hex2Coords:
           ne: -5
+          se: -5
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -3
           se: -5

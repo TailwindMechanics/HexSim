@@ -1,7 +1,7 @@
 {
     "name": "Modules.GameLogic.External",
     "rootNamespace": "Modules",
-    "references": ["GUID:3f14f2e39797dee4d950a98bd4fd7b24"],
+    "references": ["GUID:3f14f2e39797dee4d950a98bd4fd7b24","GUID:fede5dbcede32d74186ebeb0d1d4057f"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
