@@ -16,6 +16,7 @@ namespace Modules.Server.GameLogic.Internal
         Hex2 playerPos;
         Guid team1Id;
 
+
         public GameState Init(List<User> users, int radius, string seed, float minWalkHeight, float amplitude, float noiseScale, int noiseOffsetX, int noiseOffsetY)
         {
             var result = new GameState(
@@ -68,14 +69,23 @@ namespace Modules.Server.GameLogic.Internal
             return state;
         }
 
-
         void ProcessKills (GameState state)
             => state.Users.SelectMany(user => user.Team.Actors)
                 .Where(attacker => !attacker.IsDead)
-                .Select(attacker => (victim: state.ActorAtCoord(attacker.Coords), attacker))
-                .Where(tuple => tuple.victim is { IsDead: false })
-                .Where(tuple => tuple.victim.OwnedByTeamId != tuple.attacker.OwnedByTeamId).ToList()
-                .ForEach(tuple => tuple.victim.DecrementHealth(tuple.attacker.HitPoints));
+                .Select(attacker => (attacker, victim:
+                    GetNeighbouringOpponents(attacker, state)
+                        .FirstOrDefault()))
+                .Where(tuple => tuple.victim != null)
+                .ToList().ForEach(tuple => tuple.victim
+                    .DecrementHealth(tuple.attacker.HitPoints));
+
+        List<Actor> GetNeighbouringOpponents (Actor actor, GameState state)
+            => Hex2.GetNeighbors(actor.Coords)
+                .Select(state.ActorAtCoord)
+                .Where(neighbor => neighbor != null)
+                .Where(neighbor => neighbor.OwnedByTeamId != actor.OwnedByTeamId)
+                .Where(neighbor => !neighbor.IsDead)
+                .ToList();
 
         Actor FindClosestActor(Actor currentActor, GameState state)
         {
@@ -100,13 +110,11 @@ namespace Modules.Server.GameLogic.Internal
 
         Hex2 MoveTowardsTarget(Actor actor, Hex2 target, GameState state)
             => Hex2.GetNeighbors(actor.Coords)
-                .Where(n => !Hex2.OutOfBounds(n, state.Radius)
-                    && HeightAtCoords(n, state) >= state.MinWalkHeight)
-                .Where(n =>
-                {
-                    var atCoord = state.ActorAtCoord(n);
-                    return atCoord == null || atCoord.OwnedByTeamId != actor.OwnedByTeamId;
-                })
+                .Where(neighbour => !Hex2.OutOfBounds(neighbour, state.Radius))
+                .Where(neighbour => HeightAtCoords(neighbour, state) >= state.MinWalkHeight)
+                .Where(neighbour => state.ActorAtCoord(neighbour) == null
+                    || (state.ActorAtCoord(neighbour).IsDead
+                        && state.ActorAtCoord(neighbour).OwnedByTeamId == actor.OwnedByTeamId))
                 .OrderBy(neighbor => Hex2.Distance(neighbor, target))
                 .FirstOrDefault();
 

@@ -13,8 +13,16 @@ namespace Modules.Client.GameSetup.External.Schema
 	public class ActorVo
 	{
 		public ActorPrefabPairVo ActorPrefab => actorPrefab.Vo;
-		public int HitPoints => hitPoints;
+		public ActorPrefabPairSo So => actorPrefab;
 		public Hex2 Hex2Coords => hex2Coords;
+		public int HitPoints => hitPoints;
+
+		public ActorVo (ActorPrefabPairSo actorPrefab, int hitPoints, Hex2 hex2Coords)
+		{
+			this.actorPrefab = actorPrefab;
+			this.hitPoints = hitPoints;
+			this.hex2Coords = hex2Coords;
+		}
 
 		[FoldoutGroup("$GroupName"), SerializeField]
 		ActorPrefabPairSo actorPrefab;
@@ -24,7 +32,7 @@ namespace Modules.Client.GameSetup.External.Schema
 		Hex2 hex2Coords;
 
 		[UsedImplicitly]
-		string GroupName => $"{Id}, {hex2Coords}, hit points:{hitPoints}";
+		string GroupName => $"{Id}, {hex2Coords}, {hitPoints}";
 		[UsedImplicitly]
 		string Id => actorPrefab != null
 			? actorPrefab.Vo.PrefabId

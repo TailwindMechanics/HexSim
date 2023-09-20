@@ -60,7 +60,5 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 			=> new(Ne, Se);
 		public void DecrementHealth (int decrement)
 			=> Health -= decrement;
-		public bool IsOwnedByUser (Guid id)
-			=> OwnedByUserId == id;
 	}
 }

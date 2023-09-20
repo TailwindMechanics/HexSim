@@ -30,6 +30,7 @@ namespace Modules.Client.Actors.Internal
 		[SerializeField] float lerpSmoothing = 0.1f;
 		[InlineEditor, SerializeField] ActorPrefabMappingSo prefabMap;
 
+		static readonly int baseColor = Shader.PropertyToID("_BaseColor");
 		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
 		Camera cam;
 
@@ -39,7 +40,8 @@ namespace Modules.Client.Actors.Internal
 
 		void Start()
 		{
-			var spawnedActors= new Dictionary<Guid, GameObject>();
+			var spawnedActors= new Dictionary<Guid, (Transform spawned, List<Renderer> renderers)>();
+			var actorHealths = new Dictionary<Guid, int>();
 
 			server.ServerTickStart
 				.Delay(TimeSpan.FromSeconds(.3f))
@@ -55,6 +57,16 @@ namespace Modules.Client.Actors.Internal
 					spawnedActors = SpawnTeamActors(state.Users[0].Team, state, prefabMap, playerActorsContainer);
 					var opponent = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
 					foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
+				});
+
+			server.ServerTickEnd
+				.TakeUntilDestroy(this)
+				.SelectMany(winner => winner.Actors)
+				.Subscribe(actor =>
+				{
+					actorHealths.TryAdd(actor.Id, actor.Health);
+					SetHitColour(actor.Id, false, spawnedActors);
+					actorHealths[actor.Id] = actor.Health;
 				});
 
 			var serverTickUpdateStream = server.SeverTickUpdate
@@ -75,13 +87,24 @@ namespace Modules.Client.Actors.Internal
 
 					if (actor.IsDead)
 					{
-						spawnedActors[actor.Id].transform.localEulerAngles = new Vector3(0, 0, 90);
+						spawnedActors[actor.Id].spawned.localEulerAngles = new Vector3(0, 0, 90);
 					}
 					else
 					{
-						var currentPos = spawnedActors[actor.Id].transform.position;
-						spawnedActors[actor.Id].transform.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
+						var currentPos = spawnedActors[actor.Id].spawned.position;
+						spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
 					}
+				});
+
+			serverTickUpdateStream
+				.TakeUntilDestroy(this)
+				.SelectMany(tuple => tuple.state.Users.SelectMany(user => user.Team.Actors))
+				.Where(actor => spawnedActors.ContainsKey(actor.Id))
+				.Subscribe(actor =>
+				{
+					actorHealths.TryAdd(actor.Id, actor.Health);
+					SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
+					actorHealths[actor.Id] = actor.Health;
 				});
 
 			mouseInput.LmbViewportState
@@ -101,6 +124,17 @@ namespace Modules.Client.Actors.Internal
 			var targetPos = SetMarkerPosition(worldPos.Value.ToHex2(), gameState);
 			server.SetPlayerPos(targetPos.ToHex2());
 			clickMarker.position = targetPos;
+
+			Debug.Log($"<color=yellow><b>>>> {targetPos.ToHex2().Round()}</b></color>");
+		}
+
+		void SetHitColour (Guid id, bool gotHit, Dictionary<Guid, (Transform spawned, List<Renderer> renderers)> spawnedActors)
+		{
+			var propertyBlock = new MaterialPropertyBlock();
+			var color = gotHit ? Color.red : Color.white;
+			var tuple = spawnedActors[id];
+			propertyBlock.SetColor(baseColor, color);
+			tuple.renderers.ForEach(rend => rend.SetPropertyBlock(propertyBlock));
 		}
 
 		Vector3 SetMarkerPosition (Hex2 coords, GameState gameState)
@@ -114,14 +148,14 @@ namespace Modules.Client.Actors.Internal
 			return clickedCoords;
 		}
 
-		Dictionary<Guid, GameObject> SpawnTeamActors (Team team, GameState state, ActorPrefabMappingSo map, Transform parent)
+		Dictionary<Guid, (Transform, List<Renderer>)> SpawnTeamActors (Team team, GameState state, ActorPrefabMappingSo map, Transform parent)
 		{
 			var seed = state.SeedAsFloat;
 			var scale = state.NoiseScale;
 			var amp = state.Amplitude;
 			var offset = new Vector2Int(state.NoiseOffsetX, state.NoiseOffsetY);
+			var result = new Dictionary<Guid, (Transform, List<Renderer>)>();
 
-			var result = new Dictionary<Guid, GameObject>();
 			team.Actors.ForEach(actor =>
 			{
 				var spawnPos = actor.Coords.ToVector3();
@@ -137,7 +171,8 @@ namespace Modules.Client.Actors.Internal
 
 				var spawnedName = $"{team.TeamName}_{actor.PrefabId}_{actor.Id}";
 				var spawned = spawnerService.Spawn(prefab, parent, spawnPos, spawnedName);
-				result.Add(actor.Id, spawned);
+				var renderers = spawned.GetComponentsInChildren<Renderer>().ToList();
+				result.Add(actor.Id, (spawned.transform, renderers));
 			});
 
 			return result;
