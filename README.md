@@ -1,6 +1,9 @@
 # HexSim - Tech Test for Illuvium
 - Created by Seamus Dunne
 
+## Unity Version:
+   2022.3.8f1
+
 ## Dependencies:
    1. UniRx
    2. Zenject
