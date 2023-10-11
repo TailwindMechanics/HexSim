@@ -1,3 +1,5 @@
+[Modules/Code of Interest](https://github.com/TailwindMechanics/HexSim/tree/446ac68c9af73ab1e5ac42758f669bf8f0310ef9/Assets/_Modules)
+
 # HexSim - Tech Test for Illuvium
 - Created by Seamus Dunne
 
