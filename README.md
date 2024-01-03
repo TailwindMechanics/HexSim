@@ -3,7 +3,7 @@
 # HexSim
 - Created by [Seamus Dunne]([url](https://www.linkedin.com/in/s-dunne/))
 
-## Unity Version:
+## Unity Version (plus/pro **not** required):
    2023.2.3f1
 
 ## Dependencies:
