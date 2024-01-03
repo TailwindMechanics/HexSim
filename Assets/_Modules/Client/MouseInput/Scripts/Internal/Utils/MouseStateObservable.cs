@@ -21,13 +21,14 @@ namespace Modules.Client.MouseInput.Internal.Utils
 		Camera camera;
 
 
-		public static IObservable<(MouseState state, Vector3 delta, Vector3 pos)> Create(int buttonIndex)
-			=> new MouseStateObservable(buttonIndex).Get();
+		public static IObservable<(MouseState state, Vector3 delta, Vector3 pos)> Create(int buttonIndex, IObservable<Unit> stop)
+			=> new MouseStateObservable(buttonIndex, stop).Get();
 
-		MouseStateObservable(int buttonIndex)
+		MouseStateObservable(int buttonIndex, IObservable<Unit> stop)
 		{
 			this.buttonIndex = buttonIndex;
 			Observable.EveryUpdate()
+				.TakeUntil(stop)
 				.Subscribe(_ => UpdateMouseState());
 		}
 

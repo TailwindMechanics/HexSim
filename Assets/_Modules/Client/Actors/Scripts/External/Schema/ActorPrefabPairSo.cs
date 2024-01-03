@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace Modules.Client.Actors.External.Schema
@@ -8,6 +7,6 @@ namespace Modules.Client.Actors.External.Schema
 	public class ActorPrefabPairSo : ScriptableObject
 	{
 		public ActorPrefabPairVo Vo => pair;
-		[HideLabel, SerializeField] ActorPrefabPairVo pair;
+		[SerializeField] ActorPrefabPairVo pair;
 	}
 }

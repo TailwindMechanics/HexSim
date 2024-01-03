@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 
@@ -20,10 +19,10 @@ namespace Modules.Client.HexTiles.External.Schema
 		public float MinHeight => minHeight;
 		public float MaxHeight => maxHeight;
 
-		[FoldoutGroup("$GroupName"), SerializeField] string label = "Untitled";
-		[FoldoutGroup("$GroupName"), SerializeField] Color color;
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField] float minHeight;
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField] float maxHeight;
+		[SerializeField] string label = "Untitled";
+		[SerializeField] Color color;
+		[Range(0f, 1f), SerializeField] float minHeight;
+		[Range(0f, 1f), SerializeField] float maxHeight;
 
 		[UsedImplicitly]
 		string GroupName => $"{label}, {color.ToHex()}: ({MinHeight}, {MaxHeight})";

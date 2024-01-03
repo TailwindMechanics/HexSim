@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -8,6 +7,6 @@ namespace Modules.Client.HexTiles.External.Schema
 	public class HeightColorMapSo : ScriptableObject
 	{
 		public HeightColorMapVo Vo => heightColorMap;
-		[HideLabel, SerializeField] HeightColorMapVo heightColorMap;
+		[SerializeField] HeightColorMapVo heightColorMap;
 	}
 }

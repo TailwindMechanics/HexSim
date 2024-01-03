@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace Modules.Client.CameraControl.Internal.Schema
@@ -8,6 +7,6 @@ namespace Modules.Client.CameraControl.Internal.Schema
 	public class CameraSettingsSo : ScriptableObject
 	{
 		public CameraSettingsVo Vo => settings;
-		[HideLabel, SerializeField] CameraSettingsVo settings = new();
+		[SerializeField] CameraSettingsVo settings = new();
 	}
 }

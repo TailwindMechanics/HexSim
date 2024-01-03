@@ -1,11 +1,11 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.GameSetup.External.Schema;
 using Modules.Shared.ServerApi.External;
+using UnityEngine.SceneManagement;
 
 
 namespace Modules.Client.GameSetup.Internal
@@ -14,7 +14,7 @@ namespace Modules.Client.GameSetup.Internal
 	{
 		[Inject] IServerApi serverApi;
 
-		[InlineEditor, SerializeField]
+		[SerializeField]
 		GameSettingsSo gameSettings;
 
 
@@ -29,10 +29,40 @@ namespace Modules.Client.GameSetup.Internal
 				.Take(1)
 				.TakeUntilDestroy(this)
 				.Subscribe(OnEnded);
+
+			Observable.EveryUpdate()
+				.Where(_ => RestartKeypress())
+				.Take(1)
+				.TakeUntilDestroy(this)
+				.Subscribe(_ =>
+				{
+					var currentScene = SceneManager.GetActiveScene();
+					SceneManager.LoadScene(currentScene.name);
+				});
 		}
 
-		void OnStarted () => Debug.Log("<color=cyan><b>>>> GameSetup::OnStarted</b></color>");
+		bool RestartKeypress ()
+			=> Input.GetKeyDown(KeyCode.Return)
+			   || Input.GetKeyDown(KeyCode.KeypadEnter)
+			   || Input.GetKeyDown(KeyCode.Escape)
+			   || Input.GetKeyDown(KeyCode.R);
+
+		void OnStarted () => Debug.Log("<color=#00FFFF><b>>>> GameSetup::OnStarted</b></color>");
 		void OnFailedToStart () => Debug.LogError("GameSetup::OnFailedToStart");
-		void OnEnded (Team winner) => Debug.Log($"<color=green><b>>>> GameSetup::OnEnded: {winner.TeamName} team won!</b></color>");
+		void OnEnded (Team winner)
+		{
+			switch (winner.TeamName)
+			{
+				case "Red":
+					Debug.Log("<color=red><b>>>> You Lost :/</b></color>");
+					break;
+				case "Blue":
+					Debug.Log("<color=green><b>>>> You won! :D</b></color>");
+					break;
+				default:
+					Debug.Log("<color=orange><b>>>> It's a draw :|</b></color>");
+					break;
+			}
+		}
 	}
 }

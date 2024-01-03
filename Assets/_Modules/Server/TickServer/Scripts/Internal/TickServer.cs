@@ -1,7 +1,6 @@
 using Unity.Plastic.Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
@@ -44,7 +43,7 @@ namespace Modules.Server.TickServer.Internal
 
 		[SerializeField] bool logTicks;
 
-		[Range(minTickRateMs, maxTickRateMs), DisableInPlayMode, SerializeField]
+		[Range(minTickRateMs, maxTickRateMs), SerializeField]
 		double tickRateMs = 1000;
 
 
