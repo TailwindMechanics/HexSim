@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 
@@ -24,11 +23,11 @@ namespace Modules.Client.GameSetup.External.Schema
 			this.hex2Coords = hex2Coords;
 		}
 
-		[FoldoutGroup("$GroupName"), SerializeField]
+		[SerializeField]
 		ActorPrefabPairSo actorPrefab;
-		[FoldoutGroup("$GroupName"), Range(0, 101), SerializeField]
+		[Range(0, 101), SerializeField]
 		int hitPoints = 10;
-		[FoldoutGroup("$GroupName"), SerializeField]
+		[SerializeField]
 		Hex2 hex2Coords;
 
 		[UsedImplicitly]

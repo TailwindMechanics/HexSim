@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using UniRx;
@@ -21,8 +20,7 @@ namespace Modules.Client.CameraControl.Internal
 		[SerializeField] Transform lookAt;
 		[SerializeField] Transform panner;
 		[SerializeField] Camera cam;
-		[InlineEditor, SerializeField]
-		CameraSettingsSo settings;
+		[SerializeField] CameraSettingsSo settings;
 
 		Quaternion initialPannerRotation;
 		Vector3 initialPannerPosition;

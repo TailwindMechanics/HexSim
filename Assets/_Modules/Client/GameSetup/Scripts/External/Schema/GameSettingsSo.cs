@@ -1,6 +1,6 @@
-using Modules.Shared.HexMap.External.Schema;
-using Sirenix.OdinInspector;
 using UnityEngine;
+
+using Modules.Shared.HexMap.External.Schema;
 
 
 namespace Modules.Client.GameSetup.External.Schema
@@ -9,11 +9,11 @@ namespace Modules.Client.GameSetup.External.Schema
 	public class GameSettingsSo : ScriptableObject
 	{
 		public GameSettingsVo Vo => settings;
-		[HideLabel, SerializeField] GameSettingsVo settings = new();
+		[SerializeField] GameSettingsVo settings = new();
 
-		[FoldoutGroup("Add groups"), SerializeField] string teamName;
-		[FoldoutGroup("Add groups"), HideLabel, SerializeField] ActorVo actorToAdd;
-		[FoldoutGroup("Add groups"), Button(ButtonSizes.Medium)]
+		[SerializeField] string teamName;
+		[SerializeField] ActorVo actorToAdd;
+
 		void AddAtCoords ()
 		{
 			var team = settings.Teams.Find(t => t.TeamName == teamName);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 
@@ -13,9 +12,9 @@ namespace Modules.Client.GameSetup.External.Schema
 		public string OwnerUsername => ownerUsername;
 		public string TeamName => teamName;
 
-		[FoldoutGroup("$TeamName"), Required, SerializeField] string teamName = "Blue";
-		[FoldoutGroup("$TeamName"), Required, SerializeField] string ownerUsername = "Username";
-		[FoldoutGroup("$TeamName"), RequiredListLength(1, 25),SerializeField]
+		[SerializeField] string teamName = "Blue";
+		[SerializeField] string ownerUsername = "Username";
+		[SerializeField]
 		List<ActorVo> actors = new();
 	}
 }

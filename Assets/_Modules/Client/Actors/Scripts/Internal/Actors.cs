@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
 using Zenject;
@@ -28,7 +27,7 @@ namespace Modules.Client.Actors.Internal
 		[SerializeField] Transform playerActorsContainer;
 		[SerializeField] Transform clickMarker;
 		[SerializeField] float lerpSmoothing = 0.1f;
-		[InlineEditor, SerializeField] ActorPrefabMappingSo prefabMap;
+		[SerializeField] ActorPrefabMappingSo prefabMap;
 
 		static readonly int baseColor = Shader.PropertyToID("_BaseColor");
 		readonly Plane xzPlane = new(Vector3.up, Vector3.zero);
@@ -124,8 +123,6 @@ namespace Modules.Client.Actors.Internal
 			var targetPos = SetMarkerPosition(worldPos.Value.ToHex2(), gameState);
 			server.SetPlayerPos(targetPos.ToHex2());
 			clickMarker.position = targetPos;
-
-			Debug.Log($"<color=yellow><b>>>> {targetPos.ToHex2().Round()}</b></color>");
 		}
 
 		void SetHitColour (Guid id, bool gotHit, Dictionary<Guid, (Transform spawned, List<Renderer> renderers)> spawnedActors)

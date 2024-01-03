@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using UniRx.Triggers;
+using UnityEngine;
 using Zenject;
 using System;
+using UniRx;
 
 using Modules.Client.MouseInput.External.Schema;
 using Modules.Client.MouseInput.Internal.Utils;
@@ -12,9 +14,9 @@ namespace Modules.Client.MouseInput.Internal
 	public class MouseInput : MonoInstaller, IMouseInput
 	{
 		public IObservable<(MouseState state, Vector3 delta, Vector3 pos)> LmbViewportState
-			=> lmbViewportState ??= MouseStateObservable.Create(0);
+			=> lmbViewportState ??= MouseStateObservable.Create(0, gameObject.OnDestroyAsObservable().Take(1));
 		public IObservable<(MouseState state, Vector3 delta, Vector3 pos)> RmbViewportState
-			=> rmbViewportState ??= MouseStateObservable.Create(1);
+			=> rmbViewportState ??= MouseStateObservable.Create(1, gameObject.OnDestroyAsObservable().Take(1));
 		public IObservable<float> WheelDelta
 			=> wheelDelta ??= MouseWheelObservable.Create();
 

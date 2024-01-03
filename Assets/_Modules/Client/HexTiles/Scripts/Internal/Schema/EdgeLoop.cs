@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 
@@ -17,19 +16,19 @@ namespace Modules.Client.HexTiles.Internal.Schema
 		public bool Reverse => reverse;
 
 
-		[FoldoutGroup("$GroupName"), SerializeField]
+		[SerializeField]
 		string label = "Untitled";
 
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
+		[Range(0f, 1f), SerializeField]
 		float innerRadius = .9f;
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
+		[Range(0f, 1f), SerializeField]
 		float outerRadius = .9f;
 
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
+		[Range(0f, 1f), SerializeField]
 		float innerHeight = 1f;
-		[FoldoutGroup("$GroupName"), Range(0f, 1f), SerializeField]
+		[Range(0f, 1f), SerializeField]
 		float outerHeight = 1f;
-		[FoldoutGroup("$GroupName"), SerializeField]
+		[SerializeField]
 		bool reverse;
 
 		[UsedImplicitly]

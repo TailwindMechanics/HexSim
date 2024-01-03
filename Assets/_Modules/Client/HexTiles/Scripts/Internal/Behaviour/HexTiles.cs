@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using System;
@@ -21,7 +20,7 @@ namespace Modules.Client.HexTiles.Internal.Behaviour
 
         [SerializeField] Material tilesMaterial;
         [SerializeField] TileMeshPresetSo preset;
-        [InlineEditor, SerializeField] HeightColorMapSo heightColorMap;
+        [SerializeField] HeightColorMapSo heightColorMap;
 
         readonly ISubject<Unit> onComplete = new Subject<Unit>();
         readonly List<MeshFilter> spawnedMeshFilters = new();
