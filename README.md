@@ -11,7 +11,7 @@
    2. [Zenject]([url](https://assetstore.unity.com/packages/tools/utilities/extenject-dependency-injection-ioc-157735)) (free)
 
 ## Summary:
-HexSim is a simple hexagon tile tick-based combat game where you control a flock of croissants by clicking and directing them en masse, while the enemy Beer Kegs attempt to kill and wipe out the Croissants. You can hit enter/return/esc, or R to restart the scene. It's rough around the edges, and there is an exploit you may discover that can add a strategic advantage. I have created a new hexagon coordinate system, Neese. The hexagon tiles are procedural, and the map structure uses Perlin noise to define the terrain height and colour.
+HexSim is a simple hexagon tile tick-based combat game where you control a flock of croissants by clicking and directing them en masse, while the enemy Beer Kegs attempt to kill and wipe out the Croissants. You can hit enter/return/esc/r to restart the scene. It's rough around the edges and there is a bug you can exploit to gain a strategic advantage. I have created a new hexagon coordinate system, Neese. The hexagon tiles are procedural, the tile map is procedural, and the map structure uses Perlin noise to define the terrain height and colour.
 
 ## License:
 This project is licensed under the MIT License. For more details, see the [LICENSE](https://github.com/TailwindMechanics/HexSim/blob/main/LICENSE) file in the repository. Feel free to clone, modify, and use it in your own projects, commercial or otherwise, with no restrictions.
