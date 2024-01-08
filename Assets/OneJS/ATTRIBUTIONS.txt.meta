@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f70bc776aa619b04ca73cbd12fd4bb69
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/ATTRIBUTIONS.txt
+  uploadId: 621675

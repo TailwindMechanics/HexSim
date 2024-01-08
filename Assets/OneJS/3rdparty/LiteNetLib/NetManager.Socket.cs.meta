@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c4641ba37b5451f4ba4d8fefbfb50d87
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/LiteNetLib/NetManager.Socket.cs
+  uploadId: 621675

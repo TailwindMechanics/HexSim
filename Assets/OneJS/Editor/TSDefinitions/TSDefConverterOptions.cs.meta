@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9af58c35d481be142a7fc1d0c9fcfdf3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Editor/TSDefinitions/TSDefConverterOptions.cs
+  uploadId: 621675

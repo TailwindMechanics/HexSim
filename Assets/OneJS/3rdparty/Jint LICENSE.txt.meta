@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0f8fbd85b58ba6147bf2a0b41cc50647
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/Jint LICENSE.txt
+  uploadId: 621675

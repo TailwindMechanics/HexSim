@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 708a47fc76a348898f4ec042ce00ab95
+timeCreated: 1650571718
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Utils/Event/EventMaster.cs
+  uploadId: 621675

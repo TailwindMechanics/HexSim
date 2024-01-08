@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 3cd07dab304d44449a17edd8c0f16511
+timeCreated: 1662011103
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/CustomStyleSheets/Structs/Dimension.cs
+  uploadId: 621675

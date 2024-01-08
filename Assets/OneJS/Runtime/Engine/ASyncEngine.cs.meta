@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: b11d12b47cd846ebaeb50472366851ad
+timeCreated: 1665263198
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Engine/ASyncEngine.cs
+  uploadId: 621675

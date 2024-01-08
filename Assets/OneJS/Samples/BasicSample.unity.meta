@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 20ffdb3334f95a342aaf64351e67e107
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Samples/BasicSample.unity
+  uploadId: 621675

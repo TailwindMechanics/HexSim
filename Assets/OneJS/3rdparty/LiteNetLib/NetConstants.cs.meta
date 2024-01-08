@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 97d24db46c435574583432ed45846beb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/LiteNetLib/NetConstants.cs
+  uploadId: 621675

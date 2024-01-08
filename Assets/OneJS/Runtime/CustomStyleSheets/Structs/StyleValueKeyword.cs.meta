@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 36045c5733bd41a68092acbb34b6f9ea
+timeCreated: 1661998766
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/CustomStyleSheets/Structs/StyleValueKeyword.cs
+  uploadId: 621675

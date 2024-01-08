@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 862558433eadb1849ba852fbd93a350d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Dom/Dom.cs
+  uploadId: 621675

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 04f554b7061c732479e9a9b89e51e7da
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/LiteNetLib/Layers/XorEncryptLayer.cs
+  uploadId: 621675

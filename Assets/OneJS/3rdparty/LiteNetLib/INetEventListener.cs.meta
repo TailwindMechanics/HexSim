@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 378174b76ca0cc5459eb74f02e98b41e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/LiteNetLib/INetEventListener.cs
+  uploadId: 621675

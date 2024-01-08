@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 59371108f929465ab40fcc71b081a689
+timeCreated: 1653884756
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Dom/IClassStrProcessor.cs
+  uploadId: 621675

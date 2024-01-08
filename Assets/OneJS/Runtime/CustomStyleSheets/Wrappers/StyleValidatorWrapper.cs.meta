@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: a139d9fbba1143deb6875e1929d61f5d
+timeCreated: 1662000791
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/CustomStyleSheets/Wrappers/StyleValidatorWrapper.cs
+  uploadId: 621675

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 330632d980204082aaa5f6b11af454df
+timeCreated: 1649713944
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Utils/AssemblyFinder.cs
+  uploadId: 621675

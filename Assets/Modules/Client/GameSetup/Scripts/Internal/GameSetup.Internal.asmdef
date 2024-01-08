@@ -1,0 +1,22 @@
+{
+    "name": "GameSetup.Internal",
+    "rootNamespace": "",
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:3f14f2e39797dee4d950a98bd4fd7b24",
+        "GUID:02a7975c7b4987249a19f5a9668811f9",
+        "GUID:dd9ae27affa0600449d042541783e173",
+        "GUID:9e54c95e2a80dc44993b6546f6f485dd",
+        "GUID:fede5dbcede32d74186ebeb0d1d4057f",
+        "GUID:0d306ecc27dc4924eb79379779eb60d6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

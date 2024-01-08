@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 9f1ba83880b94e7c84a3cb7ba6021a37
+timeCreated: 1666727455
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Extensions/TypeExts.cs
+  uploadId: 621675

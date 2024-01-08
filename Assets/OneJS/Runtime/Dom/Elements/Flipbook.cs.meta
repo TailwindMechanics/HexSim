@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 387c55a6101a46ef8fed27ea81f6c4fd
+timeCreated: 1654231205
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Dom/Elements/Flipbook.cs
+  uploadId: 621675

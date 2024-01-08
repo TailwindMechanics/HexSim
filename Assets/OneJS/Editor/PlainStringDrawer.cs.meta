@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 92f97041f003459db8fd512eebcca638
+timeCreated: 1674796625
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Editor/PlainStringDrawer.cs
+  uploadId: 621675

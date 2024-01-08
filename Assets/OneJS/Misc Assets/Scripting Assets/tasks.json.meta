@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0cc5f8952dd0eac4484aee3799380dd8
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Misc Assets/Scripting Assets/tasks.json
+  uploadId: 621675

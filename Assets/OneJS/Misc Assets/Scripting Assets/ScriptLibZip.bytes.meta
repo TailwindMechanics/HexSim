@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 46d508c959f3f5248b9f101a41b65173
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Misc Assets/Scripting Assets/ScriptLibZip.bytes
+  uploadId: 621675

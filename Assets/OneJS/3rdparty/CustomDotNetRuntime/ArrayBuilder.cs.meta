@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: f024b7421503425a83ebf4df0120f1a0
+timeCreated: 1665200328
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/CustomDotNetRuntime/ArrayBuilder.cs
+  uploadId: 621675

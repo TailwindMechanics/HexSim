@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: dcc74b2de1d546b7894564d4cccefe02
+timeCreated: 1649395050
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Runtime/Utils/TarCreator.cs
+  uploadId: 621675

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8fb257ee2d0cabc419ef93a2bbf38efa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/3rdparty/LiteNetLib/NetDebug.cs
+  uploadId: 621675

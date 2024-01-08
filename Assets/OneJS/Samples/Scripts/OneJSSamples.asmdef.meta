@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fb2daf3e4ac3e0a4c887c1aae6d9c814
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 221317
+  packageName: OneJS
+  packageVersion: 1.6.8
+  assetPath: Assets/OneJS/Samples/Scripts/OneJSSamples.asmdef
+  uploadId: 621675
