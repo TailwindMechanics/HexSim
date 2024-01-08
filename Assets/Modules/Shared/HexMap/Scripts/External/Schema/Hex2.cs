@@ -43,8 +43,8 @@ namespace Modules.Shared.HexMap.External.Schema
 		public static bool OutOfBounds(Hex2 cell, int radius)
 			=> Mathf.Abs(cell.ne) > radius || Mathf.Abs(cell.se) > radius;
 		public static bool ValidHex(Hex2 cell, int radius)
-			=> !(Math.Sign(cell.ne) != Math.Sign(cell.se)
-			     && Mathf.Abs(cell.ne) + Mathf.Abs(cell.se) > radius);
+			=> Math.Sign(cell.ne) == Math.Sign(cell.se)
+			   || Mathf.Abs(cell.ne) + Mathf.Abs(cell.se) <= radius;
 		public static Hex2 Zero => new(0, 0);
 		public static float Distance(Hex2 coord1, Hex2 coord2)
 			=> Mathf.Abs(Mathf.Sqrt(Mathf.Pow(coord1.ne - coord2.ne, 2) + Mathf.Pow(coord1.se - coord2.se, 2)));

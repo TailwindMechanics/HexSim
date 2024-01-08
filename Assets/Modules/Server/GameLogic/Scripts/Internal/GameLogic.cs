@@ -7,7 +7,6 @@ using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Server.GameLogic.External;
 
-
 namespace Modules.Server.GameLogic.Internal
 {
     [UsedImplicitly]
@@ -15,7 +14,6 @@ namespace Modules.Server.GameLogic.Internal
     {
         Hex2 playerPos;
         Guid team1Id;
-
 
         public GameState Init(List<User> users, int radius, string seed, float minWalkHeight, float amplitude, float noiseScale, int noiseOffsetX, int noiseOffsetY)
         {

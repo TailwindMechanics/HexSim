@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Some seed
-    gridRadius: 16
+    gridRadius: 8
     minWalkHeight: 0.3
     amplitude: 0.8
     noiseScale: 0.1
