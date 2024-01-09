@@ -47,15 +47,19 @@ namespace Modules.Client.Actors.Internal
 				.TakeUntilDestroy(this)
 				.Subscribe(state =>
 				{
-					if (state.Users.Count < 2)
+					if (state.Users.Count < 1)
 					{
-						Debug.LogError($"You must set at least two teams in game settings.");
+						Debug.LogError("You must set at least one team in game settings.");
 						return;
 					}
 
 					spawnedActors = SpawnTeamActors(state.Users[0].Team, state, prefabMap, playerActorsContainer);
-					var opponent = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
-					foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
+
+					if (state.Users.Count > 1)
+					{
+						var opponent = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
+						foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
+					}
 				});
 
 			server.ServerTickEnd

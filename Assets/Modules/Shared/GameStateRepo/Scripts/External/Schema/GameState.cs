@@ -72,6 +72,8 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 
 		public User GetWinner()
 		{
+			if (Users.Count < 2) return null;
+
 			var survivingUsers = Users.Where(user => user.Team.Actors.Any(actor => !actor.IsDead)).ToList();
 			return survivingUsers.Count < 2 ? survivingUsers[0] : null;
 		}

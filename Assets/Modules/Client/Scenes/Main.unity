@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd00252bc423af4bb62228b5f6fabab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logTicks: 0
+  logTicks: 1
   tickRateMs: 1000
 --- !u!4 &205605381
 Transform:
@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61c41ac46154f63b561dfc895c033f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 6eeef14104d49094f9367b372dc9717e, type: 2}
+  gameSettings: {fileID: 11400000, guid: c67a9a63c0ee61841978848731612300, type: 2}
 --- !u!1 &1269448917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,5 +1208,5 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1269448918}
   - {fileID: 1611140050}
+  - {fileID: 1269448918}
