@@ -1,8 +1,8 @@
 ﻿using Unity.Plastic.Newtonsoft.Json;
 using System;
 
+using Modules.Server.NeuroNavigation.External;
 using Modules.Shared.HexMap.External.Schema;
-
 
 namespace Modules.Shared.GameStateRepo.External.Schema
 {
@@ -18,7 +18,7 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		public Guid Id { get; }
 
 		[JsonProperty("actor_prefab_id")]
-		public string PrefabId { get; }
+		public string ActorPrefabId { get; }
 
 		[JsonProperty("health")]
 		public int Health { get; private set; }
@@ -32,9 +32,11 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 		[JsonProperty("se_coord")]
 		public double Se { get; set; }
 
-		public Actor (string prefabId, Hex2 coords, int hitPoints)
+		public NeuroPath Path { get; private set; }
+
+		public Actor (string actorPrefabId, Hex2 coords, int hitPoints)
 		{
-			PrefabId = prefabId;
+			ActorPrefabId = actorPrefabId;
 			Id = Guid.NewGuid();
 			Health = 100;
 			Ne = (float)Math.Round(coords.ne, 3);
@@ -53,6 +55,9 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 			Ne = (float)Math.Round(coords.ne, 3);
 			Se = (float)Math.Round(coords.se, 3);
 		}
+
+		public void SetPath (NeuroPath path)
+			=> Path = path;
 
 		public bool IsDead
 			=> Health < 1;

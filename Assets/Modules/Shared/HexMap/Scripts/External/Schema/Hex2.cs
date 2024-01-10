@@ -33,6 +33,18 @@ namespace Modules.Shared.HexMap.External.Schema
 			};
 		}
 
+		public static List<Vector3> GetWorldNeighbors(Vector3 worldPos)
+		{
+			var currentCoords = worldPos.ToHex2();
+			var neighbors = GetNeighbors(currentCoords);
+			var result = new List<Vector3>();
+			foreach (var neighbor in neighbors)
+			{
+				result.Add(neighbor.ToVector3());
+			}
+			return result;
+		}
+
 		public static Hex2 Random(int radius)
 		{
 			var ne = UnityEngine.Random.Range(-radius, radius + 1);

@@ -1,25 +1,22 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using System;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Server.NeuroNavigation.External;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Server.GameLogic.External;
-using Object = UnityEngine.Object;
 
 namespace Modules.Server.GameLogic.Internal
 {
     [UsedImplicitly]
     public class GameLogic : IGameLogic
     {
-        GameState lastState;
-        NeuroNav neuroNav;
+        NeuroAgent agent;
         Hex2 playerPos;
         Guid team1Id;
-        readonly List<Transform> pathMarkers = new();
 
         public GameState Init(List<User> users, int radius, string seed, float minWalkHeight, float amplitude, float noiseScale, int noiseOffsetX, int noiseOffsetY)
         {
@@ -36,10 +33,9 @@ namespace Modules.Server.GameLogic.Internal
                 users
             );
 
-            neuroNav = new NeuroNav();
             team1Id = users.First().Team.TeamId;
+            agent = new NeuroAgent();
 
-            lastState = result;
             return result;
         }
 
@@ -47,35 +43,37 @@ namespace Modules.Server.GameLogic.Internal
             => playerPos = newPos.Round();
 
         public GameState Next(GameState state)
+            => NewNext(state);
+
+        GameState NewNext(GameState state)
         {
             state.SetPlayerPos(playerPos);
 
             if (state.Users == null) return state;
 
-            lastState = state;
-
             var actor = state.Users[0].Team.Actors[0];
-
-
-            var path = neuroNav.FindPath(actor.Coords.ToVector3(), playerPos.ToVector3());
-
-            pathMarkers.ForEach(item => Object.Destroy(item.gameObject));
-            pathMarkers.Clear();
-            foreach (var points in path)
-            {
-                var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                marker.transform.position = points;
-                marker.transform.localScale = Vector3.one * 0.66f;
-                pathMarkers.Add(marker.transform);
-            }
-
-            var pathCoords = path[0].ToHex2();
-            actor.SetCoords(pathCoords);
+            actor.SetPath(agent.BuildPath(
+                actor.Coords.ToVector3(),
+                playerPos.ToVector3(),
+                Hex2.GetWorldNeighbors,
+                pos => CostAtCoords(pos, state),
+                10
+            ));
 
             return state;
         }
 
-        public GameState OldNext(GameState state)
+        List<float> CostAtCoords (Vector3 pos, GameState state)
+        {
+            var result = new List<float>();
+
+            var height = HeightAtCoords(pos.ToHex2(), state);
+            result.Add(height);
+
+            return result;
+        }
+
+        GameState OldNext(GameState state)
         {
             state.SetPlayerPos(playerPos);
 
@@ -104,6 +102,7 @@ namespace Modules.Server.GameLogic.Internal
 
             return state;
         }
+
 
         void ProcessKills (GameState state)
             => state.Users.SelectMany(user => user.Team.Actors)

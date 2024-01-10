@@ -7,6 +7,7 @@ using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.MouseInput.External.Schema;
+using Modules.Server.NeuroNavigation.External;
 using Modules.Client.SpawnerService.External;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Client.Actors.External.Schema;
@@ -25,7 +26,9 @@ namespace Modules.Client.Actors.Internal
 
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
+		[SerializeField] LineRenderer pathsPrefab;
 		[SerializeField] Transform clickMarker;
+		[SerializeField] Transform pathsParent;
 		[SerializeField] float lerpSmoothing = 0.1f;
 		[SerializeField] ActorPrefabMappingSo prefabMap;
 
@@ -64,6 +67,7 @@ namespace Modules.Client.Actors.Internal
 
 			server.ServerTickEnd
 				.TakeUntilDestroy(this)
+				.Where(winner => winner != null)
 				.SelectMany(winner => winner.Actors)
 				.Subscribe(actor =>
 				{
@@ -85,29 +89,46 @@ namespace Modules.Client.Actors.Internal
 				{
 					var (actor, state) = data;
 
-					var newPos = actor.Coords.ToVector3();
-					newPos.y = actor.Coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
-
 					if (actor.IsDead)
 					{
 						spawnedActors[actor.Id].spawned.localEulerAngles = new Vector3(0, 0, 90);
 					}
 					else
 					{
-						var currentPos = spawnedActors[actor.Id].spawned.position;
-						spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
+						var path = data.actor.Path;
+						if (path.Path.Count > 0)
+						{
+							var currentPos = spawnedActors[actor.Id].spawned.position;
+							var newPos = path.Path[0].Pos;
+							newPos.y = HeightAtCoords(actor.Coords, state);
+							spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
+						}
 					}
 				});
 
 			serverTickUpdateStream
 				.TakeUntilDestroy(this)
-				.SelectMany(tuple => tuple.state.Users.SelectMany(user => user.Team.Actors))
-				.Where(actor => spawnedActors.ContainsKey(actor.Id))
-				.Subscribe(actor =>
+				.Subscribe(tuple =>
 				{
-					actorHealths.TryAdd(actor.Id, actor.Health);
-					SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
-					actorHealths[actor.Id] = actor.Health;
+					pathsParent.DestroyAllChildren();
+
+					var state = tuple.state;
+					foreach (var actor in state.Users.SelectMany(user => user.Team.Actors))
+					{
+						actorHealths.TryAdd(actor.Id, actor.Health);
+						SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
+						actorHealths[actor.Id] = actor.Health;
+
+						var line = Instantiate(pathsPrefab);
+						var spawned = RenderPath.UseLineRenderer(
+							line,
+							actor.Path,
+							pos => HeightAtCoords(pos.ToHex2(), state),
+							0.2f
+						);
+
+						spawned.transform.parent = pathsParent;
+					}
 				});
 
 			mouseInput.LmbViewportState
@@ -118,6 +139,9 @@ namespace Modules.Client.Actors.Internal
 				.Select(tuple => (tuple.mousePos, tuple.gameState))
 				.Subscribe(tuple => OnMouseClick(tuple.mousePos, tuple.gameState, tuple.gameState.Amplitude / 2f));
 		}
+
+		float HeightAtCoords(Hex2 coords, GameState state)
+			=> coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
 
 		void OnMouseClick(Vector3 clickScreenPos, GameState gameState, float height)
 		{
@@ -163,14 +187,14 @@ namespace Modules.Client.Actors.Internal
 				var height = actor.Coords.PerlinHeight(seed, scale, amp, offset.x, offset.y);
 				spawnPos.y = height;
 
-				var prefab = map.GetPrefabById(actor.PrefabId);
+				var prefab = map.GetPrefabById(actor.ActorPrefabId);
 				if (prefab == null)
 				{
-					Debug.LogError($"<color=red><b>>>> Could not find prefab for actor: {actor.PrefabId}</b></color>");
+					Debug.LogError($"<color=red><b>>>> Could not find prefab for actor: {actor.ActorPrefabId}</b></color>");
 					return;
 				}
 
-				var spawnedName = $"{team.TeamName}_{actor.PrefabId}_{actor.Id}";
+				var spawnedName = $"{team.TeamName}_{actor.ActorPrefabId}_{actor.Id}";
 				var spawned = spawnerService.Spawn(prefab, parent, spawnPos, spawnedName);
 				var renderers = spawned.GetComponentsInChildren<Renderer>().ToList();
 				result.Add(actor.Id, (spawned.transform, renderers));

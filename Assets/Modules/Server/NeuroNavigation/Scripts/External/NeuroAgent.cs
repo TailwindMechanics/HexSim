@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 
@@ -6,165 +7,78 @@ namespace Modules.Server.NeuroNavigation.External
 {
     public class NeuroAgent
     {
-        // Pathfinding: Data structures
-        readonly Dictionary<Vector2Int, Vector2Int> cameFrom;
-        readonly Dictionary<Vector2Int, float> gScore;
-        readonly HashSet<Vector2Int> closedSet;
-        readonly List<Vector2Int> openSet;
+        // readonly List<float> weights = new() { 1.0f, 1.0f };
+        // float Perceptron(float input1, float input2)
+        // {
+        //     return input1 + input2;
+        // }
 
-        // Perceptron: Agent-specific properties
-        readonly List<float> weights;
-        readonly List<Vector2Int> edgeNormals;
+        readonly List<Vector3> closedSet = new();
+        readonly List<NeuroNode> path = new();
+        int currentCalls;
 
-        public NeuroAgent(List<float> initialWeights, List<Vector2Int> edgeNormals)
+        public NeuroPath BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtCoords, int maxRange)
         {
-            cameFrom = new Dictionary<Vector2Int, Vector2Int>();
-            gScore = new Dictionary<Vector2Int, float>();
-            closedSet = new HashSet<Vector2Int>();
-            openSet = new List<Vector2Int>();
-            weights = initialWeights;
-            this.edgeNormals = edgeNormals;
-        }
-
-        // Pathfinding: Main method to find a path using the A* algorithm
-        public List<Vector2Int> FindPath(Vector2Int startPosition, Vector2Int goalPosition, Func<Vector2Int, float[]> costsAtCoords)
-        {
-            InitializePathfinding(startPosition);
-
-            while (openSet.Count > 0)
-            {
-                var currentNode = GetLowestFScoreNode(costsAtCoords);
-                if (currentNode == goalPosition)
-                    break;
-
-                openSet.Remove(currentNode);
-                closedSet.Add(currentNode);
-
-                ProcessNeighbors(currentNode, goalPosition, costsAtCoords);
-            }
-
-            UpdateWeightsBasedOnPerformance(goalPosition);
-            return ReconstructPath(goalPosition);
-        }
-
-        // Pathfinding: Reconstructs the path from the goal position to the start
-        List<Vector2Int> ReconstructPath(Vector2Int goalPosition)
-        {
-            var path = new List<Vector2Int>();
-            var current = goalPosition;
-            while (cameFrom.ContainsKey(current))
-            {
-                path.Add(current);
-                current = cameFrom[current];
-            }
-            path.Reverse();
-            return path;
-        }
-
-        // Pathfinding: Initializes or resets pathfinding variables
-        void InitializePathfinding(Vector2Int startPosition)
-        {
-            openSet.Clear();
             closedSet.Clear();
-            cameFrom.Clear();
-            gScore.Clear();
+            currentCalls = 0;
+            path.Clear();
 
-            openSet.Add(startPosition);
-            gScore[startPosition] = 0;
+            closedSet.Add(origin);
+            ComputeNodes(origin, origin, destination, getNeighbours, costsAtCoords, maxRange);
+
+            return new NeuroPath(path);
         }
 
-        // Pathfinding: Process neighbors of the current node
-        void ProcessNeighbors(Vector2Int currentNode, Vector2Int goalPosition, Func<Vector2Int, float[]> costsAtCoords)
+        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtCoords, int maxRange)
         {
-            foreach (var neighbor in GetNeighbors(currentNode))
+            for (;;)
             {
-                if (closedSet.Contains(neighbor))
-                    continue;
+                currentCalls++;
 
-                var tentativeGScore = gScore[currentNode] + Distance(currentNode, neighbor);
-                var inputs = new List<float> { tentativeGScore, HeuristicCostEstimate(neighbor, goalPosition) };
-                inputs.AddRange(costsAtCoords(neighbor));
+                var neighbours = getNeighbours(current).Where(item => !ClosedContains(item)).ToList();
+                var result = new NeuroNode(neighbours[0], origin, destination, costsAtCoords(neighbours[0]));
 
-                var costWithInputs = CalculateNodeCost(inputs.ToArray());
-                if (!openSet.Contains(neighbor))
+                foreach (var pos in neighbours)
                 {
-                    openSet.Add(neighbor);
-                    gScore[neighbor] = float.MaxValue;
+                    var node = new NeuroNode(pos, origin, destination, costsAtCoords(pos));
+                    if (currentCalls >= maxRange)
+                    {
+                        path.Add(node);
+                        continue;
+                    }
+
+                    if (node.F < result.F)
+                    {
+                        result = node;
+                    }
+                    else if (Math.Abs(node.F - result.F) < 0.01f && node.H < result.H)
+                    {
+                        result = node;
+                    }
                 }
 
-                // Update gScore based on perceptron-calculated cost
-                if (costWithInputs < gScore[neighbor])
+                if (currentCalls >= maxRange)
                 {
-                    cameFrom[neighbor] = currentNode;
-                    gScore[neighbor] = costWithInputs;
+                    Debug.Log("<color=orange><b>>>> Max range reached</b></color>");
+                    break;
                 }
-            }
-        }
 
-        // Perceptron: Calculates the cost of a node based on inputs and weights
-        float CalculateNodeCost(float[] inputs)
-        {
-            var cost = 0f;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                cost += inputs[i] * weights[i];
-            }
+                closedSet.AddRange(neighbours);
+                path.Add(result);
 
-            return cost;
-        }
-
-        // Pathfinding: Finds the node with the lowest F score
-        Vector2Int GetLowestFScoreNode(Func<Vector2Int, float[]> costsAtCoords)
-        {
-            var lowestNode = openSet[0];
-            var lowestCost = float.MaxValue;
-
-            foreach (var node in openSet)
-            {
-                var inputs = costsAtCoords(node);
-                var cost = CalculateNodeCost(inputs);
-                if (cost < lowestCost)
+                if (VectorsAreEqual(result.Pos, destination))
                 {
-                    lowestCost = cost;
-                    lowestNode = node;
+                    Debug.Log("<color=green><b>>>> Path found</b></color>");
+                    break;
                 }
+
+                current = result.Pos;
             }
-
-            return lowestNode;
         }
 
-        // Perceptron: Updates weights based on the performance of the found path
-        void UpdateWeightsBasedOnPerformance(Vector2Int goalPosition)
-        {
-            var pathCost = gScore[goalPosition];
-            var initialEstimate = HeuristicCostEstimate(openSet[0], goalPosition);
-            var weightChange = pathCost > initialEstimate * 1.5f ? 0.1f : -0.1f;
-            AdjustAllWeights(weightChange);
-        }
-
-        // Perceptron: Adjusts all weights by a specified amount
-        void AdjustAllWeights(float amount)
-        {
-            for (var i = 0; i < weights.Count; i++)
-                weights[i] += amount;
-        }
-
-        // Pathfinding: Generates neighboring positions based on edge normals
-        IEnumerable<Vector2Int> GetNeighbors(Vector2Int node)
-        {
-            var neighbors = new List<Vector2Int>();
-            foreach (var edgeNormal in edgeNormals)
-            {
-                neighbors.Add(node + edgeNormal);
-            }
-
-            return neighbors;
-        }
-
-        // Utility methods for distance and heuristic estimation
-        float Distance(Vector2Int a, Vector2Int b)
-            => Vector2Int.Distance(a, b);
-        float HeuristicCostEstimate(Vector2Int a, Vector2Int b)
-            => Vector2Int.Distance(a, b);
+        bool VectorsAreEqual(Vector3 v1, Vector3 v2, float tolerance = 0.01f)
+            => (v1 - v2).sqrMagnitude < tolerance * tolerance;
+        bool ClosedContains (Vector3 v1)
+            => closedSet.Any(v2 => VectorsAreEqual(v1, v2));
     }
 }
