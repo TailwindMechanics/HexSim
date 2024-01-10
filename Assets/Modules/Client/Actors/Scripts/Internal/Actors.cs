@@ -7,14 +7,12 @@ using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.MouseInput.External.Schema;
-using Modules.Server.NeuroNavigation.External;
 using Modules.Client.SpawnerService.External;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Client.Actors.External.Schema;
 using Modules.Client.MouseInput.External;
 using Modules.Shared.ServerApi.External;
 using Modules.Client.Utilities.External;
-
 
 namespace Modules.Client.Actors.Internal
 {
@@ -95,14 +93,11 @@ namespace Modules.Client.Actors.Internal
 					}
 					else
 					{
-						var path = data.actor.Path;
-						if (path.Path.Count > 0)
-						{
-							var currentPos = spawnedActors[actor.Id].spawned.position;
-							var newPos = path.Path[0].Pos;
-							newPos.y = HeightAtCoords(actor.Coords, state);
-							spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
-						}
+						var newPos = actor.Coords.ToVector3();
+						newPos.y = HeightAtCoords(actor.Coords, state);
+
+						var currentPos = spawnedActors[actor.Id].spawned.position;
+						spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
 					}
 				});
 
@@ -119,15 +114,17 @@ namespace Modules.Client.Actors.Internal
 						SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
 						actorHealths[actor.Id] = actor.Health;
 
-						var line = Instantiate(pathsPrefab);
-						var spawned = RenderPath.UseLineRenderer(
-							line,
-							actor.Path,
-							pos => HeightAtCoords(pos.ToHex2(), state),
-							0.2f
-						);
+						if (actor.IsDead || actor.NavPath is not { Count: > 0 }) continue;
 
-						spawned.transform.parent = pathsParent;
+						var line = Instantiate(pathsPrefab, pathsParent, true);
+						line.name = $"Path_{actor.Coords}";
+						line.positionCount = actor.NavPath.Count;
+						for (var index = 0; index < actor.NavPath.Count; index++)
+						{
+							var pos = actor.NavPath[index];
+							pos.y = HeightAtCoords(pos.ToHex2(), state) + 0.2f;
+							line.SetPosition(index, pos);
+						}
 					}
 				});
 
@@ -166,6 +163,7 @@ namespace Modules.Client.Actors.Internal
 		{
 			var hexCoords = coords.BankersRound();
 			var clickedCoords = hexCoords.ToVector3();
+			Debug.Log($"<color=yellow><b>>>> {hexCoords}</b></color>");
 			var seed = gameState.SeedAsFloat;
 			var offset = new Vector2Int(gameState.NoiseOffsetX, gameState.NoiseOffsetY);
 			clickedCoords.y = hexCoords.PerlinHeight(seed, gameState.NoiseScale, gameState.Amplitude, offset.x, offset.y);

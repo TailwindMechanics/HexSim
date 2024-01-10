@@ -7,41 +7,41 @@ namespace Modules.Server.NeuroNavigation.External
 {
     public class NeuroAgent
     {
-        // readonly List<float> weights = new() { 1.0f, 1.0f };
-        // float Perceptron(float input1, float input2)
-        // {
-        //     return input1 + input2;
-        // }
-
         readonly List<Vector3> closedSet = new();
         readonly List<NeuroNode> path = new();
-        int currentCalls;
+        int currentSteps;
 
-        public NeuroPath BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtCoords, int maxRange)
+        public List<Vector3> BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, float> heightAtPos, int maxRange)
         {
+            if (VectorsAreEqual(origin, destination))
+            {
+                // Debug.Log("<color=orange><b>>>> Origin and destination are the same</b></color>");
+                return new List<Vector3> { origin };
+            }
+
             closedSet.Clear();
-            currentCalls = 0;
+            currentSteps = 0;
             path.Clear();
 
             closedSet.Add(origin);
-            ComputeNodes(origin, origin, destination, getNeighbours, costsAtCoords, maxRange);
+            ComputeNodes(origin, origin, destination, getNeighbours, maxRange);
 
-            return new NeuroPath(path);
+            return path.Select(node => node.Pos).ToList();
         }
 
-        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtCoords, int maxRange)
+        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, int maxRange)
         {
             for (;;)
             {
-                currentCalls++;
+                currentSteps++;
 
                 var neighbours = getNeighbours(current).Where(item => !ClosedContains(item)).ToList();
-                var result = new NeuroNode(neighbours[0], origin, destination, costsAtCoords(neighbours[0]));
+                var result = new NeuroNode(neighbours[0], origin, destination);
 
                 foreach (var pos in neighbours)
                 {
-                    var node = new NeuroNode(pos, origin, destination, costsAtCoords(pos));
-                    if (currentCalls >= maxRange)
+                    var node = new NeuroNode(pos, origin, destination);
+                    if (currentSteps >= maxRange)
                     {
                         path.Add(node);
                         continue;
@@ -57,9 +57,9 @@ namespace Modules.Server.NeuroNavigation.External
                     }
                 }
 
-                if (currentCalls >= maxRange)
+                if (currentSteps >= maxRange)
                 {
-                    Debug.Log("<color=orange><b>>>> Max range reached</b></color>");
+                    // Debug.Log("<color=orange><b>>>> Max range reached</b></color>");
                     break;
                 }
 
@@ -68,7 +68,7 @@ namespace Modules.Server.NeuroNavigation.External
 
                 if (VectorsAreEqual(result.Pos, destination))
                 {
-                    Debug.Log("<color=green><b>>>> Path found</b></color>");
+                    // Debug.Log("<color=green><b>>>> Path found</b></color>");
                     break;
                 }
 

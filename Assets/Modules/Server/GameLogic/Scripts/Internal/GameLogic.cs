@@ -43,53 +43,28 @@ namespace Modules.Server.GameLogic.Internal
             => playerPos = newPos.Round();
 
         public GameState Next(GameState state)
-            => NewNext(state);
-
-        GameState NewNext(GameState state)
         {
             state.SetPlayerPos(playerPos);
 
-            if (state.Users == null) return state;
-
-            var actor = state.Users[0].Team.Actors[0];
-            actor.SetPath(agent.BuildPath(
-                actor.Coords.ToVector3(),
-                playerPos.ToVector3(),
-                Hex2.GetWorldNeighbors,
-                pos => CostAtCoords(pos, state),
-                10
-            ));
-
-            return state;
-        }
-
-        List<float> CostAtCoords (Vector3 pos, GameState state)
-        {
-            var result = new List<float>();
-
-            var height = HeightAtCoords(pos.ToHex2(), state);
-            result.Add(height);
-
-            return result;
-        }
-
-        GameState OldNext(GameState state)
-        {
-            state.SetPlayerPos(playerPos);
-
-            if (state.Users != null)
+            var actors = state.Users.SelectMany(user => user?.Team?.Actors ?? new List<Actor>());
+            foreach (var actor in actors)
             {
-                foreach (var actor in state.Users.SelectMany(user => user?.Team?.Actors ?? new List<Actor>()))
+                if (actor == null) continue;
+                if (actor.IsDead) continue;
+
+                Hex2 newCoords;
+                if (actor.OwnedByTeamId == team1Id)
                 {
-                    if (actor == null) continue;
-                    if (actor.IsDead) continue;
-
-                    var newCoords = actor.OwnedByTeamId == team1Id
-                        ? MoveTowardsTarget(actor, playerPos, state)
-                        : MoveTowardsTarget(actor, FindClosestActor(actor, state)?.Coords ?? Hex2.Zero, state);
-
-                        actor.SetCoords(newCoords);
+                    var tuple = PathTowardsTarget(actor, playerPos, state);
+                    actor.SetNavPath(tuple.navPath);
+                    newCoords = tuple.coords;
                 }
+                else
+                {
+                    newCoords = MoveTowardsTarget(actor, FindClosestActor(actor, state)?.Coords ?? Hex2.Zero, state);
+                }
+
+                actor.SetCoords(newCoords);
             }
 
             ProcessKills(state);
@@ -102,25 +77,6 @@ namespace Modules.Server.GameLogic.Internal
 
             return state;
         }
-
-
-        void ProcessKills (GameState state)
-            => state.Users.SelectMany(user => user.Team.Actors)
-                .Where(attacker => !attacker.IsDead)
-                .Select(attacker => (attacker, victim:
-                    GetNeighbouringOpponents(attacker, state)
-                        .FirstOrDefault()))
-                .Where(tuple => tuple.victim != null)
-                .ToList().ForEach(tuple => tuple.victim
-                    .DecrementHealth(tuple.attacker.HitPoints));
-
-        List<Actor> GetNeighbouringOpponents (Actor actor, GameState state)
-            => Hex2.GetNeighbors(actor.Coords)
-                .Select(state.ActorAtCoord)
-                .Where(neighbor => neighbor != null)
-                .Where(neighbor => neighbor.OwnedByTeamId != actor.OwnedByTeamId)
-                .Where(neighbor => !neighbor.IsDead)
-                .ToList();
 
         Actor FindClosestActor(Actor currentActor, GameState state)
         {
@@ -143,6 +99,41 @@ namespace Modules.Server.GameLogic.Internal
             return closestActor;
         }
 
+        (Hex2 coords, List<Vector3> navPath) PathTowardsTarget(Actor actor, Hex2 target, GameState state)
+        {
+            var navPath = agent.BuildPath(
+                actor.Coords.ToVector3(),
+                target.ToVector3(),
+                Hex2.GetWorldNeighbors,
+                pos => HeightAtCoords(pos.ToHex2(), state),
+                100
+            );
+
+            if (navPath.Count > 0)
+            {
+                var newCoords = navPath[0].ToHex2();
+                return (newCoords, navPath);
+            }
+
+            return (actor.Coords, null);
+        }
+
+        void ProcessKills (GameState state)
+            => state.Users.SelectMany(user => user.Team.Actors)
+                .Where(attacker => !attacker.IsDead)
+                .Select(attacker => (attacker, victim:
+                    GetNeighbouringOpponents(attacker, state)
+                        .FirstOrDefault()))
+                .Where(tuple => tuple.victim != null)
+                .ToList().ForEach(tuple => tuple.victim
+                    .DecrementHealth(tuple.attacker.HitPoints));
+        List<Actor> GetNeighbouringOpponents (Actor actor, GameState state)
+            => Hex2.GetNeighbors(actor.Coords)
+                .Select(state.ActorAtCoord)
+                .Where(neighbor => neighbor != null)
+                .Where(neighbor => neighbor.OwnedByTeamId != actor.OwnedByTeamId)
+                .Where(neighbor => !neighbor.IsDead)
+                .ToList();
         Hex2 MoveTowardsTarget(Actor actor, Hex2 target, GameState state)
             => Hex2.GetNeighbors(actor.Coords)
                 .Where(neighbour => !Hex2.OutOfBounds(neighbour, state.Radius))
@@ -152,7 +143,6 @@ namespace Modules.Server.GameLogic.Internal
                         && state.ActorAtCoord(neighbour).OwnedByTeamId == actor.OwnedByTeamId))
                 .OrderBy(neighbor => Hex2.Distance(neighbor, target))
                 .FirstOrDefault();
-
         float HeightAtCoords(Hex2 coords, GameState state)
             => coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
     }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Some seed
-    gridRadius: 8
+    gridRadius: 16
     minWalkHeight: 0.3
     amplitude: 0.8
     noiseScale: 0.1
@@ -151,8 +151,43 @@ MonoBehaviour:
       - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
         hitPoints: 100
         hex2Coords:
-          ne: 5
-          se: -5
+          ne: 3
+          se: -4
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 4
+          se: -4
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 2
+          se: -6
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 1
+          se: -7
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 0
+          se: -8
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: -2
+          se: -10
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: -4
+          se: -12
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: -4
+          se: -13
   teamName: Blue
   actorToAdd:
     actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}

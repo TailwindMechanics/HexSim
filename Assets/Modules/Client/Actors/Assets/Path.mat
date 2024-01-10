@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAMODULATE_ON
+  - _COLORADDSUBDIFF_ON
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _FLIPBOOKBLENDING_OFF
@@ -98,7 +99,7 @@ Material:
     - _CameraNearFadeDistance: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorMode: 0
+    - _ColorMode: 1
     - _Cull: 2
     - _Cutoff: 0.139
     - _DetailAlbedoMapScale: 1
@@ -136,7 +137,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 0.983638, b: 0.9575472, a: 1}
-    - _BaseColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
+    - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 0.983638, b: 0.9575471, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
