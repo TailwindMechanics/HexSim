@@ -9,7 +9,6 @@ namespace Modules.Server.NeuroNavigation.External
     {
         readonly List<Vector3> closedSet = new();
         readonly List<NeuroNode> path = new();
-        int currentSteps;
 
         public List<Vector3> BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, float> heightAtPos, int maxRange)
         {
@@ -20,7 +19,6 @@ namespace Modules.Server.NeuroNavigation.External
             }
 
             closedSet.Clear();
-            currentSteps = 0;
             path.Clear();
 
             closedSet.Add(origin);
@@ -29,19 +27,17 @@ namespace Modules.Server.NeuroNavigation.External
             return path.Select(node => node.Pos).ToList();
         }
 
-        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, int maxRange)
+        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, int maxSteps)
         {
-            for (;;)
+            for (var currentStep = 0; currentStep <= maxSteps; currentStep++)
             {
-                currentSteps++;
-
                 var neighbours = getNeighbours(current).Where(item => !ClosedContains(item)).ToList();
-                var result = new NeuroNode(neighbours[0], origin, destination);
+                var result = new NeuroNode(currentStep, neighbours[0], origin, destination);
 
                 foreach (var pos in neighbours)
                 {
-                    var node = new NeuroNode(pos, origin, destination);
-                    if (currentSteps >= maxRange)
+                    var node = new NeuroNode(currentStep, pos, origin, destination);
+                    if (currentStep >= maxSteps)
                     {
                         path.Add(node);
                         continue;
@@ -57,7 +53,7 @@ namespace Modules.Server.NeuroNavigation.External
                     }
                 }
 
-                if (currentSteps >= maxRange)
+                if (currentStep >= maxSteps)
                 {
                     // Debug.Log("<color=orange><b>>>> Max range reached</b></color>");
                     break;

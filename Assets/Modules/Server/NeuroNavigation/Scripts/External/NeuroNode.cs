@@ -11,10 +11,10 @@ namespace Modules.Server.NeuroNavigation.External
 		public float H { get; }
 		public float F => G + H;
 
-		public NeuroNode(Vector3 current, Vector3 origin, Vector3 destination)
+		public NeuroNode(int currentGivenSteps, Vector3 current, Vector3 origin, Vector3 destination)
 		{
 			Pos = Round(current);
-			G = Round(Vector3.Distance(origin, current));
+			G = currentGivenSteps;
 			H = Round(Vector3.Distance(current, destination));
 		}
 
