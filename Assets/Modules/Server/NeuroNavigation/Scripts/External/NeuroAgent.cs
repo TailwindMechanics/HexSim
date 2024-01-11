@@ -9,8 +9,9 @@ namespace Modules.Server.NeuroNavigation.External
     {
         readonly List<Vector3> closedSet = new();
         readonly List<NeuroNode> path = new();
+        const float maxCostThreshold = 9f;
 
-        public List<Vector3> BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, float> heightAtPos, int maxCellSteps)
+        public List<Vector3> BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtPos, int maxCellSteps)
         {
             if (VectorsAreEqual(origin, destination))
             {
@@ -22,21 +23,44 @@ namespace Modules.Server.NeuroNavigation.External
             path.Clear();
 
             closedSet.Add(origin);
-            ComputeNodes(origin, origin, destination, getNeighbours, maxCellSteps);
+            ComputeNodes(origin, origin, destination, getNeighbours, costsAtPos, maxCellSteps);
 
-            return path.Select(node => node.Pos).ToList();
+            // Filter out nodes with a cost higher than the threshold
+            var filteredPath = path.Where(node => node.B.Sum() <= maxCostThreshold).ToList();
+
+            // Return the positions of the filtered path
+            return filteredPath.Select(node => node.Pos).ToList();
         }
 
-        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, int maxCellSteps)
+        void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtPos, int maxCellSteps)
         {
             for (var currentStep = 0; currentStep <= maxCellSteps; currentStep++)
             {
                 var neighbours = getNeighbours(current).Where(item => !ClosedContains(item)).ToList();
-                var result = new NeuroNode(currentStep, neighbours[0], origin, destination);
+                if (neighbours.Count < 1)
+                {
+                    // Debug.Log("<color=orange><b>>>> No neighbours found</b></color>");
+                    break;
+                }
+
+                var result = new NeuroNode(
+                    currentStep,
+                    neighbours[0],
+                    origin,
+                    destination,
+                    costsAtPos
+                );
 
                 foreach (var pos in neighbours)
                 {
-                    var node = new NeuroNode(currentStep, pos, origin, destination);
+                    var node = new NeuroNode(
+                        currentStep,
+                        pos,
+                        origin,
+                        destination,
+                        costsAtPos
+                    );
+
                     if (currentStep >= maxCellSteps)
                     {
                         path.Add(node);

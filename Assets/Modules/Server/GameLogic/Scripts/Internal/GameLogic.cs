@@ -105,8 +105,8 @@ namespace Modules.Server.GameLogic.Internal
                 actor.Coords.ToVector3(),
                 target.ToVector3(),
                 Hex2.GetWorldNeighbors,
-                pos => HeightAtCoords(pos.ToHex2(), state),
-                100
+                pos => CostAtPos(pos, state),
+                20
             );
 
             if (navPath.Count > 0)
@@ -118,12 +118,26 @@ namespace Modules.Server.GameLogic.Internal
             return (actor.Coords, null);
         }
 
-        List<float> CostAtCoords (Vector3 pos, GameState state)
+        List<float> CostAtPos (Vector3 pos, GameState state)
         {
             var result = new List<float>();
+            var coords = pos.ToHex2();
 
-            // Avoid out of bounds
-            
+            if (Hex2.OutOfBounds(coords, state.Radius))
+            {
+                result.Add(float.MaxValue);
+            }
+
+            var actorsAtCoord = state.ActorsAtCoord(coords);
+
+            if (actorsAtCoord.Count > 0)
+            {
+                result.Add(actorsAtCoord.All(actor => actor.IsDead) ? 1 : 10);
+            }
+            else
+            {
+                result.Add(0);
+            }
 
             return result;
         }
@@ -131,26 +145,30 @@ namespace Modules.Server.GameLogic.Internal
         void ProcessKills (GameState state)
             => state.Users.SelectMany(user => user.Team.Actors)
                 .Where(attacker => !attacker.IsDead)
-                .Select(attacker => (attacker, victim:
-                    GetNeighbouringOpponents(attacker, state)
-                        .FirstOrDefault()))
-                .Where(tuple => tuple.victim != null)
-                .ToList().ForEach(tuple => tuple.victim
-                    .DecrementHealth(tuple.attacker.HitPoints));
+                .Select(attacker => (attacker, victims: GetNeighbouringOpponents(attacker, state)))
+                .ToList().ForEach(tuple =>
+                {
+                    tuple.victims.ForEach(victim =>
+                    {
+                        victim.DecrementHealth(tuple.attacker.HitPoints);
+                    });
+                });
         List<Actor> GetNeighbouringOpponents (Actor actor, GameState state)
             => Hex2.GetNeighbors(actor.Coords)
-                .Select(state.ActorAtCoord)
-                .Where(neighbor => neighbor != null)
-                .Where(neighbor => neighbor.OwnedByTeamId != actor.OwnedByTeamId)
-                .Where(neighbor => !neighbor.IsDead)
+                .SelectMany(state.ActorsAtCoord)
+                .Where(otherActor => otherActor != null)
+                .Where(otherActor => otherActor.OwnedByTeamId != actor.OwnedByTeamId)
+                .Where(otherActor => !otherActor.IsDead)
                 .ToList();
         Hex2 MoveTowardsTarget(Actor actor, Hex2 target, GameState state)
             => Hex2.GetNeighbors(actor.Coords)
                 .Where(neighbour => !Hex2.OutOfBounds(neighbour, state.Radius))
                 .Where(neighbour => HeightAtCoords(neighbour, state) >= state.MinWalkHeight)
-                .Where(neighbour => state.ActorAtCoord(neighbour) == null
-                    || (state.ActorAtCoord(neighbour).IsDead
-                        && state.ActorAtCoord(neighbour).OwnedByTeamId == actor.OwnedByTeamId))
+                .Where(neighbour =>
+                {
+                    var actorsAtCoords =  state.ActorsAtCoord(neighbour);
+                    return actorsAtCoords.Count < 1 || actorsAtCoords.All(otherActor => otherActor.OwnedByTeamId != actor.OwnedByTeamId || otherActor.IsDead);
+                })
                 .OrderBy(neighbor => Hex2.Distance(neighbor, target))
                 .FirstOrDefault();
         float HeightAtCoords(Hex2 coords, GameState state)

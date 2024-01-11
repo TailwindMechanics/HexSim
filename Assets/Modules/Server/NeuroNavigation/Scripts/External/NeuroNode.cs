@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using System;
 
 namespace Modules.Server.NeuroNavigation.External
@@ -7,15 +9,17 @@ namespace Modules.Server.NeuroNavigation.External
 	public readonly struct NeuroNode
 	{
 		public Vector3 Pos { get; }
+		public float[] B { get; }
 		public float G { get; }
 		public float H { get; }
-		public float F => G + H;
+		public float F => G + H + B.Sum();
 
-		public NeuroNode(int currentGivenSteps, Vector3 current, Vector3 origin, Vector3 destination)
+		public NeuroNode(int currentGivenSteps, Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<float>> costsAtPos)
 		{
 			Pos = Round(current);
 			G = currentGivenSteps;
 			H = Round(Vector3.Distance(current, destination));
+			B = costsAtPos(Pos).ToArray();
 		}
 
 		static Vector3 Round(Vector3 vector, int decimalPlaces = 3)

@@ -88,9 +88,10 @@ namespace Modules.Shared.GameStateRepo.External.Schema
 
 		public void GameOver (Team team)
 			=> WinningTeamName = team.TeamName;
-		public Actor ActorAtCoord (Hex2 coord)
+		public List<Actor> ActorsAtCoord (Hex2 coord)
 			=> Users.SelectMany(user => user.Team.Actors)
-				.FirstOrDefault(actor => actor.Coords == coord);
+				.Where(actor => actor.Coords == coord)
+				.ToList();
 		public Team GetTeamById (Guid teamId)
 			=> Users.FirstOrDefault(user => user.Team.TeamId == teamId)?.Team;
 		public float SeedAsFloat
