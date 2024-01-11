@@ -118,6 +118,16 @@ namespace Modules.Server.GameLogic.Internal
             return (actor.Coords, null);
         }
 
+        List<float> CostAtCoords (Vector3 pos, GameState state)
+        {
+            var result = new List<float>();
+
+            // Avoid out of bounds
+            
+
+            return result;
+        }
+
         void ProcessKills (GameState state)
             => state.Users.SelectMany(user => user.Team.Actors)
                 .Where(attacker => !attacker.IsDead)
