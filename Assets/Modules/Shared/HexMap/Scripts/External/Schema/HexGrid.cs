@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace Modules.Shared.HexMap.External.Schema
 {
 	public class HexGrid
@@ -24,7 +23,7 @@ namespace Modules.Shared.HexMap.External.Schema
 		void AddCell(int ne, int se, int radius)
 		{
 			var newCell = new Hex2(ne, se);
-			if (!Hex2.ValidHex(newCell, radius)) return;
+			if (!Hex2.WithinRadius(newCell, radius)) return;
 			if (Cells.Contains(newCell)) return;
 
 			Cells.Add(newCell);

@@ -123,13 +123,12 @@ namespace Modules.Server.GameLogic.Internal
             var result = new List<float>();
             var coords = pos.ToHex2();
 
-            if (Hex2.OutOfBounds(coords, state.Radius))
+            if (!Hex2.WithinRadius(coords, state.Radius))
             {
                 result.Add(float.MaxValue);
             }
 
             var actorsAtCoord = state.ActorsAtCoord(coords);
-
             if (actorsAtCoord.Count > 0)
             {
                 result.Add(actorsAtCoord.All(actor => actor.IsDead) ? 1 : 10);
@@ -162,7 +161,7 @@ namespace Modules.Server.GameLogic.Internal
                 .ToList();
         Hex2 MoveTowardsTarget(Actor actor, Hex2 target, GameState state)
             => Hex2.GetNeighbors(actor.Coords)
-                .Where(neighbour => !Hex2.OutOfBounds(neighbour, state.Radius))
+                .Where(neighbour => Hex2.WithinRadius(neighbour, state.Radius))
                 .Where(neighbour => HeightAtCoords(neighbour, state) >= state.MinWalkHeight)
                 .Where(neighbour =>
                 {

@@ -52,11 +52,24 @@ namespace Modules.Shared.HexMap.External.Schema
 			return new Hex2(ne, se);
 		}
 
-		public static bool OutOfBounds(Hex2 cell, int radius)
-			=> Mathf.Abs(cell.ne) > radius || Mathf.Abs(cell.se) > radius;
-		public static bool ValidHex(Hex2 cell, int radius)
-			=> Math.Sign(cell.ne) == Math.Sign(cell.se)
-			   || Mathf.Abs(cell.ne) + Mathf.Abs(cell.se) <= radius;
+		public static bool WithinRadius (Hex2 coords, int radius)
+		{
+			if (!ValidHexGridLayout(coords, radius)) return false;
+
+			for (var ne = 0; ne <= radius; ne++)
+			{
+				for (var se = 0; se <= radius; se++)
+				{
+					if (coords == new Hex2(ne, se)) return true;
+					if (coords == new Hex2(-ne, -se)) return true;
+					if (coords == new Hex2(-ne, se)) return true;
+					if (coords == new Hex2(ne, -se)) return true;
+				}
+			}
+
+			return false;
+		}
+
 		public static Hex2 Zero => new(0, 0);
 		public static float Distance(Hex2 coord1, Hex2 coord2)
 			=> Mathf.Abs(Mathf.Sqrt(Mathf.Pow(coord1.ne - coord2.ne, 2) + Mathf.Pow(coord1.se - coord2.se, 2)));
@@ -87,6 +100,9 @@ namespace Modules.Shared.HexMap.External.Schema
 			this.se = se;
 		}
 
+		static bool ValidHexGridLayout(Hex2 cell, int radius)
+			=> Math.Sign(cell.ne) == Math.Sign(cell.se)
+			   || Mathf.Abs(cell.ne) + Mathf.Abs(cell.se) <= radius;
 		public override string ToString()
 			=> $"({ne}, {se})";
 		public static bool operator ==(Hex2 a, Hex2 b)

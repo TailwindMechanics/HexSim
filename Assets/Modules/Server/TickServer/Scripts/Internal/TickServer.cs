@@ -106,7 +106,7 @@ namespace Modules.Server.TickServer.Internal
 
 			playerPos
 				.DistinctUntilChanged()
-				.Where(pos => !Hex2.OutOfBounds(pos, state.Radius))
+				.Where(pos => Hex2.WithinRadius(pos, state.Radius))
 				.TakeUntilDestroy(this)
 				.Subscribe(gameLogic.SetPlayerPos);
 
