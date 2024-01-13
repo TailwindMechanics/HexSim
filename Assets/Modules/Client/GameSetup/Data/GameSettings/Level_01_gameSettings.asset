@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     seed: Some seed
-    gridRadius: 8
+    gridRadius: 16
     minWalkHeight: 0.3
     amplitude: 0.8
     noiseScale: 0.1
@@ -136,23 +136,23 @@ MonoBehaviour:
       - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
         hitPoints: 100
         hex2Coords:
-          ne: 3
-          se: 11
-      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
-        hitPoints: 100
-        hex2Coords:
           ne: 5
           se: 12
       - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
         hitPoints: 100
         hex2Coords:
-          ne: 7
+          ne: 1
+          se: -14
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 11
           se: 11
       - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
         hitPoints: 100
         hex2Coords:
-          ne: 5
-          se: -5
+          ne: -9
+          se: -8
   teamName: Blue
   actorToAdd:
     actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}

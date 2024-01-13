@@ -14,7 +14,6 @@ using Modules.Client.MouseInput.External;
 using Modules.Shared.ServerApi.External;
 using Modules.Client.Utilities.External;
 
-
 namespace Modules.Client.Actors.Internal
 {
 	public class Actors : MonoBehaviour
@@ -25,7 +24,9 @@ namespace Modules.Client.Actors.Internal
 
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
+		[SerializeField] LineRenderer pathsPrefab;
 		[SerializeField] Transform clickMarker;
+		[SerializeField] Transform pathsParent;
 		[SerializeField] float lerpSmoothing = 0.1f;
 		[SerializeField] ActorPrefabMappingSo prefabMap;
 
@@ -47,19 +48,24 @@ namespace Modules.Client.Actors.Internal
 				.TakeUntilDestroy(this)
 				.Subscribe(state =>
 				{
-					if (state.Users.Count < 2)
+					if (state.Users.Count < 1)
 					{
-						Debug.LogError($"You must set at least two teams in game settings.");
+						Debug.LogError("You must set at least one team in game settings.");
 						return;
 					}
 
 					spawnedActors = SpawnTeamActors(state.Users[0].Team, state, prefabMap, playerActorsContainer);
-					var opponent = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
-					foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
+
+					if (state.Users.Count > 1)
+					{
+						var opponent = SpawnTeamActors(state.Users[1].Team, state, prefabMap, opponentActorsContainer);
+						foreach (var item in opponent) spawnedActors.Add(item.Key, item.Value);
+					}
 				});
 
 			server.ServerTickEnd
 				.TakeUntilDestroy(this)
+				.Where(winner => winner != null)
 				.SelectMany(winner => winner.Actors)
 				.Subscribe(actor =>
 				{
@@ -81,15 +87,15 @@ namespace Modules.Client.Actors.Internal
 				{
 					var (actor, state) = data;
 
-					var newPos = actor.Coords.ToVector3();
-					newPos.y = actor.Coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
-
 					if (actor.IsDead)
 					{
 						spawnedActors[actor.Id].spawned.localEulerAngles = new Vector3(0, 0, 90);
 					}
 					else
 					{
+						var newPos = actor.Coords.ToVector3();
+						newPos.y = HeightAtCoords(actor.Coords, state);
+
 						var currentPos = spawnedActors[actor.Id].spawned.position;
 						spawnedActors[actor.Id].spawned.position = Vector3.Lerp(currentPos, newPos, lerpSmoothing * Time.deltaTime);
 					}
@@ -97,13 +103,29 @@ namespace Modules.Client.Actors.Internal
 
 			serverTickUpdateStream
 				.TakeUntilDestroy(this)
-				.SelectMany(tuple => tuple.state.Users.SelectMany(user => user.Team.Actors))
-				.Where(actor => spawnedActors.ContainsKey(actor.Id))
-				.Subscribe(actor =>
+				.Subscribe(tuple =>
 				{
-					actorHealths.TryAdd(actor.Id, actor.Health);
-					SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
-					actorHealths[actor.Id] = actor.Health;
+					pathsParent.DestroyAllChildren();
+
+					var state = tuple.state;
+					foreach (var actor in state.Users.SelectMany(user => user.Team.Actors))
+					{
+						actorHealths.TryAdd(actor.Id, actor.Health);
+						SetHitColour(actor.Id, !actor.IsDead && actor.Health < actorHealths[actor.Id], spawnedActors);
+						actorHealths[actor.Id] = actor.Health;
+
+						if (actor.IsDead || actor.NavPath is not { Count: > 0 }) continue;
+
+						var line = Instantiate(pathsPrefab, pathsParent, true);
+						line.name = $"Path_{actor.Coords}";
+						line.positionCount = actor.NavPath.Count;
+						for (var index = 0; index < actor.NavPath.Count; index++)
+						{
+							var pos = actor.NavPath[index];
+							pos.y = HeightAtCoords(pos.ToHex2(), state) + 0.2f;
+							line.SetPosition(index, pos);
+						}
+					}
 				});
 
 			mouseInput.LmbViewportState
@@ -114,6 +136,9 @@ namespace Modules.Client.Actors.Internal
 				.Select(tuple => (tuple.mousePos, tuple.gameState))
 				.Subscribe(tuple => OnMouseClick(tuple.mousePos, tuple.gameState, tuple.gameState.Amplitude / 2f));
 		}
+
+		float HeightAtCoords(Hex2 coords, GameState state)
+			=> coords.PerlinHeight(state.SeedAsFloat, state.NoiseScale, state.Amplitude, state.NoiseOffsetX, state.NoiseOffsetY);
 
 		void OnMouseClick(Vector3 clickScreenPos, GameState gameState, float height)
 		{
@@ -138,6 +163,7 @@ namespace Modules.Client.Actors.Internal
 		{
 			var hexCoords = coords.BankersRound();
 			var clickedCoords = hexCoords.ToVector3();
+			Debug.Log($"<color=yellow><b>>>> {hexCoords}</b></color>");
 			var seed = gameState.SeedAsFloat;
 			var offset = new Vector2Int(gameState.NoiseOffsetX, gameState.NoiseOffsetY);
 			clickedCoords.y = hexCoords.PerlinHeight(seed, gameState.NoiseScale, gameState.Amplitude, offset.x, offset.y);
@@ -159,14 +185,14 @@ namespace Modules.Client.Actors.Internal
 				var height = actor.Coords.PerlinHeight(seed, scale, amp, offset.x, offset.y);
 				spawnPos.y = height;
 
-				var prefab = map.GetPrefabById(actor.PrefabId);
+				var prefab = map.GetPrefabById(actor.ActorPrefabId);
 				if (prefab == null)
 				{
-					Debug.LogError($"<color=red><b>>>> Could not find prefab for actor: {actor.PrefabId}</b></color>");
+					Debug.LogError($"<color=red><b>>>> Could not find prefab for actor: {actor.ActorPrefabId}</b></color>");
 					return;
 				}
 
-				var spawnedName = $"{team.TeamName}_{actor.PrefabId}_{actor.Id}";
+				var spawnedName = $"{team.TeamName}_{actor.ActorPrefabId}_{actor.Id}";
 				var spawned = spawnerService.Spawn(prefab, parent, spawnPos, spawnedName);
 				var renderers = spawned.GetComponentsInChildren<Renderer>().ToList();
 				result.Add(actor.Id, (spawned.transform, renderers));

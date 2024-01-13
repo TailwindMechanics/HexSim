@@ -51,6 +51,12 @@ namespace Modules.Client.GameSetup.Internal
 		void OnFailedToStart () => Debug.LogError("GameSetup::OnFailedToStart");
 		void OnEnded (Team winner)
 		{
+			if (winner == null)
+			{
+				Debug.Log("<color=orange><b>>>> Game ended, no winner</b></color>");
+				return;
+			}
+
 			switch (winner.TeamName)
 			{
 				case "Red":

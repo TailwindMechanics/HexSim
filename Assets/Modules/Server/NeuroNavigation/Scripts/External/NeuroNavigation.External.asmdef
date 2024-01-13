@@ -1,11 +1,7 @@
 {
-    "name": "GameStateRepo.External",
+    "name": "NeuroNavigation.External",
     "rootNamespace": "",
-    "references": [
-        "GUID:9e54c95e2a80dc44993b6546f6f485dd",
-        "GUID:fede5dbcede32d74186ebeb0d1d4057f",
-        "GUID:b0e4a715f5adf9e44b4fc11e1a56df92"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

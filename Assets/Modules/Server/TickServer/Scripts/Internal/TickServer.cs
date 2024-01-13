@@ -41,10 +41,12 @@ namespace Modules.Server.TickServer.Internal
 		const float maxTickRateMs = 10000f;
 		const float minTickRateMs = 10f;
 
-		[SerializeField] bool logTicks;
-
 		[Range(minTickRateMs, maxTickRateMs), SerializeField]
 		double tickRateMs = 1000;
+
+		[Header("Debug")]
+		[SerializeField] bool logTicks;
+		[SerializeField] int maxTicks;
 
 
 		public override void InstallBindings()
@@ -104,9 +106,25 @@ namespace Modules.Server.TickServer.Internal
 
 			playerPos
 				.DistinctUntilChanged()
-				.Where(pos => !Hex2.OutOfBounds(pos, state.Radius))
+				.Where(pos => Hex2.WithinRadius(pos, state.Radius))
 				.TakeUntilDestroy(this)
 				.Subscribe(gameLogic.SetPlayerPos);
+
+			if (maxTicks > 0)
+			{
+				tickUpdate
+					.TakeUntilDestroy(this)
+					.TakeUntil(tickEnd)
+					.Subscribe(_ =>
+					{
+						maxTicks--;
+
+						if (maxTicks <= 0)
+						{
+							tickEnd.OnNext(null);
+						}
+					});
+			}
 
 			return true;
 		}
