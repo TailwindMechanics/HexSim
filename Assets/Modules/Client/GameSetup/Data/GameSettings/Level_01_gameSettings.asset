@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c303be433fa53534aa54e4cf0068dd6d, type: 3}
+  m_Name: Level_01_gameSettings
+  m_EditorClassIdentifier: 
+  settings:
+    seed: Some seed
+    gridRadius: 16
+    minWalkHeight: 0.3
+    amplitude: 0.8
+    noiseScale: 0.1
+    noiseOffsetX: 1000
+    noiseOffsetY: 2000
+    heightColorMap: {fileID: 11400000, guid: 0d71d941eff2c5e43b68b6ea2798c46c, type: 2}
+    teams:
+    - teamName: Blue
+      ownerUsername: Gordon Freeman
+      actors:
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 3
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 2
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 1
+          se: 5
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -1
+          se: 4
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -2
+          se: 4
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -3
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -4
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -5
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -6
+          se: 3
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 3
+          se: -9
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 1
+          se: -11
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 3
+          se: -10
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 1
+          se: -10
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 2
+          se: -9
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: 2
+          se: -11
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -11
+          se: 1
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -13
+          se: -1
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -11
+          se: 0
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -13
+          se: 0
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -12
+          se: 1
+      - actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+        hitPoints: 10
+        hex2Coords:
+          ne: -12
+          se: -1
+    - teamName: Red
+      ownerUsername: Ash Williams
+      actors:
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 5
+          se: 12
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 1
+          se: -14
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: 11
+          se: 11
+      - actorPrefab: {fileID: 11400000, guid: 53be0b23196d0be49b308eed40c99f4f, type: 2}
+        hitPoints: 100
+        hex2Coords:
+          ne: -9
+          se: -8
+  teamName: Blue
+  actorToAdd:
+    actorPrefab: {fileID: 11400000, guid: 51aae62018ecb1d47b4e445820b208ed, type: 2}
+    hitPoints: 10
+    hex2Coords:
+      ne: -12
+      se: 0

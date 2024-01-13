@@ -1,0 +1,16 @@
+{
+    "name": "HexTiles.External",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b1ca1f4e291bbef4e884160111f7bea8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
