@@ -5,16 +5,16 @@ using UnityEngine;
 using System;
 
 using Modules.Shared.GameStateRepo.External.Schema;
-using Modules.Server.NeuroNavigation.External;
 using Modules.Shared.HexMap.External.Schema;
 using Modules.Server.GameLogic.External;
+using Modules.Server.AStarNav.External;
 
 namespace Modules.Server.GameLogic.Internal
 {
     [UsedImplicitly]
     public class GameLogic : IGameLogic
     {
-        NeuroAgent agent;
+        AStarAgent agent;
         Hex2 playerPos;
         Guid team1Id;
 
@@ -34,7 +34,7 @@ namespace Modules.Server.GameLogic.Internal
             );
 
             team1Id = users.First().Team.TeamId;
-            agent = new NeuroAgent();
+            agent = new AStarAgent();
 
             return result;
         }

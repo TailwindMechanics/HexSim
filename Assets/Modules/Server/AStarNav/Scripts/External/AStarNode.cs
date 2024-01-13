@@ -3,10 +3,10 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace Modules.Server.NeuroNavigation.External
+namespace Modules.Server.AStarNav.External
 {
 	[Serializable]
-	public readonly struct NeuroNode
+	public readonly struct AStarNode
 	{
 		public Vector3 Pos { get; }
 		public float[] B { get; }
@@ -14,7 +14,7 @@ namespace Modules.Server.NeuroNavigation.External
 		public float H { get; }
 		public float F => G + H + B.Sum();
 
-		public NeuroNode(int currentGivenSteps, Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<float>> costsAtPos)
+		public AStarNode(int currentGivenSteps, Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<float>> costsAtPos)
 		{
 			Pos = Round(current);
 			G = currentGivenSteps;

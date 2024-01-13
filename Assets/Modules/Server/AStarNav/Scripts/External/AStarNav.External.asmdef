@@ -1,5 +1,5 @@
 {
-    "name": "NeuroNavigation.External",
+    "name": "AStarNav.External",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],

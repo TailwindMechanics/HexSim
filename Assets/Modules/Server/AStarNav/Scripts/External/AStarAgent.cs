@@ -3,12 +3,12 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace Modules.Server.NeuroNavigation.External
+namespace Modules.Server.AStarNav.External
 {
-    public class NeuroAgent
+    public class AStarAgent
     {
         readonly List<Vector3> closedSet = new();
-        readonly List<NeuroNode> path = new();
+        readonly List<AStarNode> path = new();
         const float maxCostThreshold = 9f;
 
         public List<Vector3> BuildPath(Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtPos, int maxCellSteps)
@@ -42,7 +42,7 @@ namespace Modules.Server.NeuroNavigation.External
                     break;
                 }
 
-                var result = new NeuroNode(
+                var result = new AStarNode(
                     currentStep,
                     neighbours[0],
                     origin,
@@ -52,7 +52,7 @@ namespace Modules.Server.NeuroNavigation.External
 
                 foreach (var pos in neighbours)
                 {
-                    var node = new NeuroNode(
+                    var node = new AStarNode(
                         currentStep,
                         pos,
                         origin,

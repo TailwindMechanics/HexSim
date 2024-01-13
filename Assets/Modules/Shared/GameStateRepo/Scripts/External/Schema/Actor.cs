@@ -1,9 +1,9 @@
 ﻿using Unity.Plastic.Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using Modules.Server.NeuroNavigation.External;
-using Modules.Shared.HexMap.External.Schema;
 using UnityEngine;
+using System;
+
+using Modules.Shared.HexMap.External.Schema;
 
 namespace Modules.Shared.GameStateRepo.External.Schema
 {
