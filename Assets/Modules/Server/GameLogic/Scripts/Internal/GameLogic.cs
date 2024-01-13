@@ -145,7 +145,8 @@ namespace Modules.Server.GameLogic.Internal
             => state.Users.SelectMany(user => user.Team.Actors)
                 .Where(attacker => !attacker.IsDead)
                 .Select(attacker => (attacker, victims: GetNeighbouringOpponents(attacker, state)))
-                .ToList().ForEach(tuple =>
+                .ToList()
+                .ForEach(tuple =>
                 {
                     tuple.victims.ForEach(victim =>
                     {

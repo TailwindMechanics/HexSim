@@ -25,11 +25,10 @@ namespace Modules.Server.NeuroNavigation.External
             closedSet.Add(origin);
             ComputeNodes(origin, origin, destination, getNeighbours, costsAtPos, maxCellSteps);
 
-            // Filter out nodes with a cost higher than the threshold
-            var filteredPath = path.Where(node => node.B.Sum() <= maxCostThreshold).ToList();
-
-            // Return the positions of the filtered path
-            return filteredPath.Select(node => node.Pos).ToList();
+            return path
+                .Where(node => node.B.Sum() <= maxCostThreshold)
+                .Select(node => node.Pos)
+                .ToList();
         }
 
         void ComputeNodes(Vector3 current, Vector3 origin, Vector3 destination, Func<Vector3, List<Vector3>> getNeighbours, Func<Vector3, List<float>> costsAtPos, int maxCellSteps)

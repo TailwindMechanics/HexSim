@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showLogs: 0
   shortcut1: GameSetup
-  shortcut2: 
+  shortcut2: Server
   shortcut3: 
   shortcut4: 
   shortcut5: 
