@@ -22,6 +22,7 @@ namespace Modules.Client.Actors.Internal
 		[Inject] IMouseInput mouseInput;
 		[Inject] IServerApi server;
 
+		[SerializeField] bool logClickPos;
 		[SerializeField] Transform opponentActorsContainer;
 		[SerializeField] Transform playerActorsContainer;
 		[SerializeField] LineRenderer pathsPrefab;
@@ -163,7 +164,12 @@ namespace Modules.Client.Actors.Internal
 		{
 			var hexCoords = coords.BankersRound();
 			var clickedCoords = hexCoords.ToVector3();
-			Debug.Log($"<color=yellow><b>>>> {hexCoords}</b></color>");
+
+			if (logClickPos)
+			{
+				Debug.Log($"<color=yellow><b>>>> {hexCoords}</b></color>");
+			}
+
 			var seed = gameState.SeedAsFloat;
 			var offset = new Vector2Int(gameState.NoiseOffsetX, gameState.NoiseOffsetY);
 			clickedCoords.y = hexCoords.PerlinHeight(seed, gameState.NoiseScale, gameState.Amplitude, offset.x, offset.y);
