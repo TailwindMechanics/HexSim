@@ -19,5 +19,9 @@ HexSim is a simple hexagon tile tick-based combat game where you control a flock
 - The tile map is procedural, and the map structure uses Perlin noise to define the terrain height and colour.
 - It contains an AStarNav modules for a* pathfinding.
 
+## Relevant LinkedIn articles:
+- [Blind Modules](https://www.linkedin.com/pulse/blind-modules-pattern-3-rules-sustainable-unity-seamus-dunne-rlpwe)
+- [Neese](https://www.linkedin.com/pulse/hexagon-grids-made-easy-neese-seamus-dunne-iupfe)
+
 ## License:
 This project is licensed under the MIT License. For more details, see the [LICENSE](https://github.com/TailwindMechanics/HexSim/blob/main/LICENSE) file in the repository. Feel free to clone, modify, and use it in your own projects, commercial or otherwise, with no restrictions.
