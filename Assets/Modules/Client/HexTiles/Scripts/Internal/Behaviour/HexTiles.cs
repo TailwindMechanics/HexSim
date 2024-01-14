@@ -7,9 +7,9 @@ using UniRx;
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.HexTiles.External.Schema;
 using Modules.Client.HexTiles.Internal.Schema;
-using Modules.Shared.HexMap.External.Schema;
 using Modules.Shared.ServerApi.External;
 using Modules.Client.Utilities.External;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Client.HexTiles.Internal.Behaviour

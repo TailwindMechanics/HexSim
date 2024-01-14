@@ -5,9 +5,9 @@ using UnityEngine;
 using System;
 
 using Modules.Shared.GameStateRepo.External.Schema;
-using Modules.Shared.HexMap.External.Schema;
 using Modules.Server.GameLogic.External;
-using Modules.Server.AStarNav.External;
+using Modules.Shared.Neese.AStarNav.External;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 namespace Modules.Server.GameLogic.Internal
 {

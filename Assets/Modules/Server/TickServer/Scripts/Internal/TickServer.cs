@@ -8,9 +8,9 @@ using UniRx;
 
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.GameSetup.External.Schema;
-using Modules.Shared.HexMap.External.Schema;
 using Modules.Shared.ServerApi.External;
 using Modules.Server.GameLogic.External;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Server.TickServer.Internal

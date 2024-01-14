@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 using Modules.Shared.GameStateRepo.External.Schema;
-using Modules.Shared.HexMap.External.Schema;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Server.GameLogic.External

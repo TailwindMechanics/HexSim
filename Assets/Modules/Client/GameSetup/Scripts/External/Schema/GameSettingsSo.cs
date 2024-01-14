@@ -1,6 +1,5 @@
 using UnityEngine;
-
-using Modules.Shared.HexMap.External.Schema;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Client.GameSetup.External.Schema

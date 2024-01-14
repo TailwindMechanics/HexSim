@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-
-using Modules.Shared.HexMap.External.Schema;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Shared.GameStateRepo.External.Schema

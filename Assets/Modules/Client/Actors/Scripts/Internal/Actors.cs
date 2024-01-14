@@ -8,11 +8,11 @@ using UniRx;
 using Modules.Shared.GameStateRepo.External.Schema;
 using Modules.Client.MouseInput.External.Schema;
 using Modules.Client.SpawnerService.External;
-using Modules.Shared.HexMap.External.Schema;
 using Modules.Client.Actors.External.Schema;
 using Modules.Client.MouseInput.External;
 using Modules.Shared.ServerApi.External;
 using Modules.Client.Utilities.External;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 namespace Modules.Client.Actors.Internal
 {

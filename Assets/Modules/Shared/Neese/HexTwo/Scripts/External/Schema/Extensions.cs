@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
-namespace Modules.Shared.HexMap.External.Schema
+namespace Modules.Shared.Neese.HexTwo.External.Schema
 {
 	public static class Extensions
 	{

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace Modules.Server.AStarNav.External
+namespace Modules.Shared.Neese.AStarNav.External
 {
 	[Serializable]
 	public readonly struct AStarNode

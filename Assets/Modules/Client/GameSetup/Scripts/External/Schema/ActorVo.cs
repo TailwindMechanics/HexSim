@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 
 using Modules.Client.Actors.External.Schema;
-using Modules.Shared.HexMap.External.Schema;
+using Modules.Shared.Neese.HexTwo.External.Schema;
 
 
 namespace Modules.Client.GameSetup.External.Schema

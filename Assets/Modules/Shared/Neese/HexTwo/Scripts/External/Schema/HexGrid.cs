@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Modules.Shared.HexMap.External.Schema
+namespace Modules.Shared.Neese.HexTwo.External.Schema
 {
 	public class HexGrid
 	{

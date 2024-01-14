@@ -2,8 +2,7 @@
 using UnityEngine;
 using System;
 
-
-namespace Modules.Shared.HexMap.External.Schema
+namespace Modules.Shared.Neese.HexTwo.External.Schema
 {
 	[Serializable]
 	public struct Hex2
