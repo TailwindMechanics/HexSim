@@ -17,6 +17,7 @@ HexSim is a simple hexagon tile tick-based combat game where you control a flock
 - I have created a new hexagon coordinate system, Neese. 
 - The hexagon tiles are procedural.
 - The tile map is procedural, and the map structure uses Perlin noise to define the terrain height and colour.
+- It contains an AStarNav modules for a* pathfinding.
 
 ## License:
 This project is licensed under the MIT License. For more details, see the [LICENSE](https://github.com/TailwindMechanics/HexSim/blob/main/LICENSE) file in the repository. Feel free to clone, modify, and use it in your own projects, commercial or otherwise, with no restrictions.
