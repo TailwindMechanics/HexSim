@@ -1,4 +1,4 @@
-[Modules](https://github.com/TailwindMechanics/HexSim/tree/446ac68c9af73ab1e5ac42758f669bf8f0310ef9/Assets/_Modules)
+[Modules](https://github.com/TailwindMechanics/HexSim/tree/main/Assets/Modules)
 
 # HexSim
 - Created by [Seamus Dunne]([url](https://www.linkedin.com/in/s-dunne/))
