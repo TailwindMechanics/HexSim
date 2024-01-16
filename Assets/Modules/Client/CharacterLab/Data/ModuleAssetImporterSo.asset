@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2d77dac93022e459ac3146634e8b29, type: 3}
+  m_Name: ModuleAssetImporterSo
+  m_EditorClassIdentifier: 
+  materials: []
+  textures: []
+  meshes: []
+  animators: []
+  meshRenderers: []
+  skinMeshRenderers: []
+  meshFilters: []
+  meshColliders: []
+  refresh: 0
+  root: {fileID: 4675535819488147765, guid: b3fedf5c72c98474a845e2a3b30e586a, type: 3}
+  componentsTypes:
+  - Transform
+  - Animator
+  - SkinnedMeshRenderer
+  - MeshFilter
+  - MeshRenderer
+  - MeshCollider

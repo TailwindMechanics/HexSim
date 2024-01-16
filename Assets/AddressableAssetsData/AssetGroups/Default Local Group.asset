@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c109284af9d0f6f40a2cc778f9b4760a
+  m_SerializeEntries:
+  - m_GUID: b3fedf5c72c98474a845e2a3b30e586a
+    m_Address: Assets/Modules/Client/CharacterLab/GitIgnored/Prefabs/Worker.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c314bc7d381e8d946aa62eb9a7a7514b
+    m_Address: Assets/Modules/Client/CharacterLab/GitIgnored/Prefabs/Dungeons_2_Texture_04_A.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1502e4131367a804db41b1a289ae2499, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2005f174b4d1c7942930b685268d8c81, type: 2}
+    - {fileID: 11400000, guid: 8b3aaa2aa77f1d94281278674dee7e41, type: 2}
