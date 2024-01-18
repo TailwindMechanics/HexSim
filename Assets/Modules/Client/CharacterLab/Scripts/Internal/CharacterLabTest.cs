@@ -1,8 +1,9 @@
+using UnityEngine.AddressableAssets;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Modules.Client.CharacterLab.External;
-using UnityEngine.AddressableAssets;
+using Modules.Client.AssetManager.External.Schema;
+
 
 namespace Modules.Client.CharacterLab.Internal
 {

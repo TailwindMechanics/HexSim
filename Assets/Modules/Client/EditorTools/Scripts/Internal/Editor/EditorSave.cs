@@ -5,12 +5,15 @@ using UnityEditor;
 using UnityEngine;
 
 using Modules.Client.Utilities.External;
+using UnityEngine.Events;
 
 
 namespace Modules.Client.EditorTools.Internal.Editor
 {
-	internal static class EditorSave
+	public static class EditorSave
 	{
+		public static UnityEvent OnSaved = new();
+
 		internal static void SaveAllAndClear()
 		{
 			ClearConsole();
@@ -42,6 +45,8 @@ namespace Modules.Client.EditorTools.Internal.Editor
 			SaveProject();
 
 			Debug.Log($"<color={logColor}><b>Scene and project saved. {modulesCount} modules set.</b></color>");
+
+			OnSaved.Invoke();
 		}
 
 		static void SaveScene ()	=> EditorSceneManager.SaveOpenScenes();
