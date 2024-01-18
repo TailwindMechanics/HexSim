@@ -1,6 +1,7 @@
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using System.Text;
 using UnityEngine;
@@ -15,8 +16,10 @@ namespace Modules.Client.AssetManager.External
 	[CreateAssetMenu(fileName = "new _assetManifest", menuName = "Modules/AssetManager/Manifest")]
 	public class AssetManifestSo : ScriptableObject
 	{
-		[Header("# Assets To Import")]
-		[SerializeField] List<GameObject> rootAssetsToImport = new();
+		[Header("# Settings")]
+		[TextArea(1, 1), SerializeField] string externalAssetsPath;
+		[TextArea(1, 1), SerializeField] string internalAssetsPath;
+		[SerializeField] List<GameObject> prefabsToImport = new();
 		[SerializeField] List<string> unknownComponentTypes = new();
 
 		[Header("# Asset Dependencies")]
@@ -33,20 +36,20 @@ namespace Modules.Client.AssetManager.External
 		[HideInInspector] public List<SkinnedMeshRenderer> skinMeshRenderers;
 
 		[Header("# Module Asset Folder")]
-		[TextArea(1, 1), SerializeField] string moduleAssetPath;
-		[TextArea(10, 10), SerializeField] string fileTree;
 
-		void OnEnable()
-			=> EditorSave.OnSaved.AddListener(OnSaved);
+		[TextArea(10, 20), SerializeField] string fileTree;
 
-		void OnDisable()
-			=> EditorSave.OnSaved.RemoveListener(OnSaved);
+		// void OnEnable()
+		// 	=> EditorSave.OnSaved.AddListener(OnSaved);
+		//
+		// void OnDisable()
+		// 	=> EditorSave.OnSaved.RemoveListener(OnSaved);
 
-		void OnValidate()
-			=> ImportOnChange();
+		// void OnValidate()
+		// 	=> ImportOnChange();
 
-		void OnSaved()
-			=> ImportOnChange();
+		// void OnSaved()
+		// 	=> ImportOnChange();
 
 		public void AddToAddressablesGroup(GameObject gameObject, string groupName)
 		{
@@ -74,16 +77,16 @@ namespace Modules.Client.AssetManager.External
 
 		void ImportOnChange()
 		{
-			if (string.IsNullOrWhiteSpace(moduleAssetPath)) return;
+			if (string.IsNullOrWhiteSpace(externalAssetsPath)) return;
 			if (!FileTreeHasChanged()) return;
 
-			Debug.Log("<color=white><b>>>> File tree has changed, reimporting.</b></color>");
+			Debug.Log($"<color=white><b>>>> {name}: File tree has changed, importing.</b></color>");
 			Import();
 		}
 
 		bool FileTreeHasChanged()
 		{
-			var newFileTree = GetFileTree(moduleAssetPath);
+			var newFileTree = GetFileTree(externalAssetsPath);
 			if (fileTree != newFileTree)
 			{
 				fileTree = newFileTree;
@@ -100,35 +103,40 @@ namespace Modules.Client.AssetManager.External
 			return sb.ToString();
 		}
 
+
 		void BuildFileTree(string currentPath, StringBuilder sb, int indentLevel)
 		{
-			var entries = Directory.GetFileSystemEntries(currentPath);
+			if (!Directory.Exists(currentPath))
+			{
+				Debug.Log($"<color=red><b>>>> {name}: Directory does not exist: {currentPath}</b></color>");
+				return;
+			}
 
-			for (int i = 0; i < entries.Length; i++)
+			var entries = Directory.GetFileSystemEntries(currentPath)
+				.Where(entry => !Path.GetFileName(entry).EndsWith(".meta"))
+				.ToArray();
+
+			for (var i = 0; i < entries.Length; i++)
 			{
 				var entry = entries[i];
 				var entryName = Path.GetFileName(entry);
 
-				// Ignore files with .meta extension.
-				if (entryName.EndsWith(".meta"))
+				// Create indentation for current entry
+				var indent = new StringBuilder();
+				for (var j = 0; j < indentLevel; j++)
 				{
-					continue;
+					indent.Append("│    ");
 				}
 
-				// Indent the entry based on its depth in the tree.
-				sb.Append(new string(' ', indentLevel * 4));
+				// Add branching symbol
+				indent.Append(i < entries.Length - 1 ? "├─ " : "└─ ");
 
-				if (File.Exists(entry))
+				// Append the entry name
+				sb.AppendLine($"{indent}{entryName}");
+
+				// Recursively build tree for directories
+				if (Directory.Exists(entry))
 				{
-					// It's a file.
-					sb.AppendLine($"{(i < entries.Length - 1 ? "├" : "└")} {entryName}");
-				}
-				else if (Directory.Exists(entry))
-				{
-					// It's a directory.
-					var subEntries = Directory.GetFileSystemEntries(entry);
-					sb.AppendLine($"{(subEntries.Length == 0 ? "├" : "└")} {entryName}");
-					// Recursively build the file tree for subdirectories.
 					BuildFileTree(entry, sb, indentLevel + 1);
 				}
 			}
@@ -149,14 +157,14 @@ namespace Modules.Client.AssetManager.External
 
 			unknownComponentTypes.Clear();
 
-			if (rootAssetsToImport.Count == 0)
+			if (prefabsToImport.Count == 0)
 			{
-				Debug.Log($"<color=red><b>>>> No root assets to import</b></color>");
+				Debug.Log($"<color=red><b>>>> {name}: No root assets to import</b></color>");
 				return;
 			}
 
 			var components = new List<Component>();
-			foreach (var root in rootAssetsToImport)
+			foreach (var root in prefabsToImport)
 			{
 				components.AddRange(root.GetComponentsInChildren<Component>(true));
 			}
@@ -241,7 +249,7 @@ namespace Modules.Client.AssetManager.External
 				}
 			}
 
-			Debug.Log($"<color=yellow><b>>>> Added {components.Count} components</b></color>");
+			// Debug.Log($"<color=yellow><b>>>> {name}: Added {components.Count} components</b></color>");
 		}
 
 		void UpdateUnknownTypes(Type componentType)
@@ -253,7 +261,7 @@ namespace Modules.Client.AssetManager.External
 
 			if (!unknownComponentTypes.Contains(typeName))
 			{
-				Debug.Log($"<color=orange><b>>>> Found unknown component type: {typeName}</b></color>");
+				Debug.Log($"<color=orange><b>>>> {name}: Found unknown component type: {typeName}</b></color>");
 				unknownComponentTypes.Add(typeName);
 			}
 		}

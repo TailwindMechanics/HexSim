@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SelectionShortcuts
   m_EditorClassIdentifier: 
   showLogs: 0
-  shortcut1: CharacterLab_assetManifest
+  shortcut1: DwarvenCharacters_assetManifest
   shortcut2: 
   shortcut3: 
   shortcut4: 
