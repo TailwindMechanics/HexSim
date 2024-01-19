@@ -15,7 +15,7 @@ namespace Modules.Client.AssetManager.Internal
             AddToAddressablesGroup(root, groupName);
         }
 
-        void AddToAddressablesGroup(GameObject objectToAdd, string groupName)
+        void AddToAddressablesGroup(Object objectToAdd, string groupName)
         {
             // Get the Addressables settings
             var settings = AddressableAssetSettingsDefaultObject.Settings;

@@ -2,15 +2,12 @@ using UnityEngine.AddressableAssets;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Modules.Client.AssetManager.External.Schema;
-
 
 namespace Modules.Client.CharacterLab.Internal
 {
     public class CharacterLabTest : MonoBehaviour
     {
         [SerializeField] AssetReferenceGameObject characterAssetRef;
-        [SerializeField] HashedTextureRef textureRef;
         [SerializeField] Transform parent;
 
         [SerializeField]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace Modules.Client.AssetManager.Internal.Schema
+namespace Modules.Client.AssetManager.External.Schema
 {
 	[Serializable]
 	public class SkinnedMeshRendererDependencies
