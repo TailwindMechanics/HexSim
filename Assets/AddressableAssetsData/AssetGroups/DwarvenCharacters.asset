@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DwarvenCharacters
+  m_EditorClassIdentifier: 
+  m_GroupName: DwarvenCharacters
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 16f223205a68430449fd15531191567f
+  m_SerializeEntries:
+  - m_GUID: 7aa52a8d855fdc542b7acb63cfbb3e51
+    m_Address: DwarvenWorker_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26ae233f1dcfec3419027cc91acb45e8
+    m_Address: DwarvenWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1502e4131367a804db41b1a289ae2499, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 799732c737495964cba4545a03a14e45, type: 2}
+    - {fileID: 11400000, guid: 7bdaf35c3e0dcfb4b91e6f6f9445ef53, type: 2}

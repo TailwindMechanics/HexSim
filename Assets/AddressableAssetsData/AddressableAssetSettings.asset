@@ -47,7 +47,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 9a9323b3f745e1e4a916cac4f7d8b3ac, type: 2}
   - {fileID: 11400000, guid: 3d13b16e4af7a2b419423593d66354b9, type: 2}
-  - {fileID: 11400000, guid: 0d89282cd45db374f9731dc1d15ca042, type: 2}
+  - {fileID: 11400000, guid: 0b7676d2730fe3b41a9c645c64d114fd, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -89,6 +89,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - DwarvenCharacters
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 48b6e35b76f5af84994d5e36c6ea8988, type: 2}
@@ -110,8 +111,8 @@ MonoBehaviour:
     m_RegisteredServiceTypeRefs: []
     m_PingTimeoutInMilliseconds: 5000
   m_CcdManagedData:
-    EnvironmentId: 
-    EnvironmentName: 
-    BucketId: 
-    Badge: 
+    EnvironmentId: 2a3415b7-1643-4099-858c-ddaf7fca8559
+    EnvironmentName: development
+    BucketId: 4f7b4052-d4e1-44fd-aa0d-015169d64020
+    Badge: latest
     State: 1

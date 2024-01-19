@@ -1,4 +1,5 @@
-﻿using UnityEditor.AddressableAssets.Settings.GroupSchemas;
+﻿using System.Collections.Generic;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets;
 using UnityEditor;
@@ -61,6 +62,7 @@ namespace Modules.Client.AssetManager.Editor
 
             var assetSource = ScriptableObject.CreateInstance<AssetSourceDataSo>();
             var newAssetSourcePath = $"{assetFolderPath}/{clonedObject.name}_assetSource.asset";
+
             AssetDatabase.CreateAsset(assetSource, newAssetSourcePath);
 
             AddToAddressablesGroup(assetSource, exportData.ModuleName);
@@ -106,15 +108,21 @@ namespace Modules.Client.AssetManager.Editor
             if (group == null)
             {
                 // Create a new group if it doesn't exist
-                group = settings.CreateGroup(groupName, false, false, true, null);
+                group = settings.CreateGroup(groupName,
+                    false,
+                    false,
+                    false,
+                    new List<AddressableAssetGroupSchema> {
+                        settings.DefaultGroup.Schemas[0],
+                        settings.DefaultGroup.Schemas[1]
+                    }
+                );
 
                 // Add BundledAssetGroupSchema to the group
                 var schema = group.AddSchema<BundledAssetGroupSchema>();
                 schema.BuildPath.SetVariableByName(settings, "RemoteBuildPath");
                 schema.LoadPath.SetVariableByName(settings, "RemoteLoadPath");
                 schema.BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether;
-
-                // Additional schema settings can be configured here as needed
             }
 
             // Create an AddressableAssetEntry for the GameObject
