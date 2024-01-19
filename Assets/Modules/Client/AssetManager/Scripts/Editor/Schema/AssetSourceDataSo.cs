@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Object = UnityEngine.Object;
+using System.Collections.Generic;
 using UnityEditor.Animations;
+using JetBrains.Annotations;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
 using System;
 
 namespace Modules.Client.AssetManager.Editor.Schema
@@ -9,11 +12,12 @@ namespace Modules.Client.AssetManager.Editor.Schema
 	public class AssetSourceDataSo : ScriptableObject
 	{
 		[Header("# Source Info")]
-		[SerializeField] string author;
-		[SerializeField] string packName;
-		[SerializeField] string originalName;
+		[UsedImplicitly, SerializeField] string moduleName;
+		[UsedImplicitly, SerializeField] string author;
+		[UsedImplicitly, SerializeField] string packName;
+		[UsedImplicitly, SerializeField] string originalName;
 
-		[Header("# Dependencies")]
+		[Header("# Dependencies"), UsedImplicitly]
 		public GameObject assetPrefab;
 		public List<AnimatorDependencies> animators = new();
 		public List<MeshFilterDependencies> meshFilters = new();
@@ -21,98 +25,112 @@ namespace Modules.Client.AssetManager.Editor.Schema
 		public List<SkinnedMeshRendererDependencies> skinMeshRenderers = new();
 		[SerializeField] List<string> unknownComponentTypes = new();
 
-		public void PopulateDependencies(GameObject prefab, string assetAuthor, string assetPackName, string assetOriginalName)
-		{
-			assetPrefab = prefab;
-			author = assetAuthor.Trim();
-			packName = assetPackName.Trim();
-			originalName = assetOriginalName.Trim();
+		 public void CloneDependencies(GameObject prefab, string module, string authorName, string pack, string original)
+        {
+            assetPrefab = prefab;
+            moduleName = module;
+            author = authorName.Trim();
+            packName = pack.Trim();
+            originalName = original.Trim();
 
-			animators.Clear();
-			meshFilters.Clear();
-			meshRenderers.Clear();
-			skinMeshRenderers.Clear();
-			unknownComponentTypes.Clear();
+            var modulePath = AssetDatabase.GetAssetPath(this).Replace($"{name}.asset", "");
 
-			var components = assetPrefab.GetComponentsInChildren<Component>(true);
-			foreach (var component in components)
-			{
-				var componentType = component.GetType();
-				if (componentType == typeof(Animator))
-				{
-					var animator = component as Animator;
-					if (animator != null)
-					{
-						var dependencies = new AnimatorDependencies(
-							animator,
-							animator.runtimeAnimatorController as AnimatorController,
-							animator.avatar
-						);
+            foreach (var component in prefab.GetComponentsInChildren<Component>(true))
+            {
+                switch (component)
+                {
+                    case Animator animator:
+                        CloneAnimator(animator, modulePath);
+                        break;
+                    case MeshFilter meshFilter:
+                        CloneMeshFilter(meshFilter, modulePath);
+                        break;
+                    case MeshRenderer meshRenderer:
+                        CloneMeshRenderer(meshRenderer, modulePath);
+                        break;
+                    case SkinnedMeshRenderer skinnedMeshRenderer:
+                        CloneSkinnedMeshRenderer(skinnedMeshRenderer, modulePath);
+                        break;
+                    default:
+                        AddToUnknownComponents(component.GetType());
+                        break;
+                }
+            }
+        }
 
-						animators.Add(dependencies);
-					}
-				}
-				else if (componentType == typeof(MeshFilter))
-				{
-					var meshFilter = component as MeshFilter;
-					if (meshFilter != null)
-					{
-						var dependencies = new MeshFilterDependencies(
-							meshFilter,
-							meshFilter.sharedMesh
-						);
+        T CloneAsset<T>(T original, string modulePath) where T : Object
+        {
+            if (original == null) return null;
 
-						meshFilters.Add(dependencies);
-					}
-				}
-				else if (componentType == typeof(MeshRenderer))
-				{
-					var meshRenderer = component as MeshRenderer;
-					if (meshRenderer != null)
-					{
-						var dependencies = new MeshRendererDependencies(
-							meshRenderer,
-							meshRenderer.sharedMaterials.Where(material => material != null).ToArray()
-						);
+            var newAssetPath = $"{modulePath}/{original.name}.asset";
+            if (AssetDatabase.LoadAssetAtPath<T>(newAssetPath) is { } existingAsset)
+            {
+                return existingAsset;
+            }
 
-						meshRenderers.Add(dependencies);
-					}
-				}
-				else if (componentType == typeof(SkinnedMeshRenderer))
-				{
-					var skinnedMeshRenderer = component as SkinnedMeshRenderer;
-					if (skinnedMeshRenderer != null)
-					{
-						var dependencies = new SkinnedMeshRendererDependencies(
-							skinnedMeshRenderer,
-							skinnedMeshRenderer.sharedMesh,
-							skinnedMeshRenderer.sharedMaterials.Where(material => material != null).ToArray()
-						);
+            var clonedAsset = Instantiate(original);
+            AssetDatabase.CreateAsset(clonedAsset, newAssetPath);
+            AddressableUtil.AddToAddressablesGroup(clonedAsset, moduleName);
+            return clonedAsset;
+        }
 
-						skinMeshRenderers.Add(dependencies);
-					}
-				}
-				else
-				{
-					UpdateUnknownTypes(componentType);
-				}
-			}
+        void AddToUnknownComponents(Type type)
+        {
+            var typeName = type.ToString().Replace("UnityEngine.", "");
+            if (typeName == "Transform") return;
+            if (typeName == "Modules.Client.AssetManager.External.AssetSourceData") return;
 
-			// Debug.Log($"<color=yellow><b>>>> {name}: Added {components.Count} components</b></color>");
-		}
+            if (!unknownComponentTypes.Contains(typeName))
+            {
+                unknownComponentTypes.Add(typeName);
+            }
+        }
 
-		void UpdateUnknownTypes(Type componentType)
-		{
-			if (componentType == GetType()) return;
+        void CloneAnimator(Animator animator, string modulePath)
+        {
+            var clonedController = CloneAsset(
+                animator.runtimeAnimatorController as AnimatorController,
+                modulePath
+            );
+            var clonedAvatar = CloneAsset(animator.avatar, modulePath);
 
-			var typeName = componentType.ToString().Replace("UnityEngine.", "");
-			if (typeName == "Transform") return;
+            animator.runtimeAnimatorController = clonedController;
+            animator.avatar = clonedAvatar;
 
-			if (!unknownComponentTypes.Contains(typeName))
-			{
-				Debug.Log($"<color=orange><b>>>> {name}: Found unknown component type: {typeName}</b></color>");
-				unknownComponentTypes.Add(typeName);
-			}
-		}
+            animators.Add(new AnimatorDependencies(animator, clonedController, clonedAvatar));
+        }
+
+        void CloneMeshFilter(MeshFilter meshFilter, string modulePath)
+        {
+            var clonedMesh = CloneAsset(meshFilter.sharedMesh, modulePath);
+
+            meshFilter.sharedMesh = clonedMesh;
+
+            meshFilters.Add(new MeshFilterDependencies(meshFilter, clonedMesh));
+        }
+
+        void CloneMeshRenderer(MeshRenderer meshRenderer, string modulePath)
+        {
+            var clonedMaterials = meshRenderer.sharedMaterials
+                .Select(m => CloneAsset(m, modulePath))
+                .ToArray();
+
+            meshRenderer.sharedMaterials = clonedMaterials;
+
+            meshRenderers.Add(new MeshRendererDependencies(meshRenderer, clonedMaterials));
+        }
+
+        void CloneSkinnedMeshRenderer(SkinnedMeshRenderer skinnedMeshRenderer, string modulePath)
+        {
+            var clonedMesh = CloneAsset(skinnedMeshRenderer.sharedMesh, modulePath);
+            var clonedMaterials = skinnedMeshRenderer.sharedMaterials
+                .Select(m => CloneAsset(m, modulePath))
+                .ToArray();
+
+            skinnedMeshRenderer.sharedMesh = clonedMesh;
+            skinnedMeshRenderer.sharedMaterials = clonedMaterials;
+
+            skinMeshRenderers.Add(new SkinnedMeshRendererDependencies(skinnedMeshRenderer, clonedMesh, clonedMaterials));
+        }
 	}
 }

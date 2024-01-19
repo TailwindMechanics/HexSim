@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: DwarvenCharacters
   m_Data:
     m_SerializedData: []
-  m_GUID: 16f223205a68430449fd15531191567f
+  m_GUID: b169c86b84f398b43b1f7722b08c959d
   m_SerializeEntries:
   - m_GUID: 7aa52a8d855fdc542b7acb63cfbb3e51
     m_Address: DwarvenWorker_assetSource
@@ -24,6 +24,61 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 26ae233f1dcfec3419027cc91acb45e8
     m_Address: DwarvenWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 754f5f29ff2b1be45acd7ac4bc86f049
+    m_Address: Character_BRAvatar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7435841783eee0344b2e4b80e280d27b
+    m_Address: Chr_Dwarf_Worker_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8011f412f5a0504a87728385af90426
+    m_Address: PolygonDungeonRealms_Mat_01_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a42c2b3ad98cec4b97201059628818e
+    m_Address: SM_Prop_Dwarf_Torch_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d668077547982e4189e852e517cea3c
+    m_Address: SM_Chr_Attach_FacePlate_Flip_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb682c114c3e7784491ed1a8324900ec
+    m_Address: PolygonDungeonRealms_Mat_04_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57c0a56548e005d4fa71d5a4d65d96e4
+    m_Address: SM_Chr_Attach_Dwarf_Beard_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f6e4bff8361e39409505f92f67106dc
+    m_Address: SM_Chr_Attach_Dwarf_Hair_Balding_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a20b3e33419c00f4195104e9892320f4
+    m_Address: SM_Chr_Attach_Dwarf_Beard_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 870cd0f8061e89d4e8221b3c736e8363
+    m_Address: SM_Wep_Shield_08
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b45b73224ec065428b0ae08313f3df8
+    m_Address: SM_Prop_Forge_Hammer_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

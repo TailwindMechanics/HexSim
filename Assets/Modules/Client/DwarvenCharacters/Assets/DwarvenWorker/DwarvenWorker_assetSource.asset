@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bef9d31338d4e39ace7beebdd0a7751, type: 3}
   m_Name: DwarvenWorker_assetSource
   m_EditorClassIdentifier: 
+  moduleName: 
   author: 
   packName: 
   originalName: 
