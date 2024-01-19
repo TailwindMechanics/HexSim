@@ -1,7 +1,8 @@
-﻿using Unity.Plastic.Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using System;
+
 using Modules.Shared.Neese.HexTwo.External.Schema;
 
 namespace Modules.Shared.GameStateRepo.External.Schema

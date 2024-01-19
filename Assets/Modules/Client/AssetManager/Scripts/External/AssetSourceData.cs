@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-
-using Modules.Client.AssetManager.External.Schema;
+﻿using UnityEngine.AddressableAssets;
+using UnityEngine;
 
 namespace Modules.Client.AssetManager.External
 {
 	public class AssetSourceData : MonoBehaviour
 	{
-		public void SetSourceData(AssetSourceDataReference source)
+		public void SetSourceData(AssetReference source)
 			=> sourceData = source;
-		[SerializeField] AssetSourceDataReference sourceData;
+		[SerializeField] AssetReference sourceData;
 	}
 }
