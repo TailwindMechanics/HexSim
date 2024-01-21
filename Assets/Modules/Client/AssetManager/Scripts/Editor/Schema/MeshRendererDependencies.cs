@@ -7,12 +7,12 @@ namespace Modules.Client.AssetManager.Editor.Schema
 	public class MeshRendererDependencies
 	{
 		public MeshRenderer MeshRenderer;
-		public Material[] Materials;
+		public MaterialDependencies[] MaterialDependencies;
 
-		public MeshRendererDependencies(MeshRenderer meshRenderer, Material[] materials)
+		public MeshRendererDependencies(MeshRenderer meshRenderer, MaterialDependencies[] materialDeps)
 		{
 			MeshRenderer = meshRenderer;
-			Materials = materials;
+			MaterialDependencies = materialDeps;
 		}
 	}
 }

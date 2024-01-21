@@ -58,14 +58,23 @@ namespace Modules.Client.AssetManager.Editor.Schema
             }
         }
 
-        T CloneAsset<T>(T original, string modulePath) where T : Object
+        T CloneAsset<T>(T original, string modulePath, string extensionWithDot) where T : Object
         {
             if (original == null) return null;
 
-            var newAssetPath = $"{modulePath}/{original.name}.asset";
+            var newAssetPath = $"{modulePath}/{original.name}{extensionWithDot}";
             if (AssetDatabase.LoadAssetAtPath<T>(newAssetPath) is { } existingAsset)
             {
                 return existingAsset;
+            }
+
+            if (original is Texture texture)
+            {
+                SetTextureReadable(AssetDatabase.GetAssetPath(texture));
+                AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(texture), newAssetPath);
+                var clonedTexture = AssetDatabase.LoadAssetAtPath<T>(newAssetPath);
+                AddressableUtil.AddToAddressablesGroup(clonedTexture, moduleName);
+                return clonedTexture;
             }
 
             var clonedAsset = Instantiate(original);
@@ -90,9 +99,14 @@ namespace Modules.Client.AssetManager.Editor.Schema
         {
             var clonedController = CloneAsset(
                 animator.runtimeAnimatorController as AnimatorController,
-                modulePath
+                modulePath,
+                ".controller"
             );
-            var clonedAvatar = CloneAsset(animator.avatar, modulePath);
+            var clonedAvatar = CloneAsset(
+                animator.avatar,
+                modulePath,
+                ".asset"
+            );
 
             animator.runtimeAnimatorController = clonedController;
             animator.avatar = clonedAvatar;
@@ -102,7 +116,11 @@ namespace Modules.Client.AssetManager.Editor.Schema
 
         void CloneMeshFilter(MeshFilter meshFilter, string modulePath)
         {
-            var clonedMesh = CloneAsset(meshFilter.sharedMesh, modulePath);
+            var clonedMesh = CloneAsset(
+                meshFilter.sharedMesh,
+                modulePath,
+                ".asset"
+            );
 
             meshFilter.sharedMesh = clonedMesh;
 
@@ -111,26 +129,85 @@ namespace Modules.Client.AssetManager.Editor.Schema
 
         void CloneMeshRenderer(MeshRenderer meshRenderer, string modulePath)
         {
-            var clonedMaterials = meshRenderer.sharedMaterials
-                .Select(m => CloneAsset(m, modulePath))
-                .ToArray();
+            var clonedMaterialsList = new List<Material>();
+            var materialDependenciesList = new List<MaterialDependencies>();
 
-            meshRenderer.sharedMaterials = clonedMaterials;
+            foreach (var mat in meshRenderer.sharedMaterials)
+            {
+                var clonedMaterial = CloneAsset(mat, modulePath, ".mat");
+                var maps = GetAllMaps(clonedMaterial, modulePath);
+                clonedMaterialsList.Add(clonedMaterial);
+                materialDependenciesList.Add(new MaterialDependencies(clonedMaterial, maps));
+            }
 
-            meshRenderers.Add(new MeshRendererDependencies(meshRenderer, clonedMaterials));
+            meshRenderer.sharedMaterials = clonedMaterialsList.ToArray();
+            meshRenderers.Add(new MeshRendererDependencies(meshRenderer, materialDependenciesList.ToArray()));
         }
 
         void CloneSkinnedMeshRenderer(SkinnedMeshRenderer skinnedMeshRenderer, string modulePath)
         {
-            var clonedMesh = CloneAsset(skinnedMeshRenderer.sharedMesh, modulePath);
-            var clonedMaterials = skinnedMeshRenderer.sharedMaterials
-                .Select(m => CloneAsset(m, modulePath))
-                .ToArray();
+            var clonedMesh = CloneAsset(
+                skinnedMeshRenderer.sharedMesh,
+                modulePath,
+                ".asset"
+            );
+
+            var clonedMaterialsList = new List<Material>();
+            var materialDependenciesList = new List<MaterialDependencies>();
+
+            foreach (var mat in skinnedMeshRenderer.sharedMaterials)
+            {
+                var clonedMaterial = CloneAsset(mat, modulePath, ".mat");
+                var maps = GetAllMaps(clonedMaterial, modulePath);
+                clonedMaterialsList.Add(clonedMaterial);
+                materialDependenciesList.Add(new MaterialDependencies(clonedMaterial, maps));
+            }
 
             skinnedMeshRenderer.sharedMesh = clonedMesh;
-            skinnedMeshRenderer.sharedMaterials = clonedMaterials;
+            skinnedMeshRenderer.sharedMaterials = clonedMaterialsList.ToArray();
 
-            skinMeshRenderers.Add(new SkinnedMeshRendererDependencies(skinnedMeshRenderer, clonedMesh, clonedMaterials));
+            skinMeshRenderers.Add(new SkinnedMeshRendererDependencies(skinnedMeshRenderer, clonedMesh, materialDependenciesList.ToArray()));
         }
-	}
+
+        Texture[] GetAllMaps(Material material, string modulePath)
+        {
+            var maps = new List<Texture>();
+
+            CloneAndAssignTexture(material, "_BaseMap", modulePath, maps);
+            CloneAndAssignTexture(material, "_MetallicGlossMap", modulePath, maps);
+            CloneAndAssignTexture(material, "_MainTex", modulePath, maps);
+            CloneAndAssignTexture(material, "_BumpMap", modulePath, maps);
+            CloneAndAssignTexture(material, "_OcclusionMap", modulePath, maps);
+            CloneAndAssignTexture(material, "_EmissionMap", modulePath, maps);
+
+            return maps.ToArray();
+        }
+
+        void CloneAndAssignTexture(Material material, string propertyName, string modulePath, List<Texture> maps)
+        {
+            Texture originalTexture = GetTexture(material, propertyName);
+            if (originalTexture != null)
+            {
+                Texture clonedTexture = CloneAsset(originalTexture, modulePath, ".png");
+                material.SetTexture(propertyName, clonedTexture); // Reassign the cloned texture
+                maps.Add(clonedTexture);
+            }
+        }
+
+
+
+
+        void SetTextureReadable(string assetPath)
+        {
+            var textureImporter = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+            if (textureImporter == null) return;
+
+            textureImporter.isReadable = true;
+            textureImporter.SaveAndReimport();
+        }
+
+        Texture GetTexture(Material material, string propertyName)
+            => !material.HasProperty(propertyName) ? null
+                : material.GetTexture(propertyName);
+    }
 }

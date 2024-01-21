@@ -8,13 +8,13 @@ namespace Modules.Client.AssetManager.Editor.Schema
 	{
 		public SkinnedMeshRenderer SkinnedMeshRenderer;
 		public Mesh Mesh;
-		public Material[] Materials;
+		public MaterialDependencies[] MaterialDependencies;
 
-		public SkinnedMeshRendererDependencies(SkinnedMeshRenderer skinnedMeshRenderer, Mesh mesh, Material[] materials)
+		public SkinnedMeshRendererDependencies(SkinnedMeshRenderer skinnedMeshRenderer, Mesh mesh, MaterialDependencies[] materialDeps)
 		{
 			SkinnedMeshRenderer = skinnedMeshRenderer;
 			Mesh = mesh;
-			Materials = materials;
+			MaterialDependencies = materialDeps;
 		}
 	}
 }
