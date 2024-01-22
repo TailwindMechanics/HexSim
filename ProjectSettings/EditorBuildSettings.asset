@@ -6,7 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Modules/Client/Scenes/Main.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+    path: Assets/Modules/Client/DwarvenCharacters/Scenes/CharacterLab.unity
+    guid: 36a8da98c90d0d84581218eb48c972a7
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 481114936216d3c4eb66c1d882b58c24,
+      type: 2}
   m_UseUCBPForAssetBundles: 0

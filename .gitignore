@@ -70,3 +70,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+Assets/GitIgnored/
+
+Assets/GitIgnored.meta
+
+Assets/Modules/Client/CharacterLab/GitIgnored/
+
+Assets/Modules/Client/CharacterLab/GitIgnored.meta

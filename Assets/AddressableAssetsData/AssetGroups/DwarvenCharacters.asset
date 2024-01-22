@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DwarvenCharacters
+  m_EditorClassIdentifier: 
+  m_GroupName: DwarvenCharacters
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e6ca73069974a674f97277b43af0d14f
+  m_SerializeEntries:
+  - m_GUID: 7aa52a8d855fdc542b7acb63cfbb3e51
+    m_Address: DwarvenWorker_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26ae233f1dcfec3419027cc91acb45e8
+    m_Address: DwarvenWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 754f5f29ff2b1be45acd7ac4bc86f049
+    m_Address: Character_BRAvatar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7435841783eee0344b2e4b80e280d27b
+    m_Address: Chr_Dwarf_Worker_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e57978b4d64e1f4cb79555b5366cfd7
+    m_Address: PolygonDungeonRealms_Mat_01_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9fef2d9fef21c848b81884b6aa18970
+    m_Address: Dungeons_2_Texture_01_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0dd87fb49f3ecae4c8029ce1e7538c48
+    m_Address: Dungeons_Realms_Metallic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fca511f3150f549438576cac5053ace1
+    m_Address: Dungeons_2_Texture_Normal_Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad9a200cb65620a41835d695c0a804f1
+    m_Address: Dungeons_2_Texture_Emission_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a42c2b3ad98cec4b97201059628818e
+    m_Address: SM_Prop_Dwarf_Torch_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d668077547982e4189e852e517cea3c
+    m_Address: SM_Chr_Attach_FacePlate_Flip_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c153eed1ea39cf4db5ae0726980974c
+    m_Address: PolygonDungeonRealms_Mat_04_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbb309a36eaf3d14f89ab2a1758d5a1a
+    m_Address: Dungeons_2_Texture_04_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b07b515e33079e45bfcc304ba0d78e9
+    m_Address: Dungeons_2_Texture_Emission_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57c0a56548e005d4fa71d5a4d65d96e4
+    m_Address: SM_Chr_Attach_Dwarf_Beard_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f6e4bff8361e39409505f92f67106dc
+    m_Address: SM_Chr_Attach_Dwarf_Hair_Balding_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a20b3e33419c00f4195104e9892320f4
+    m_Address: SM_Chr_Attach_Dwarf_Beard_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 870cd0f8061e89d4e8221b3c736e8363
+    m_Address: SM_Wep_Shield_08
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b45b73224ec065428b0ae08313f3df8
+    m_Address: SM_Prop_Forge_Hammer_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1502e4131367a804db41b1a289ae2499, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 799732c737495964cba4545a03a14e45, type: 2}
+    - {fileID: 11400000, guid: 7bdaf35c3e0dcfb4b91e6f6f9445ef53, type: 2}
