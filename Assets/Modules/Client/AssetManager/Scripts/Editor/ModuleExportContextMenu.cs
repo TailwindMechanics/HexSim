@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor.AddressableAssets.Settings.GroupSchemas;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEditor.AddressableAssets;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 using Modules.Client.AssetManager.Editor.Schema;
@@ -21,6 +17,11 @@ namespace Modules.Client.AssetManager.Editor
             if (string.IsNullOrWhiteSpace(exportData.ModuleName))
             {
                 Debug.Log("<color=orange><b>>>> Please set the module name before exporting.</b></color>");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(exportData.PrefabName))
+            {
+                Debug.Log("<color=orange><b>>>> Please set the prefab name before exporting.</b></color>");
                 return;
             }
             if (string.IsNullOrWhiteSpace(exportData.ModuleAssetsPath))
@@ -44,10 +45,10 @@ namespace Modules.Client.AssetManager.Editor
                 return;
             }
 
-            var assetFolderPath = $"{exportData.ModuleAssetsPath}/{exportData.name}";
+            var assetFolderPath = $"{exportData.ModuleAssetsPath}/{exportData.PrefabName}";
             if (!AssetDatabase.IsValidFolder(assetFolderPath))
             {
-                AssetDatabase.CreateFolder(exportData.ModuleAssetsPath, exportData.name);
+                AssetDatabase.CreateFolder(exportData.ModuleAssetsPath, exportData.PrefabName);
             }
 
             if (exportData.gameObject.activeSelf == false)
@@ -56,7 +57,8 @@ namespace Modules.Client.AssetManager.Editor
             }
 
             var clonedObject = Object.Instantiate(exportData.gameObject);
-            clonedObject.name = exportData.name;
+            clonedObject.transform.position = exportData.gameObject.transform.position;
+            clonedObject.name = exportData.PrefabName;
             Object.DestroyImmediate(clonedObject.GetComponent<ModuleExportData>());
             exportData.gameObject.SetActive(false);
 
@@ -67,7 +69,7 @@ namespace Modules.Client.AssetManager.Editor
 
             AddressableUtil.AddToAddressablesGroup(assetSource, exportData.ModuleName);
 
-            var prefabPath = $"{assetFolderPath}/{exportData.name}.prefab";
+            var prefabPath = $"{assetFolderPath}/{exportData.PrefabName}.prefab";
             clonedObject.AddComponent<AssetSourceData>().SetSourceData(
                 new AssetSourceDataReference(AssetDatabase.AssetPathToGUID(newAssetSourcePath))
             );
@@ -87,6 +89,8 @@ namespace Modules.Client.AssetManager.Editor
             Selection.activeGameObject = clonedObject;
 
             AssetDatabase.Refresh();
+            EditorUtility.SetDirty(assetSource);
+            AssetDatabase.SaveAssets();
         }
 
         [MenuItem("GameObject/Modules/Asset Manager/Export To Module", true)]

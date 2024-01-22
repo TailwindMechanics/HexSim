@@ -11263,7 +11263,7 @@ PrefabInstance:
     - target: {fileID: 7082149418951391331, guid: 50874ef64e4e18943ac3178668d7be0d,
         type: 3}
       propertyPath: m_Name
-      value: DwarvenWorker
+      value: WIP_DwarvenWorker
       objectReference: {fileID: 0}
     - target: {fileID: 7082149418951391331, guid: 50874ef64e4e18943ac3178668d7be0d,
         type: 3}

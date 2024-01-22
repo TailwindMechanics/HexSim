@@ -15,10 +15,15 @@ MonoBehaviour:
   m_GroupName: DwarvenCharacters
   m_Data:
     m_SerializedData: []
-  m_GUID: b169c86b84f398b43b1f7722b08c959d
+  m_GUID: e6ca73069974a674f97277b43af0d14f
   m_SerializeEntries:
-  - m_GUID: 07a573b15d81dc142b9bf28a1b6d2a59
-    m_Address: Dungeons_Realms_Metallic
+  - m_GUID: 7aa52a8d855fdc542b7acb63cfbb3e51
+    m_Address: DwarvenWorker_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26ae233f1dcfec3419027cc91acb45e8
+    m_Address: DwarvenWorker
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -27,28 +32,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4a42c2b3ad98cec4b97201059628818e
-    m_Address: SM_Prop_Dwarf_Torch_02
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7aa52a8d855fdc542b7acb63cfbb3e51
-    m_Address: DwarvenWorker_assetSource
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8afed78fffd1ce746b394558bd9ccb9d
-    m_Address: Dungeons_2_Texture_Normal_Map
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1ed2cad8c1104b943a163394ab7a254c
-    m_Address: Dungeons_2_Texture_Emission_01
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d00f4660f521f9c4d80e257f6645ebe5
-    m_Address: Dungeons_2_Texture_Emission_04
+  - m_GUID: 7435841783eee0344b2e4b80e280d27b
+    m_Address: Chr_Dwarf_Worker_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,23 +42,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a20b3e33419c00f4195104e9892320f4
-    m_Address: SM_Chr_Attach_Dwarf_Beard_06
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fd01c01cc15328c47a0b996dbf5f7a34
-    m_Address: Dungeons_2_Texture_04_A
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8c153eed1ea39cf4db5ae0726980974c
-    m_Address: PolygonDungeonRealms_Mat_04_A
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d69863baec51c6545b76274e5486a2c3
+  - m_GUID: d9fef2d9fef21c848b81884b6aa18970
     m_Address: Dungeons_2_Texture_01_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0dd87fb49f3ecae4c8029ce1e7538c48
+    m_Address: Dungeons_Realms_Metallic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fca511f3150f549438576cac5053ace1
+    m_Address: Dungeons_2_Texture_Normal_Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad9a200cb65620a41835d695c0a804f1
+    m_Address: Dungeons_2_Texture_Emission_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a42c2b3ad98cec4b97201059628818e
+    m_Address: SM_Prop_Dwarf_Torch_02
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -82,13 +72,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7435841783eee0344b2e4b80e280d27b
-    m_Address: Chr_Dwarf_Worker_01
+  - m_GUID: 8c153eed1ea39cf4db5ae0726980974c
+    m_Address: PolygonDungeonRealms_Mat_04_A
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8b45b73224ec065428b0ae08313f3df8
-    m_Address: SM_Prop_Forge_Hammer_01
+  - m_GUID: fbb309a36eaf3d14f89ab2a1758d5a1a
+    m_Address: Dungeons_2_Texture_04_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b07b515e33079e45bfcc304ba0d78e9
+    m_Address: Dungeons_2_Texture_Emission_04
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -97,18 +92,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 870cd0f8061e89d4e8221b3c736e8363
-    m_Address: SM_Wep_Shield_08
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9f6e4bff8361e39409505f92f67106dc
     m_Address: SM_Chr_Attach_Dwarf_Hair_Balding_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 26ae233f1dcfec3419027cc91acb45e8
-    m_Address: DwarvenWorker
+  - m_GUID: a20b3e33419c00f4195104e9892320f4
+    m_Address: SM_Chr_Attach_Dwarf_Beard_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 870cd0f8061e89d4e8221b3c736e8363
+    m_Address: SM_Wep_Shield_08
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b45b73224ec065428b0ae08313f3df8
+    m_Address: SM_Prop_Forge_Hammer_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
