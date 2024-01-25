@@ -26,7 +26,7 @@ namespace Modules.Client.AssetManager.Editor.Schema
 		public List<SkinnedMeshRendererDependencies> skinMeshRenderers = new();
 		[SerializeField] List<string> unknownComponentTypes = new();
 
-		public void CloneDependencies(GameObject prefab, string module, string authorName, string pack, string original)
+		public void CloneDependencies(GameObject prefab, string moduleAssetsPath, string module, string authorName, string pack, string original)
 		{
 			assetPrefab = prefab;
 			moduleName = module;
@@ -34,23 +34,23 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			packName = pack.Trim();
 			originalName = original.Trim();
 
-			var modulePath = AssetDatabase.GetAssetPath(this).Replace($"{name}.asset", "");
+			var assetPath = AssetDatabase.GetAssetPath(this).Replace($"{name}.asset", "");
 
 			foreach (var component in prefab.GetComponentsInChildren<Component>(true))
 			{
 				switch (component)
 				{
 					case Animator animator:
-						CloneAnimator(animator, modulePath);
+						CloneAnimator(animator, moduleAssetsPath, assetPath);
 						break;
 					case MeshFilter meshFilter:
-						CloneMeshFilter(meshFilter, modulePath);
+						CloneMeshFilter(meshFilter, moduleAssetsPath, assetPath);
 						break;
 					case MeshRenderer meshRenderer:
-						CloneMeshRenderer(meshRenderer, modulePath);
+						CloneMeshRenderer(meshRenderer, moduleAssetsPath, assetPath);
 						break;
 					case SkinnedMeshRenderer skinnedMeshRenderer:
-						CloneSkinnedMeshRenderer(skinnedMeshRenderer, modulePath);
+						CloneSkinnedMeshRenderer(skinnedMeshRenderer, moduleAssetsPath, assetPath);
 						break;
 					default:
 						AddToUnknownComponents(component.GetType());
@@ -59,14 +59,97 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			}
 		}
 
-		T CloneAsset<T>(T original, string modulePath, string extensionWithDot) where T : Object
+		// T CloneAsset<T>(T original, string modulePath, string extensionWithDot) where T : Object
+		// {
+		// 	if (original == null) return null;
+		//
+		// 	var newAssetPath = $"{modulePath}/{original.name}{extensionWithDot}";
+		// 	if (AssetDatabase.LoadAssetAtPath<T>(newAssetPath) is { } existingAsset)
+		// 	{
+		// 		if (newAssetPath.Contains("Shared")) return existingAsset;
+		//
+		// 		// Move the asset to the Shared folder
+		// 		var sharedFolderPath = $"{modulePath}/Shared";
+		// 		if (!AssetDatabase.IsValidFolder(sharedFolderPath))
+		// 		{
+		// 			AssetDatabase.CreateFolder(modulePath, "Shared");
+		// 		}
+		//
+		// 		var existingAssetPath = AssetDatabase.GetAssetPath(existingAsset);
+		// 		var newSharedAssetPath = $"{sharedFolderPath}/{original.name}{extensionWithDot}";
+		// 		AssetDatabase.MoveAsset(existingAssetPath, newSharedAssetPath);
+		// 		return AssetDatabase.LoadAssetAtPath<T>(newSharedAssetPath);
+		// 	}
+		//
+		// 	if (original is Texture texture)
+		// 	{
+		// 		SetTextureReadable(AssetDatabase.GetAssetPath(texture));
+		// 		AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(texture), newAssetPath);
+		// 		var clonedTexture = AssetDatabase.LoadAssetAtPath<T>(newAssetPath);
+		// 		AddressableUtil.AddToAddressablesGroup(clonedTexture, moduleName);
+		// 		return clonedTexture;
+		// 	}
+		//
+		// 	var clonedAsset = Instantiate(original);
+		// 	AssetDatabase.CreateAsset(clonedAsset, newAssetPath);
+		// 	AddressableUtil.AddToAddressablesGroup(clonedAsset, moduleName);
+		// 	return clonedAsset;
+		// }
+
+		Object FindAsset<T>(string assetName, string folder)
+		{
+			return FindAssetInFolder<T>(assetName, folder);
+		}
+
+		Object FindAssetInFolder<T>(string assetName, string folder)
+		{
+			// Search in the current folder
+			var assetGuids = AssetDatabase.FindAssets(assetName, new[] { folder });
+			foreach (var guid in assetGuids)
+			{
+				var assetPath = AssetDatabase.GUIDToAssetPath(guid);
+				var asset = AssetDatabase.LoadAssetAtPath(assetPath, typeof(T));
+				if (asset != null) return asset;
+			}
+
+			// Recursively search in subfolders
+			var subFolders = AssetDatabase.GetSubFolders(folder);
+			foreach (var subFolder in subFolders)
+			{
+				var foundAsset = FindAssetInFolder<T>(subFolder, assetName);
+				if (foundAsset != null) return foundAsset;
+			}
+
+			return null; // Asset not found
+		}
+
+		T CloneAsset<T>(T original, string moduleAssetsPath, string assetPath, string extensionWithDot) where T : Object
 		{
 			if (original == null) return null;
 
-			var newAssetPath = $"{modulePath}/{original.name}{extensionWithDot}";
-			if (AssetDatabase.LoadAssetAtPath<T>(newAssetPath) is { } existingAsset)
+			var newAssetPath = $"{assetPath}{original.name}{extensionWithDot}";
+			var foundAsset = FindAsset<T>(original.name, moduleAssetsPath);
+			if (foundAsset != null)
 			{
-				return existingAsset;
+				var foundAssetPath = AssetDatabase.GetAssetPath(foundAsset);
+				if (foundAssetPath == newAssetPath) return foundAsset as T;
+				if (foundAssetPath.Contains("Shared")) return foundAsset as T;
+
+				Debug.Log($"<color=yellow><b>>>> foundAssetPath: {foundAssetPath}, newAssetPath: {newAssetPath}</b></color>");
+
+				var sharedFolderPath = $"{moduleAssetsPath}/Shared";
+				if (!AssetDatabase.IsValidFolder(sharedFolderPath))
+				{
+					Debug.Log($"<color=yellow><b>>>> creating sharedFolderPath: {sharedFolderPath}</b></color>");
+					AssetDatabase.CreateFolder(moduleAssetsPath, "Shared");
+				}
+
+				Debug.Log($"<color=yellow><b>>>> moving foundAsset: {foundAsset}</b></color>");
+				var existingAssetPath = AssetDatabase.GetAssetPath(foundAsset);
+				var newSharedAssetPath = $"{sharedFolderPath}/{original.name}{extensionWithDot}";
+				AssetDatabase.MoveAsset(existingAssetPath, newSharedAssetPath);
+
+				return foundAsset as T;
 			}
 
 			if (original is Texture texture)
@@ -96,16 +179,18 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			}
 		}
 
-		void CloneAnimator(Animator animator, string modulePath)
+		void CloneAnimator(Animator animator, string moduleAssetsPath, string assetPath)
 		{
 			var clonedController = CloneAsset(
 				animator.runtimeAnimatorController as AnimatorController,
-				modulePath,
+				moduleAssetsPath,
+				assetPath,
 				".controller"
 			);
 			var clonedAvatar = CloneAsset(
 				animator.avatar,
-				modulePath,
+				moduleAssetsPath,
+				assetPath,
 				".asset"
 			);
 
@@ -115,11 +200,12 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			animators.Add(new AnimatorDependencies(animator, clonedController, clonedAvatar));
 		}
 
-		void CloneMeshFilter(MeshFilter meshFilter, string modulePath)
+		void CloneMeshFilter(MeshFilter meshFilter, string moduleAssetsPath, string assetPath)
 		{
 			var clonedMesh = CloneAsset(
 				meshFilter.sharedMesh,
-				modulePath,
+				moduleAssetsPath,
+				assetPath,
 				".asset"
 			);
 
@@ -128,15 +214,20 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			meshFilters.Add(new MeshFilterDependencies(meshFilter, clonedMesh));
 		}
 
-		void CloneMeshRenderer(MeshRenderer meshRenderer, string modulePath)
+		void CloneMeshRenderer(MeshRenderer meshRenderer, string moduleAssetsPath, string assetPath)
 		{
 			var clonedMaterialsList = new List<Material>();
 			var materialDependenciesList = new List<MaterialDependencies>();
 
 			foreach (var mat in meshRenderer.sharedMaterials)
 			{
-				var clonedMaterial = CloneAsset(mat, modulePath, ".mat");
-				var maps = GetAllMaps(clonedMaterial, modulePath);
+				var clonedMaterial = CloneAsset(
+					mat,
+					moduleAssetsPath,
+					assetPath,
+					".mat"
+				);
+				var maps = GetAllMaps(clonedMaterial, moduleAssetsPath, assetPath);
 				clonedMaterialsList.Add(clonedMaterial);
 				materialDependenciesList.Add(new MaterialDependencies(clonedMaterial, maps));
 			}
@@ -145,11 +236,12 @@ namespace Modules.Client.AssetManager.Editor.Schema
 			meshRenderers.Add(new MeshRendererDependencies(meshRenderer, materialDependenciesList.ToArray()));
 		}
 
-		void CloneSkinnedMeshRenderer(SkinnedMeshRenderer skinnedMeshRenderer, string modulePath)
+		void CloneSkinnedMeshRenderer(SkinnedMeshRenderer skinnedMeshRenderer, string moduleAssetsPath, string assetPath)
 		{
 			var clonedMesh = CloneAsset(
 				skinnedMeshRenderer.sharedMesh,
-				modulePath,
+				moduleAssetsPath,
+				assetPath,
 				".asset"
 			);
 
@@ -158,8 +250,13 @@ namespace Modules.Client.AssetManager.Editor.Schema
 
 			foreach (var mat in skinnedMeshRenderer.sharedMaterials)
 			{
-				var clonedMaterial = CloneAsset(mat, modulePath, ".mat");
-				var maps = GetAllMaps(clonedMaterial, modulePath);
+				var clonedMaterial = CloneAsset(
+					mat,
+					moduleAssetsPath,
+					assetPath,
+					".mat"
+				);
+				var maps = GetAllMaps(clonedMaterial, moduleAssetsPath, assetPath);
 				clonedMaterialsList.Add(clonedMaterial);
 				materialDependenciesList.Add(new MaterialDependencies(clonedMaterial, maps));
 			}
@@ -171,27 +268,32 @@ namespace Modules.Client.AssetManager.Editor.Schema
 				materialDependenciesList.ToArray()));
 		}
 
-		Texture[] GetAllMaps(Material material, string modulePath)
+		Texture[] GetAllMaps(Material material, string modulesAssetPath, string assetPath)
 		{
 			var maps = new List<Texture>();
 
-			CloneAndAssignTexture(material, "_BaseMap", modulePath, maps);
-			CloneAndAssignTexture(material, "_MetallicGlossMap", modulePath, maps);
-			CloneAndAssignTexture(material, "_MainTex", modulePath, maps);
-			CloneAndAssignTexture(material, "_BumpMap", modulePath, maps);
-			CloneAndAssignTexture(material, "_OcclusionMap", modulePath, maps);
-			CloneAndAssignTexture(material, "_EmissionMap", modulePath, maps);
+			CloneAndAssignTexture(material, "_BaseMap", modulesAssetPath, assetPath, maps);
+			CloneAndAssignTexture(material, "_MetallicGlossMap", modulesAssetPath, assetPath, maps);
+			CloneAndAssignTexture(material, "_MainTex", modulesAssetPath, assetPath, maps);
+			CloneAndAssignTexture(material, "_BumpMap", modulesAssetPath, assetPath, maps);
+			CloneAndAssignTexture(material, "_OcclusionMap", modulesAssetPath, assetPath, maps);
+			CloneAndAssignTexture(material, "_EmissionMap", modulesAssetPath, assetPath, maps);
 
 			return maps.ToArray();
 		}
 
-		void CloneAndAssignTexture(Material material, string propertyName, string modulePath, List<Texture> maps)
+		void CloneAndAssignTexture(Material material, string propertyName, string moduleAssetsPath, string assetPath, List<Texture> maps)
 		{
-			Texture originalTexture = GetTexture(material, propertyName);
+			var originalTexture = GetTexture(material, propertyName);
 			if (originalTexture != null)
 			{
-				Texture clonedTexture = CloneAsset(originalTexture, modulePath, ".png");
-				material.SetTexture(propertyName, clonedTexture); // Reassign the cloned texture
+				var clonedTexture = CloneAsset(
+					originalTexture,
+					moduleAssetsPath,
+					assetPath,
+					".png"
+				);
+				material.SetTexture(propertyName, clonedTexture);
 				maps.Add(clonedTexture);
 			}
 		}

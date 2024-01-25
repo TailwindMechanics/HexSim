@@ -66,7 +66,6 @@ namespace Modules.Client.AssetManager.Editor
             var newAssetSourcePath = $"{assetFolderPath}/{clonedObject.name}_assetSource.asset";
 
             AssetDatabase.CreateAsset(assetSource, newAssetSourcePath);
-
             AddressableUtil.AddToAddressablesGroup(assetSource, exportData.ModuleName);
 
             var prefabPath = $"{assetFolderPath}/{exportData.PrefabName}.prefab";
@@ -82,7 +81,14 @@ namespace Modules.Client.AssetManager.Editor
 
             AddressableUtil.AddToAddressablesGroup(prefab, exportData.ModuleName);
 
-            assetSource.CloneDependencies(prefab, exportData.ModuleName, exportData.AssetAuthor, exportData.AssetPackName, exportData.AssetsOriginalName);
+            assetSource.CloneDependencies(
+                prefab,
+                exportData.ModuleAssetsPath,
+                exportData.ModuleName,
+                exportData.AssetAuthor,
+                exportData.AssetPackName,
+                exportData.AssetsOriginalName
+            );
 
             Debug.Log($"<color=#00ffff><b>>>> Exported {prefab.name}.</b></color>");
 
