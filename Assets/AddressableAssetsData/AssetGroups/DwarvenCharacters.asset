@@ -117,6 +117,136 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b91fc2486fe2944caa730c57144d14f
+    m_Address: Dwarven_Worker_Hammer_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd54b6db514f5fb469b96eba4795fc5b
+    m_Address: Dwarven_Worker_Hammer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 136aa164fff872a4fa98998b8d0e2691
+    m_Address: SM_Prop_Forge_Hammer_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc8392725261cc74cb394353603e5bb1
+    m_Address: SM_Prop_Forge_Pickaxe_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88927d5dd609a1141ba6d70da93f6b07
+    m_Address: Dwarven_Miner_Pickaxe_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5a3b0a113cca7e41bb12e5cbc2cc754
+    m_Address: Dwarven_Miner_Arrow_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae1902aef6ae67e40a9ee54ad17246e2
+    m_Address: Dwarven_Miner_Arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6ef79a0c9fe2bbe4b884b25203917289
+    m_Address: SM_Arrow_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6eca6ac622f993142bd15f807aa27b2a
+    m_Address: Polygon_BowCrossbow_Mat_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 772ee38877952974aad9842e0b7867c4
+    m_Address: Polygon_BoxCrossbow_Texture_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 470d3e4d0f3417446a816226174211c0
+    m_Address: Dwarven_Miner_Sheath_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29845c51e57b3d141885dac14e3dc2ef
+    m_Address: Dwarven_Miner_Sheath
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4666e7646ccda4248a76ae9689ae0383
+    m_Address: SM_Prop_Camp_Roll_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f6483eda78812b499316329e6dfa06b
+    m_Address: Dwarven_Miner_Bow_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b089edf3cddd524482273e4565662b7
+    m_Address: Dwarven_Miner_Bow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3391d3a9818e82e46b3dfd4afa0adb94
+    m_Address: SK_Bow_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4ad4227546cf5647a36364ea3b1c6c2
+    m_Address: Dwarven_Miner_Pickaxe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6087bff31e2685e48bb7e72bae7b8b2f
+    m_Address: Dwarven_Miner_assetSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 539697f1193d3df43a617cf9f6364bdc
+    m_Address: Dwarven_Miner
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd5b57c4990bc16468fd1c83621ff7a5
+    m_Address: Chr_Dwarf_Casual_Male_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e768d115adc0e2429f048db7402a703
+    m_Address: SM_Chr_Attach_Dwarf_Helmet_Light_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 144ecde5288607b41a3e11f129d218f6
+    m_Address: SM_Chr_Attach_Dwarf_Beard_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c44af3e67072fab48b75caaa4ea5f557
+    m_Address: PolygonDungeonRealms_Mat_03_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73e8de7257b609244a2d81d2096ea83d
+    m_Address: Dungeons_2_Texture_03_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7c44fc19b89ab44e90e05fb10463279
+    m_Address: Dungeons_2_Texture_Emission_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2aaa01a2fdfa0d846b1060a013898f29
+    m_Address: SM_Chr_Attach_Dwarf_Beard_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1502e4131367a804db41b1a289ae2499, type: 2}
   m_SchemaSet:

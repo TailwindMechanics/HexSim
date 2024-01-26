@@ -89,7 +89,6 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - DwarvenCharacters
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 48b6e35b76f5af84994d5e36c6ea8988, type: 2}

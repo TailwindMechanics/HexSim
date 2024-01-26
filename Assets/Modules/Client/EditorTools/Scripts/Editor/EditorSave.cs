@@ -11,7 +11,7 @@ namespace Modules.Client.EditorTools.Editor
 {
 	public static class EditorSave
 	{
-		public static UnityEvent OnSaved = new();
+		public static UnityEvent<string> OnSaved = new();
 
 		internal static void SaveAllAndClear()
 		{
@@ -37,15 +37,12 @@ namespace Modules.Client.EditorTools.Editor
 				return;
 			}
 
-			var modulesCount = Object.FindAnyObjectByType<ModulesContext>()?.SetInstallers();
-			modulesCount ??= 0;
-
 			SaveScene();
 			SaveProject();
 
-			Debug.Log($"<color={logColor}><b>Scene and project saved. {modulesCount} modules set.</b></color>");
+			Debug.Log($"<color={logColor}><b>Scene and project saved.</b></color>");
 
-			OnSaved.Invoke();
+			OnSaved.Invoke(logColor);
 		}
 
 		static void SaveScene ()	=> EditorSceneManager.SaveOpenScenes();

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bef9d31338d4e39ace7beebdd0a7751, type: 3}
+  m_Name: Dwarven_Miner_assetSource
+  m_EditorClassIdentifier: 
+  moduleName: DwarvenCharacters
+  author: Synty Studios
+  packName: Polygon Dungeon Realms
+  originalName: Chr_BR_Dwarf_Casual_Male_01
+  assetPrefab: {fileID: 2646537715826528486, guid: 539697f1193d3df43a617cf9f6364bdc,
+    type: 3}
+  animators:
+  - Animator: {fileID: 5998713385576766048, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    Controller: {fileID: 0}
+    Avatar: {fileID: 9000000, guid: 754f5f29ff2b1be45acd7ac4bc86f049, type: 2}
+  meshFilters:
+  - MeshFilter: {fileID: 5495796262955571631, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 4e768d115adc0e2429f048db7402a703, type: 2}
+  - MeshFilter: {fileID: 837930347723176582, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 144ecde5288607b41a3e11f129d218f6, type: 2}
+  - MeshFilter: {fileID: 4944869472216537860, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 2aaa01a2fdfa0d846b1060a013898f29, type: 2}
+  meshRenderers:
+  - MeshRenderer: {fileID: 3454218725134372386, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 5e57978b4d64e1f4cb79555b5366cfd7, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 53ca7e8dcc0c552428f427a88b00c8c8, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 53ca7e8dcc0c552428f427a88b00c8c8, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: bd140b11d58d4bb41ac940feba07c970, type: 3}
+  - MeshRenderer: {fileID: 5019502335635864561, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: c44af3e67072fab48b75caaa4ea5f557, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 73e8de7257b609244a2d81d2096ea83d, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 73e8de7257b609244a2d81d2096ea83d, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: f7c44fc19b89ab44e90e05fb10463279, type: 3}
+  - MeshRenderer: {fileID: 3137882955347574389, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: c44af3e67072fab48b75caaa4ea5f557, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 73e8de7257b609244a2d81d2096ea83d, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 73e8de7257b609244a2d81d2096ea83d, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: f7c44fc19b89ab44e90e05fb10463279, type: 3}
+  skinMeshRenderers:
+  - SkinnedMeshRenderer: {fileID: 6384871165654306454, guid: 539697f1193d3df43a617cf9f6364bdc,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: bd5b57c4990bc16468fd1c83621ff7a5, type: 2}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 8c153eed1ea39cf4db5ae0726980974c, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: f8387c0b701e210448dabc0f871bc4b7, type: 3}
+    - Material: {fileID: 2100000, guid: 8c153eed1ea39cf4db5ae0726980974c, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: f8387c0b701e210448dabc0f871bc4b7, type: 3}
+  unknownComponentTypes: []

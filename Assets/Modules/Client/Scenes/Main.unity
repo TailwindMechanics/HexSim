@@ -896,7 +896,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269448918}
-  - component: {fileID: 1269448919}
+  - component: {fileID: 1269448920}
+  - component: {fileID: 1269448921}
   m_Layer: 0
   m_Name: ModulesContext
   m_TagString: Untagged
@@ -921,7 +922,7 @@ Transform:
   - {fileID: 503832641}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1269448919
+--- !u!114 &1269448920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -933,12 +934,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47690d676fdaf484fa595b27b3104545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modulesCount: 4
+--- !u!114 &1269448921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269448917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 205605382}
-  - {fileID: 205605380}
-  - {fileID: 974352090}
-  - {fileID: 548982857}
+  _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -956,7 +966,6 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
-  modulesCount: 4
 --- !u!1 &1287033668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,6 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d36931b46d799c41b7b38119c96afea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logClickPos: 0
   opponentActorsContainer: {fileID: 1287033669}
   playerActorsContainer: {fileID: 325298410}
   pathsPrefab: {fileID: 609734351114713606, guid: 6ff7b2b76dab90f49bd06facbcf33179,

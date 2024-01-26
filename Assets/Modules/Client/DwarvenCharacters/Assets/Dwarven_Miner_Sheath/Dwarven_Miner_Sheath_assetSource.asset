@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bef9d31338d4e39ace7beebdd0a7751, type: 3}
+  m_Name: Dwarven_Miner_Sheath_assetSource
+  m_EditorClassIdentifier: 
+  moduleName: DwarvenCharacters
+  author: Synty Studios
+  packName: Polygon Dungeon Realms, Polygon Bow Crossbow
+  originalName: SM_Prop_Camp_Roll_02, SM_Arrow_01
+  assetPrefab: {fileID: 4198808912348209417, guid: 29845c51e57b3d141885dac14e3dc2ef,
+    type: 3}
+  animators: []
+  meshFilters:
+  - MeshFilter: {fileID: 682751077522864799, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 4666e7646ccda4248a76ae9689ae0383, type: 2}
+  - MeshFilter: {fileID: 4151790689039291867, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 6ef79a0c9fe2bbe4b884b25203917289, type: 2}
+  - MeshFilter: {fileID: 3194447404073904695, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 6ef79a0c9fe2bbe4b884b25203917289, type: 2}
+  - MeshFilter: {fileID: 8542990754651380166, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 6ef79a0c9fe2bbe4b884b25203917289, type: 2}
+  meshRenderers:
+  - MeshRenderer: {fileID: 7899411702537133915, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 5e57978b4d64e1f4cb79555b5366cfd7, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 53ca7e8dcc0c552428f427a88b00c8c8, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 53ca7e8dcc0c552428f427a88b00c8c8, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: bd140b11d58d4bb41ac940feba07c970, type: 3}
+  - MeshRenderer: {fileID: 5727706227413289190, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 6eca6ac622f993142bd15f807aa27b2a, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+  - MeshRenderer: {fileID: 4374329039985310664, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 6eca6ac622f993142bd15f807aa27b2a, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+  - MeshRenderer: {fileID: 5013576844520022321, guid: 29845c51e57b3d141885dac14e3dc2ef,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 6eca6ac622f993142bd15f807aa27b2a, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+  skinMeshRenderers: []
+  unknownComponentTypes:
+  - MeshCollider

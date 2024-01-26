@@ -143,7 +143,7 @@ namespace Modules.Client.AssetManager.Editor.Schema
 					Debug.Log($"<color=yellow><b>>>> creating sharedFolderPath: {sharedFolderPath}</b></color>");
 					AssetDatabase.CreateFolder(moduleAssetsPath, "Shared");
 				}
-
+				
 				Debug.Log($"<color=yellow><b>>>> moving foundAsset: {foundAsset}</b></color>");
 				var existingAssetPath = AssetDatabase.GetAssetPath(foundAsset);
 				var newSharedAssetPath = $"{sharedFolderPath}/{original.name}{extensionWithDot}";

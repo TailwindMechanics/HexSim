@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bef9d31338d4e39ace7beebdd0a7751, type: 3}
+  m_Name: Dwarven_Miner_Pickaxe_assetSource
+  m_EditorClassIdentifier: 
+  moduleName: DwarvenCharacters
+  author: Synty Studios
+  packName: Polygon Dungeon Realms
+  originalName: SM_Prop_Forge_Pickaxe_02
+  assetPrefab: {fileID: 338386203387449603, guid: a4ad4227546cf5647a36364ea3b1c6c2,
+    type: 3}
+  animators: []
+  meshFilters:
+  - MeshFilter: {fileID: 868690143233772907, guid: a4ad4227546cf5647a36364ea3b1c6c2,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: bc8392725261cc74cb394353603e5bb1, type: 2}
+  meshRenderers:
+  - MeshRenderer: {fileID: 3854236234721024007, guid: a4ad4227546cf5647a36364ea3b1c6c2,
+      type: 3}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 8c153eed1ea39cf4db5ae0726980974c, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: 0b7c6c9a4a5219c4d802626da0260137, type: 3}
+      - {fileID: 2800000, guid: 4aeae967fced2944b942ad999e39a9e2, type: 3}
+      - {fileID: 2800000, guid: d8a1586bd6f749c47b36117204682a17, type: 3}
+      - {fileID: 2800000, guid: f8387c0b701e210448dabc0f871bc4b7, type: 3}
+  skinMeshRenderers: []
+  unknownComponentTypes:
+  - BoxCollider

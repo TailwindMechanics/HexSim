@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bef9d31338d4e39ace7beebdd0a7751, type: 3}
+  m_Name: Dwarven_Miner_Bow_assetSource
+  m_EditorClassIdentifier: 
+  moduleName: DwarvenCharacters
+  author: Synty Studios
+  packName: Polygon Bow Crossbow
+  originalName: Rigged_Bow_Testing
+  assetPrefab: {fileID: 5108447661511184145, guid: 8b089edf3cddd524482273e4565662b7,
+    type: 3}
+  animators: []
+  meshFilters: []
+  meshRenderers: []
+  skinMeshRenderers:
+  - SkinnedMeshRenderer: {fileID: 3855725480266082322, guid: 8b089edf3cddd524482273e4565662b7,
+      type: 3}
+    Mesh: {fileID: 4300000, guid: 3391d3a9818e82e46b3dfd4afa0adb94, type: 2}
+    MaterialDependencies:
+    - Material: {fileID: 2100000, guid: 6eca6ac622f993142bd15f807aa27b2a, type: 2}
+      Maps:
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+      - {fileID: 2800000, guid: 772ee38877952974aad9842e0b7867c4, type: 3}
+  unknownComponentTypes: []

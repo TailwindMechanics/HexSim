@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9655d31c314b74ad4b7b4ed5a6dba9, type: 3}
   m_Name: Base_tileMesh
   m_EditorClassIdentifier: 
-  minHeight: 0
-  maxHeight: 1
   isFlatTop: 0
   loops:
   - label: Top_cap
